@@ -1,0 +1,35 @@
+
+<div>
+    <h2><span data-translate="passengercounter2App.scheduledVoyage.detail.title">Scheduled Voyage</span> {{vm.scheduledVoyage.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="passengercounter2App.scheduledVoyage.name">Name</span></dt>
+        <dd>
+            <span>{{vm.scheduledVoyage.name}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.scheduledVoyage.scheduledTime">Scheduled Time</span></dt>
+        <dd>
+            <span>{{vm.scheduledVoyage.scheduledTime | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.scheduledVoyage.route">Route</span></dt>
+        <dd>
+            <a ui-sref="route-detail({id:vm.scheduledVoyage.route.id})">{{vm.scheduledVoyage.route.id}}</a>
+        </dd>
+        <dt><span data-translate="passengercounter2App.scheduledVoyage.bus">Bus</span></dt>
+        <dd>
+            <a ui-sref="bus-detail({id:vm.scheduledVoyage.bus.id})">{{vm.scheduledVoyage.bus.id}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="scheduled-voyage-detail.edit({id:vm.scheduledVoyage.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

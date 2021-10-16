@@ -1,0 +1,99 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "device",
+            "otherEntityName": "device",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "voyage",
+            "otherEntityName": "scheduledVoyage",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "station",
+            "otherEntityName": "station",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "deviceIdOriginal",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "upPeople1",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "downPeople1",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "upPeople2",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "downPeople2",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "upPeople3",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "downPeople3",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "upPeople4",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "downPeople4",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "curPeople",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "incrPeople",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "lat",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "lng",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "insertDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "processed",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "isSuccess",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "errorMessage",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20211016081752",
+    "entityTableName": "raw_table",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false
+}

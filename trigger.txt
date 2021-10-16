@@ -1,0 +1,16 @@
+CREATE TRIGGER insert_statistics_people_trigger 
+    AFTER INSERT ON statistics_people FOR EACH ROW
+ INSERT INTO passengercounter2.raw_table
+ SET device_id_original = NEW.DevIDNO,
+     up_people_1 = NEW.UpPeople1,
+     down_people_1 = NEW.DownPeople1,
+     up_people_2 = NEW.UpPeople2,
+     down_people_2 = NEW.DownPeople2,
+     up_people_3 = NEW.UpPeople3,
+     down_people_3 = NEW.DownPeople3,
+     up_people_4 = NEW.UpPeople4,
+     down_people_4 = NEW.DownPeople4,
+     cur_people = NEW.CurPeople,
+     incr_people = NEW.IncrPeople,
+     insert_date = NEW.StatisticsTime,
+     processed = 0

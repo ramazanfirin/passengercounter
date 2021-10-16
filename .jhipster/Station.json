@@ -1,0 +1,28 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "index",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "lat",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "lng",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20211016081748",
+    "entityTableName": "station",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false
+}

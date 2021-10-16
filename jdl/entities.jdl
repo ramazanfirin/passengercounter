@@ -1,0 +1,67 @@
+entity Bus {
+	plate String
+}
+
+entity Device {
+	deviceId String
+}
+
+entity Station {
+	name String
+    index Long
+    lat String
+    lng String
+}
+
+entity StationRouteConnection {
+	name String
+    index Long
+    
+}
+
+
+entity Route 
+{
+	name String
+    inversed Boolean
+}
+
+entity ScheduledVoyage  {
+	name String
+    scheduledTime Instant
+}
+
+entity RawTable{
+    deviceIdOriginal String
+    upPeople1 Long
+    downPeople1 Long
+    upPeople2 Long 
+    downPeople2 Long
+    upPeople3 Long 
+    downPeople3 Long 
+    upPeople4 Long 
+    downPeople4 Long
+    curPeople Long
+    incrPeople Long
+    lat String
+    lng String
+    insertDate Instant
+    processed Boolean
+    isSuccess Boolean
+    errorMessage String
+}
+
+relationship ManyToOne {
+	Device{bus} to Bus
+    
+	StationRouteConnection{station} to Station
+	StationRouteConnection{route} to Route
+	
+	ScheduledVoyage{route} to Route
+	ScheduledVoyage{bus} to Bus
+	
+	RawTable{device} to Device
+	RawTable{voyage} to ScheduledVoyage
+	RawTable{station} to Station
+	 
+}

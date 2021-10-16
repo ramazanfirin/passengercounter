@@ -1,0 +1,171 @@
+(function() {
+    'use strict';
+
+    angular
+        .module('passengercounter2App')
+        .config(stateConfig);
+
+    stateConfig.$inject = ['$stateProvider'];
+
+    function stateConfig($stateProvider) {
+        $stateProvider
+        .state('route', {
+            parent: 'entity',
+            url: '/route',
+            data: {
+                authorities: ['ROLE_USER'],
+                pageTitle: 'passengercounter2App.route.home.title'
+            },
+            views: {
+                'content@': {
+                    templateUrl: 'app/entities/route/routes.html',
+                    controller: 'RouteController',
+                    controllerAs: 'vm'
+                }
+            },
+            resolve: {
+                translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                    $translatePartialLoader.addPart('route');
+                    $translatePartialLoader.addPart('global');
+                    return $translate.refresh();
+                }]
+            }
+        })
+        .state('route-detail', {
+            parent: 'route',
+            url: '/route/{id}',
+            data: {
+                authorities: ['ROLE_USER'],
+                pageTitle: 'passengercounter2App.route.detail.title'
+            },
+            views: {
+                'content@': {
+                    templateUrl: 'app/entities/route/route-detail.html',
+                    controller: 'RouteDetailController',
+                    controllerAs: 'vm'
+                }
+            },
+            resolve: {
+                translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
+                    $translatePartialLoader.addPart('route');
+                    return $translate.refresh();
+                }],
+                entity: ['$stateParams', 'Route', function($stateParams, Route) {
+                    return Route.get({id : $stateParams.id}).$promise;
+                }],
+                previousState: ["$state", function ($state) {
+                    var currentStateData = {
+                        name: $state.current.name || 'route',
+                        params: $state.params,
+                        url: $state.href($state.current.name, $state.params)
+                    };
+                    return currentStateData;
+                }]
+            }
+        })
+        .state('route-detail.edit', {
+            parent: 'route-detail',
+            url: '/detail/edit',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/route/route-dialog.html',
+                    controller: 'RouteDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: ['Route', function(Route) {
+                            return Route.get({id : $stateParams.id}).$promise;
+                        }]
+                    }
+                }).result.then(function() {
+                    $state.go('^', {}, { reload: false });
+                }, function() {
+                    $state.go('^');
+                });
+            }]
+        })
+        .state('route.new', {
+            parent: 'route',
+            url: '/new',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/route/route-dialog.html',
+                    controller: 'RouteDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: function () {
+                            return {
+                                name: null,
+                                inversed: null,
+                                id: null
+                            };
+                        }
+                    }
+                }).result.then(function() {
+                    $state.go('route', null, { reload: 'route' });
+                }, function() {
+                    $state.go('route');
+                });
+            }]
+        })
+        .state('route.edit', {
+            parent: 'route',
+            url: '/{id}/edit',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/route/route-dialog.html',
+                    controller: 'RouteDialogController',
+                    controllerAs: 'vm',
+                    backdrop: 'static',
+                    size: 'lg',
+                    resolve: {
+                        entity: ['Route', function(Route) {
+                            return Route.get({id : $stateParams.id}).$promise;
+                        }]
+                    }
+                }).result.then(function() {
+                    $state.go('route', null, { reload: 'route' });
+                }, function() {
+                    $state.go('^');
+                });
+            }]
+        })
+        .state('route.delete', {
+            parent: 'route',
+            url: '/{id}/delete',
+            data: {
+                authorities: ['ROLE_USER']
+            },
+            onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
+                $uibModal.open({
+                    templateUrl: 'app/entities/route/route-delete-dialog.html',
+                    controller: 'RouteDeleteController',
+                    controllerAs: 'vm',
+                    size: 'md',
+                    resolve: {
+                        entity: ['Route', function(Route) {
+                            return Route.get({id : $stateParams.id}).$promise;
+                        }]
+                    }
+                }).result.then(function() {
+                    $state.go('route', null, { reload: 'route' });
+                }, function() {
+                    $state.go('^');
+                });
+            }]
+        });
+    }
+
+})();

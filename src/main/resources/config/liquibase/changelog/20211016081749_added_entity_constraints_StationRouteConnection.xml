@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity StationRouteConnection.
+    -->
+    <changeSet id="20211016081749-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="station_id"
+                                 baseTableName="station_route_connection"
+                                 constraintName="fk_station_route_connection_station_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="station"/>
+
+        <addForeignKeyConstraint baseColumnNames="route_id"
+                                 baseTableName="station_route_connection"
+                                 constraintName="fk_station_route_connection_route_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="route"/>
+
+    </changeSet>
+</databaseChangeLog>

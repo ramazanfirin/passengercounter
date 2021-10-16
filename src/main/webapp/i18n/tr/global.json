@@ -7,6 +7,13 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Varlıklar",
+                "bus": "Bus",
+                "device": "Device",
+                "station": "Station",
+                "stationRouteConnection": "Station Route Connection",
+                "route": "Route",
+                "scheduledVoyage": "Scheduled Voyage",
+                "rawTable": "Raw Table",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

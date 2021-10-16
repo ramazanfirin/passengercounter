@@ -1,0 +1,16 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "plate",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20211016081746",
+    "entityTableName": "bus",
+    "dto": "no",
+    "pagination": "no",
+    "service": "no",
+    "jpaMetamodelFiltering": false
+}

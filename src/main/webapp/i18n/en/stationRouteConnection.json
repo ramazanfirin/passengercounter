@@ -1,0 +1,24 @@
+{
+    "passengercounter2App": {
+        "stationRouteConnection" : {
+            "home": {
+                "title": "Station Route Connections",
+                "createLabel": "Create a new Station Route Connection",
+                "createOrEditLabel": "Create or edit a Station Route Connection"
+            },
+            "created": "A new Station Route Connection is created with identifier {{ param }}",
+            "updated": "A Station Route Connection is updated with identifier {{ param }}",
+            "deleted": "A Station Route Connection is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Station Route Connection {{ id }}?"
+            },
+            "detail": {
+                "title": "Station Route Connection"
+            },
+            "name": "Name",
+            "index": "Index",
+            "station": "Station",
+            "route": "Route"
+        }
+    }
+}

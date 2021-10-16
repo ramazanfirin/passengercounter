@@ -1,0 +1,148 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myRawTableLabel" data-translate="passengercounter2App.rawTable.home.createOrEditLabel">Create or edit a Raw Table</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.rawTable.id">
+            <label for="id" data-translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.rawTable.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.rawTable.deviceIdOriginal" for="field_deviceIdOriginal">Device Id Original</label>
+            <input type="text" class="form-control" name="deviceIdOriginal" id="field_deviceIdOriginal"
+                    ng-model="vm.rawTable.deviceIdOriginal"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.rawTable.upPeople1" for="field_upPeople1">Up People 1</label>
+            <input type="number" class="form-control" name="upPeople1" id="field_upPeople1"
+                    ng-model="vm.rawTable.upPeople1"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.rawTable.downPeople1" for="field_downPeople1">Down People 1</label>
+            <input type="number" class="form-control" name="downPeople1" id="field_downPeople1"
+                    ng-model="vm.rawTable.downPeople1"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.rawTable.upPeople2" for="field_upPeople2">Up People 2</label>
+            <input type="number" class="form-control" name="upPeople2" id="field_upPeople2"
+                    ng-model="vm.rawTable.upPeople2"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.rawTable.downPeople2" for="field_downPeople2">Down People 2</label>
+            <input type="number" class="form-control" name="downPeople2" id="field_downPeople2"
+                    ng-model="vm.rawTable.downPeople2"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.rawTable.upPeople3" for="field_upPeople3">Up People 3</label>
+            <input type="number" class="form-control" name="upPeople3" id="field_upPeople3"
+                    ng-model="vm.rawTable.upPeople3"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.rawTable.downPeople3" for="field_downPeople3">Down People 3</label>
+            <input type="number" class="form-control" name="downPeople3" id="field_downPeople3"
+                    ng-model="vm.rawTable.downPeople3"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.rawTable.upPeople4" for="field_upPeople4">Up People 4</label>
+            <input type="number" class="form-control" name="upPeople4" id="field_upPeople4"
+                    ng-model="vm.rawTable.upPeople4"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.rawTable.downPeople4" for="field_downPeople4">Down People 4</label>
+            <input type="number" class="form-control" name="downPeople4" id="field_downPeople4"
+                    ng-model="vm.rawTable.downPeople4"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.rawTable.curPeople" for="field_curPeople">Cur People</label>
+            <input type="number" class="form-control" name="curPeople" id="field_curPeople"
+                    ng-model="vm.rawTable.curPeople"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.rawTable.incrPeople" for="field_incrPeople">Incr People</label>
+            <input type="number" class="form-control" name="incrPeople" id="field_incrPeople"
+                    ng-model="vm.rawTable.incrPeople"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.rawTable.lat" for="field_lat">Lat</label>
+            <input type="text" class="form-control" name="lat" id="field_lat"
+                    ng-model="vm.rawTable.lat"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.rawTable.lng" for="field_lng">Lng</label>
+            <input type="text" class="form-control" name="lng" id="field_lng"
+                    ng-model="vm.rawTable.lng"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.rawTable.insertDate" for="field_insertDate">Insert Date</label>
+                <div class="input-group">
+                    <input id="field_insertDate" type="text" class="form-control" name="insertDate" datetime-picker="{{dateformat}}" ng-model="vm.rawTable.insertDate" is-open="vm.datePickerOpenStatus.insertDate"
+                    />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('insertDate')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.rawTable.processed" for="field_processed">Processed</label>
+                <input type="checkbox" name="processed" id="field_processed"
+                          ng-model="vm.rawTable.processed"/>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.rawTable.isSuccess" for="field_isSuccess">Is Success</label>
+                <input type="checkbox" name="isSuccess" id="field_isSuccess"
+                          ng-model="vm.rawTable.isSuccess"/>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.rawTable.errorMessage" for="field_errorMessage">Error Message</label>
+            <input type="text" class="form-control" name="errorMessage" id="field_errorMessage"
+                    ng-model="vm.rawTable.errorMessage"
+                    />
+        </div>
+
+        <div class="form-group">
+            <label data-translate="passengercounter2App.rawTable.device" for="field_device">Device</label>
+            <select class="form-control" id="field_device" name="device" ng-model="vm.rawTable.device" ng-options="device as device.id for device in vm.devices track by device.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label data-translate="passengercounter2App.rawTable.voyage" for="field_voyage">Voyage</label>
+            <select class="form-control" id="field_voyage" name="voyage" ng-model="vm.rawTable.voyage" ng-options="scheduledVoyage as scheduledVoyage.id for scheduledVoyage in vm.scheduledvoyages track by scheduledVoyage.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label data-translate="passengercounter2App.rawTable.station" for="field_station">Station</label>
+            <select class="form-control" id="field_station" name="station" ng-model="vm.rawTable.station" ng-options="station as station.id for station in vm.stations track by station.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

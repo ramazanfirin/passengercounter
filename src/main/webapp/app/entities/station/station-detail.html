@@ -1,0 +1,35 @@
+
+<div>
+    <h2><span data-translate="passengercounter2App.station.detail.title">Station</span> {{vm.station.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="passengercounter2App.station.name">Name</span></dt>
+        <dd>
+            <span>{{vm.station.name}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.station.index">Index</span></dt>
+        <dd>
+            <span>{{vm.station.index}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.station.lat">Lat</span></dt>
+        <dd>
+            <span>{{vm.station.lat}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.station.lng">Lng</span></dt>
+        <dd>
+            <span>{{vm.station.lng}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="station-detail.edit({id:vm.station.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

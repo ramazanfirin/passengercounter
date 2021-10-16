@@ -1,0 +1,100 @@
+<div>
+    <h2 data-translate="passengercounter2App.rawTable.home.title">Raw Tables</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="raw-table.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span  data-translate="passengercounter2App.rawTable.home.createLabel">
+                        Create new Raw Table
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span data-translate="global.field.id">ID</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.deviceIdOriginal">Device Id Original</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.upPeople1">Up People 1</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.downPeople1">Down People 1</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.upPeople2">Up People 2</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.downPeople2">Down People 2</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.upPeople3">Up People 3</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.downPeople3">Down People 3</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.upPeople4">Up People 4</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.downPeople4">Down People 4</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.curPeople">Cur People</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.incrPeople">Incr People</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.lat">Lat</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.lng">Lng</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.insertDate">Insert Date</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.processed">Processed</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.isSuccess">Is Success</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.errorMessage">Error Message</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.device">Device</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.voyage">Voyage</span></th>
+                    <th><span data-translate="passengercounter2App.rawTable.station">Station</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="rawTable in vm.rawTables track by rawTable.id">
+                    <td><a ui-sref="raw-table-detail({id:rawTable.id})">{{rawTable.id}}</a></td>
+                    <td>{{rawTable.deviceIdOriginal}}</td>
+                    <td>{{rawTable.upPeople1}}</td>
+                    <td>{{rawTable.downPeople1}}</td>
+                    <td>{{rawTable.upPeople2}}</td>
+                    <td>{{rawTable.downPeople2}}</td>
+                    <td>{{rawTable.upPeople3}}</td>
+                    <td>{{rawTable.downPeople3}}</td>
+                    <td>{{rawTable.upPeople4}}</td>
+                    <td>{{rawTable.downPeople4}}</td>
+                    <td>{{rawTable.curPeople}}</td>
+                    <td>{{rawTable.incrPeople}}</td>
+                    <td>{{rawTable.lat}}</td>
+                    <td>{{rawTable.lng}}</td>
+                    <td>{{rawTable.insertDate | date:'medium'}}</td>
+                    <td>{{rawTable.processed}}</td>
+                    <td>{{rawTable.isSuccess}}</td>
+                    <td>{{rawTable.errorMessage}}</td>
+                    <td>
+                        <a ui-sref="device-detail({id:rawTable.device.id})">{{rawTable.device.id}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="scheduled-voyage-detail({id:rawTable.voyage.id})">{{rawTable.voyage.id}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="station-detail({id:rawTable.station.id})">{{rawTable.station.id}}</a>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="raw-table-detail({id:rawTable.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.view"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="raw-table.edit({id:rawTable.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.edit"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="raw-table.delete({id:rawTable.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-sm-down" data-translate="entity.action.delete"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

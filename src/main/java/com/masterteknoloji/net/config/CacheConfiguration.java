@@ -44,6 +44,13 @@ public class CacheConfiguration {
             cm.createCache(com.masterteknoloji.net.domain.User.class.getName(), jcacheConfiguration);
             cm.createCache(com.masterteknoloji.net.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(com.masterteknoloji.net.domain.User.class.getName() + ".authorities", jcacheConfiguration);
+            cm.createCache(com.masterteknoloji.net.domain.Bus.class.getName(), jcacheConfiguration);
+            cm.createCache(com.masterteknoloji.net.domain.Device.class.getName(), jcacheConfiguration);
+            cm.createCache(com.masterteknoloji.net.domain.Station.class.getName(), jcacheConfiguration);
+            cm.createCache(com.masterteknoloji.net.domain.StationRouteConnection.class.getName(), jcacheConfiguration);
+            cm.createCache(com.masterteknoloji.net.domain.Route.class.getName(), jcacheConfiguration);
+            cm.createCache(com.masterteknoloji.net.domain.ScheduledVoyage.class.getName(), jcacheConfiguration);
+            cm.createCache(com.masterteknoloji.net.domain.RawTable.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

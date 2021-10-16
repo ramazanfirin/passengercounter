@@ -1,0 +1,99 @@
+
+<div>
+    <h2><span data-translate="passengercounter2App.rawTable.detail.title">Raw Table</span> {{vm.rawTable.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="passengercounter2App.rawTable.deviceIdOriginal">Device Id Original</span></dt>
+        <dd>
+            <span>{{vm.rawTable.deviceIdOriginal}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.upPeople1">Up People 1</span></dt>
+        <dd>
+            <span>{{vm.rawTable.upPeople1}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.downPeople1">Down People 1</span></dt>
+        <dd>
+            <span>{{vm.rawTable.downPeople1}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.upPeople2">Up People 2</span></dt>
+        <dd>
+            <span>{{vm.rawTable.upPeople2}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.downPeople2">Down People 2</span></dt>
+        <dd>
+            <span>{{vm.rawTable.downPeople2}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.upPeople3">Up People 3</span></dt>
+        <dd>
+            <span>{{vm.rawTable.upPeople3}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.downPeople3">Down People 3</span></dt>
+        <dd>
+            <span>{{vm.rawTable.downPeople3}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.upPeople4">Up People 4</span></dt>
+        <dd>
+            <span>{{vm.rawTable.upPeople4}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.downPeople4">Down People 4</span></dt>
+        <dd>
+            <span>{{vm.rawTable.downPeople4}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.curPeople">Cur People</span></dt>
+        <dd>
+            <span>{{vm.rawTable.curPeople}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.incrPeople">Incr People</span></dt>
+        <dd>
+            <span>{{vm.rawTable.incrPeople}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.lat">Lat</span></dt>
+        <dd>
+            <span>{{vm.rawTable.lat}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.lng">Lng</span></dt>
+        <dd>
+            <span>{{vm.rawTable.lng}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.insertDate">Insert Date</span></dt>
+        <dd>
+            <span>{{vm.rawTable.insertDate | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.processed">Processed</span></dt>
+        <dd>
+            <span>{{vm.rawTable.processed}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.isSuccess">Is Success</span></dt>
+        <dd>
+            <span>{{vm.rawTable.isSuccess}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.errorMessage">Error Message</span></dt>
+        <dd>
+            <span>{{vm.rawTable.errorMessage}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.device">Device</span></dt>
+        <dd>
+            <a ui-sref="device-detail({id:vm.rawTable.device.id})">{{vm.rawTable.device.id}}</a>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.voyage">Voyage</span></dt>
+        <dd>
+            <a ui-sref="scheduled-voyage-detail({id:vm.rawTable.voyage.id})">{{vm.rawTable.voyage.id}}</a>
+        </dd>
+        <dt><span data-translate="passengercounter2App.rawTable.station">Station</span></dt>
+        <dd>
+            <a ui-sref="station-detail({id:vm.rawTable.station.id})">{{vm.rawTable.station.id}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="raw-table-detail.edit({id:vm.rawTable.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>
