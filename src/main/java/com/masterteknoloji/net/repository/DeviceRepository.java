@@ -1,9 +1,13 @@
 package com.masterteknoloji.net.repository;
 
-import com.masterteknoloji.net.domain.Device;
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import org.springframework.data.jpa.repository.*;
+import com.masterteknoloji.net.domain.Device;
 
 
 /**
@@ -13,4 +17,9 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface DeviceRepository extends JpaRepository<Device, Long> {
 
+	@Query("select a from Device a where a.bus.id=:busId")
+	List<Device> findDevicesByBusId(@Param("busId") Long busId);
+	
+	@Query("select a from Device a where a.deviceId=:deviceId")
+	Device findDeviceByDeviceId(@Param("deviceId") String deviceId);
 }
