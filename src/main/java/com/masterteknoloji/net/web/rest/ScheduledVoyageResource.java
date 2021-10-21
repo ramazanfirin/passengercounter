@@ -6,9 +6,14 @@ import com.masterteknoloji.net.domain.ScheduledVoyage;
 import com.masterteknoloji.net.repository.ScheduledVoyageRepository;
 import com.masterteknoloji.net.web.rest.errors.BadRequestAlertException;
 import com.masterteknoloji.net.web.rest.util.HeaderUtil;
+import com.masterteknoloji.net.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,14 +85,17 @@ public class ScheduledVoyageResource {
     /**
      * GET  /scheduled-voyages : get all the scheduledVoyages.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of scheduledVoyages in body
      */
     @GetMapping("/scheduled-voyages")
     @Timed
-    public List<ScheduledVoyage> getAllScheduledVoyages() {
-        log.debug("REST request to get all ScheduledVoyages");
-        return scheduledVoyageRepository.findAll();
-        }
+    public ResponseEntity<List<ScheduledVoyage>> getAllScheduledVoyages(Pageable pageable) {
+        log.debug("REST request to get a page of ScheduledVoyages");
+        Page<ScheduledVoyage> page = scheduledVoyageRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/scheduled-voyages");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 
     /**
      * GET  /scheduled-voyages/:id : get the "id" scheduledVoyage.

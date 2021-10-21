@@ -9,17 +9,17 @@
 
     function stateConfig($stateProvider) {
         $stateProvider
-        .state('route', {
+        .state('bus-density-history', {
             parent: 'entity',
-            url: '/route?page&sort&search',
+            url: '/bus-density-history?page&sort&search',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'passengercounter2App.route.home.title'
+                pageTitle: 'passengercounter2App.busDensityHistory.home.title'
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/route/routes.html',
-                    controller: 'RouteController',
+                    templateUrl: 'app/entities/bus-density-history/bus-density-histories.html',
+                    controller: 'BusDensityHistoryController',
                     controllerAs: 'vm'
                 }
             },
@@ -45,37 +45,37 @@
                     };
                 }],
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                    $translatePartialLoader.addPart('route');
+                    $translatePartialLoader.addPart('busDensityHistory');
                     $translatePartialLoader.addPart('global');
                     return $translate.refresh();
                 }]
             }
         })
-        .state('route-detail', {
-            parent: 'route',
-            url: '/route/{id}',
+        .state('bus-density-history-detail', {
+            parent: 'bus-density-history',
+            url: '/bus-density-history/{id}',
             data: {
                 authorities: ['ROLE_USER'],
-                pageTitle: 'passengercounter2App.route.detail.title'
+                pageTitle: 'passengercounter2App.busDensityHistory.detail.title'
             },
             views: {
                 'content@': {
-                    templateUrl: 'app/entities/route/route-detail.html',
-                    controller: 'RouteDetailController',
+                    templateUrl: 'app/entities/bus-density-history/bus-density-history-detail.html',
+                    controller: 'BusDensityHistoryDetailController',
                     controllerAs: 'vm'
                 }
             },
             resolve: {
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                    $translatePartialLoader.addPart('route');
+                    $translatePartialLoader.addPart('busDensityHistory');
                     return $translate.refresh();
                 }],
-                entity: ['$stateParams', 'Route', function($stateParams, Route) {
-                    return Route.get({id : $stateParams.id}).$promise;
+                entity: ['$stateParams', 'BusDensityHistory', function($stateParams, BusDensityHistory) {
+                    return BusDensityHistory.get({id : $stateParams.id}).$promise;
                 }],
                 previousState: ["$state", function ($state) {
                     var currentStateData = {
-                        name: $state.current.name || 'route',
+                        name: $state.current.name || 'bus-density-history',
                         params: $state.params,
                         url: $state.href($state.current.name, $state.params)
                     };
@@ -83,22 +83,22 @@
                 }]
             }
         })
-        .state('route-detail.edit', {
-            parent: 'route-detail',
+        .state('bus-density-history-detail.edit', {
+            parent: 'bus-density-history-detail',
             url: '/detail/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/route/route-dialog.html',
-                    controller: 'RouteDialogController',
+                    templateUrl: 'app/entities/bus-density-history/bus-density-history-dialog.html',
+                    controller: 'BusDensityHistoryDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
-                        entity: ['Route', function(Route) {
-                            return Route.get({id : $stateParams.id}).$promise;
+                        entity: ['BusDensityHistory', function(BusDensityHistory) {
+                            return BusDensityHistory.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
@@ -108,79 +108,80 @@
                 });
             }]
         })
-        .state('route.new', {
-            parent: 'route',
+        .state('bus-density-history.new', {
+            parent: 'bus-density-history',
             url: '/new',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/route/route-dialog.html',
-                    controller: 'RouteDialogController',
+                    templateUrl: 'app/entities/bus-density-history/bus-density-history-dialog.html',
+                    controller: 'BusDensityHistoryDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
                         entity: function () {
                             return {
-                                name: null,
-                                inversed: null,
+                                recordDate: null,
+                                totalPassengerCount: null,
+                                density: null,
                                 id: null
                             };
                         }
                     }
                 }).result.then(function() {
-                    $state.go('route', null, { reload: 'route' });
+                    $state.go('bus-density-history', null, { reload: 'bus-density-history' });
                 }, function() {
-                    $state.go('route');
+                    $state.go('bus-density-history');
                 });
             }]
         })
-        .state('route.edit', {
-            parent: 'route',
+        .state('bus-density-history.edit', {
+            parent: 'bus-density-history',
             url: '/{id}/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/route/route-dialog.html',
-                    controller: 'RouteDialogController',
+                    templateUrl: 'app/entities/bus-density-history/bus-density-history-dialog.html',
+                    controller: 'BusDensityHistoryDialogController',
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
                     resolve: {
-                        entity: ['Route', function(Route) {
-                            return Route.get({id : $stateParams.id}).$promise;
+                        entity: ['BusDensityHistory', function(BusDensityHistory) {
+                            return BusDensityHistory.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('route', null, { reload: 'route' });
+                    $state.go('bus-density-history', null, { reload: 'bus-density-history' });
                 }, function() {
                     $state.go('^');
                 });
             }]
         })
-        .state('route.delete', {
-            parent: 'route',
+        .state('bus-density-history.delete', {
+            parent: 'bus-density-history',
             url: '/{id}/delete',
             data: {
                 authorities: ['ROLE_USER']
             },
             onEnter: ['$stateParams', '$state', '$uibModal', function($stateParams, $state, $uibModal) {
                 $uibModal.open({
-                    templateUrl: 'app/entities/route/route-delete-dialog.html',
-                    controller: 'RouteDeleteController',
+                    templateUrl: 'app/entities/bus-density-history/bus-density-history-delete-dialog.html',
+                    controller: 'BusDensityHistoryDeleteController',
                     controllerAs: 'vm',
                     size: 'md',
                     resolve: {
-                        entity: ['Route', function(Route) {
-                            return Route.get({id : $stateParams.id}).$promise;
+                        entity: ['BusDensityHistory', function(BusDensityHistory) {
+                            return BusDensityHistory.get({id : $stateParams.id}).$promise;
                         }]
                     }
                 }).result.then(function() {
-                    $state.go('route', null, { reload: 'route' });
+                    $state.go('bus-density-history', null, { reload: 'bus-density-history' });
                 }, function() {
                     $state.go('^');
                 });

@@ -51,6 +51,7 @@ public class CacheConfiguration {
             cm.createCache(com.masterteknoloji.net.domain.Route.class.getName(), jcacheConfiguration);
             cm.createCache(com.masterteknoloji.net.domain.ScheduledVoyage.class.getName(), jcacheConfiguration);
             cm.createCache(com.masterteknoloji.net.domain.RawTable.class.getName(), jcacheConfiguration);
+            cm.createCache(com.masterteknoloji.net.domain.BusDensityHistory.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

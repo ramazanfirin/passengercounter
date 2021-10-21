@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity BusDensityHistory.
+    -->
+    <changeSet id="20211021090817-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="scheduled_voyage_id"
+                                 baseTableName="bus_density_history"
+                                 constraintName="fk_bus_density_history_scheduled_voyage_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="scheduled_voyage"/>
+
+        <addForeignKeyConstraint baseColumnNames="bus_id"
+                                 baseTableName="bus_density_history"
+                                 constraintName="fk_bus_density_history_bus_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="bus"/>
+
+        <addForeignKeyConstraint baseColumnNames="station_id"
+                                 baseTableName="bus_density_history"
+                                 constraintName="fk_bus_density_history_station_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="station"/>
+
+        <addForeignKeyConstraint baseColumnNames="route_id"
+                                 baseTableName="bus_density_history"
+                                 constraintName="fk_bus_density_history_route_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="route"/>
+
+    </changeSet>
+</databaseChangeLog>

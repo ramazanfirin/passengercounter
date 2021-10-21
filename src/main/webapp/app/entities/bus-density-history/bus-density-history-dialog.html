@@ -1,0 +1,72 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myBusDensityHistoryLabel" data-translate="passengercounter2App.busDensityHistory.home.createOrEditLabel">Create or edit a Bus Density History</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.busDensityHistory.id">
+            <label for="id" data-translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.busDensityHistory.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.busDensityHistory.recordDate" for="field_recordDate">Record Date</label>
+                <div class="input-group">
+                    <input id="field_recordDate" type="text" class="form-control" name="recordDate" datetime-picker="{{dateformat}}" ng-model="vm.busDensityHistory.recordDate" is-open="vm.datePickerOpenStatus.recordDate"
+                    />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('recordDate')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.busDensityHistory.totalPassengerCount" for="field_totalPassengerCount">Total Passenger Count</label>
+            <input type="number" class="form-control" name="totalPassengerCount" id="field_totalPassengerCount"
+                    ng-model="vm.busDensityHistory.totalPassengerCount"
+                    />
+        </div>
+        <div class="form-group">
+            <label class="control-label" data-translate="passengercounter2App.busDensityHistory.density" for="field_density">Density</label>
+            <input type="number" class="form-control" name="density" id="field_density"
+                    ng-model="vm.busDensityHistory.density"
+                    />
+        </div>
+
+        <div class="form-group">
+            <label data-translate="passengercounter2App.busDensityHistory.scheduledVoyage" for="field_scheduledVoyage">Scheduled Voyage</label>
+            <select class="form-control" id="field_scheduledVoyage" name="scheduledVoyage" ng-model="vm.busDensityHistory.scheduledVoyage" ng-options="scheduledVoyage as scheduledVoyage.id for scheduledVoyage in vm.scheduledvoyages track by scheduledVoyage.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label data-translate="passengercounter2App.busDensityHistory.bus" for="field_bus">Bus</label>
+            <select class="form-control" id="field_bus" name="bus" ng-model="vm.busDensityHistory.bus" ng-options="bus as bus.id for bus in vm.buses track by bus.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label data-translate="passengercounter2App.busDensityHistory.station" for="field_station">Station</label>
+            <select class="form-control" id="field_station" name="station" ng-model="vm.busDensityHistory.station" ng-options="station as station.id for station in vm.stations track by station.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label data-translate="passengercounter2App.busDensityHistory.route" for="field_route">Route</label>
+            <select class="form-control" id="field_route" name="route" ng-model="vm.busDensityHistory.route" ng-options="route as route.id for route in vm.routes track by route.id">
+                <option value=""></option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span data-translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

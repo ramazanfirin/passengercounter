@@ -6,9 +6,14 @@ import com.masterteknoloji.net.domain.Device;
 import com.masterteknoloji.net.repository.DeviceRepository;
 import com.masterteknoloji.net.web.rest.errors.BadRequestAlertException;
 import com.masterteknoloji.net.web.rest.util.HeaderUtil;
+import com.masterteknoloji.net.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,14 +85,17 @@ public class DeviceResource {
     /**
      * GET  /devices : get all the devices.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of devices in body
      */
     @GetMapping("/devices")
     @Timed
-    public List<Device> getAllDevices() {
-        log.debug("REST request to get all Devices");
-        return deviceRepository.findAll();
-        }
+    public ResponseEntity<List<Device>> getAllDevices(Pageable pageable) {
+        log.debug("REST request to get a page of Devices");
+        Page<Device> page = deviceRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/devices");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 
     /**
      * GET  /devices/:id : get the "id" device.

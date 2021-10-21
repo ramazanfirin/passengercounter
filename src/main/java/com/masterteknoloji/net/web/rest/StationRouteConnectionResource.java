@@ -6,9 +6,14 @@ import com.masterteknoloji.net.domain.StationRouteConnection;
 import com.masterteknoloji.net.repository.StationRouteConnectionRepository;
 import com.masterteknoloji.net.web.rest.errors.BadRequestAlertException;
 import com.masterteknoloji.net.web.rest.util.HeaderUtil;
+import com.masterteknoloji.net.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,14 +85,17 @@ public class StationRouteConnectionResource {
     /**
      * GET  /station-route-connections : get all the stationRouteConnections.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of stationRouteConnections in body
      */
     @GetMapping("/station-route-connections")
     @Timed
-    public List<StationRouteConnection> getAllStationRouteConnections() {
-        log.debug("REST request to get all StationRouteConnections");
-        return stationRouteConnectionRepository.findAll();
-        }
+    public ResponseEntity<List<StationRouteConnection>> getAllStationRouteConnections(Pageable pageable) {
+        log.debug("REST request to get a page of StationRouteConnections");
+        Page<StationRouteConnection> page = stationRouteConnectionRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/station-route-connections");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 
     /**
      * GET  /station-route-connections/:id : get the "id" stationRouteConnection.

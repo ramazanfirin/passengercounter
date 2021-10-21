@@ -17,12 +17,12 @@
     <div class="table-responsive">
         <table class="jh-table table table-striped">
             <thead>
-                <tr>
-                    <th><span data-translate="global.field.id">ID</span></th>
-                    <th><span data-translate="passengercounter2App.station.name">Name</span></th>
-                    <th><span data-translate="passengercounter2App.station.index">Index</span></th>
-                    <th><span data-translate="passengercounter2App.station.lat">Lat</span></th>
-                    <th><span data-translate="passengercounter2App.station.lng">Lng</span></th>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="name"><span data-translate="passengercounter2App.station.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="index"><span data-translate="passengercounter2App.station.index">Index</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="lat"><span data-translate="passengercounter2App.station.lat">Lat</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="lng"><span data-translate="passengercounter2App.station.lng">Lng</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -58,5 +58,9 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
     </div>
 </div>

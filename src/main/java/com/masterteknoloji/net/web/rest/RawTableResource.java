@@ -6,9 +6,14 @@ import com.masterteknoloji.net.domain.RawTable;
 import com.masterteknoloji.net.repository.RawTableRepository;
 import com.masterteknoloji.net.web.rest.errors.BadRequestAlertException;
 import com.masterteknoloji.net.web.rest.util.HeaderUtil;
+import com.masterteknoloji.net.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,14 +85,17 @@ public class RawTableResource {
     /**
      * GET  /raw-tables : get all the rawTables.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of rawTables in body
      */
     @GetMapping("/raw-tables")
     @Timed
-    public List<RawTable> getAllRawTables() {
-        log.debug("REST request to get all RawTables");
-        return rawTableRepository.findAll();
-        }
+    public ResponseEntity<List<RawTable>> getAllRawTables(Pageable pageable) {
+        log.debug("REST request to get a page of RawTables");
+        Page<RawTable> page = rawTableRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/raw-tables");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 
     /**
      * GET  /raw-tables/:id : get the "id" rawTable.

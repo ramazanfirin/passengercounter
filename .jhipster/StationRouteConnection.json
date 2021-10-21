@@ -27,7 +27,7 @@
     "changelogDate": "20211016081749",
     "entityTableName": "station_route_connection",
     "dto": "no",
-    "pagination": "no",
+    "pagination": "pagination",
     "service": "no",
     "jpaMetamodelFiltering": false
 }

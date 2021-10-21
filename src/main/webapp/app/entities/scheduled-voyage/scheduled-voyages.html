@@ -17,12 +17,12 @@
     <div class="table-responsive">
         <table class="jh-table table table-striped">
             <thead>
-                <tr>
-                    <th><span data-translate="global.field.id">ID</span></th>
-                    <th><span data-translate="passengercounter2App.scheduledVoyage.name">Name</span></th>
-                    <th><span data-translate="passengercounter2App.scheduledVoyage.scheduledTime">Scheduled Time</span></th>
-                    <th><span data-translate="passengercounter2App.scheduledVoyage.route">Route</span></th>
-                    <th><span data-translate="passengercounter2App.scheduledVoyage.bus">Bus</span></th>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="name"><span data-translate="passengercounter2App.scheduledVoyage.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="scheduledTime"><span data-translate="passengercounter2App.scheduledVoyage.scheduledTime">Scheduled Time</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="route.id"><span data-translate="passengercounter2App.scheduledVoyage.route">Route</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="bus.id"><span data-translate="passengercounter2App.scheduledVoyage.bus">Bus</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -32,10 +32,10 @@
                     <td>{{scheduledVoyage.name}}</td>
                     <td>{{scheduledVoyage.scheduledTime | date:'medium'}}</td>
                     <td>
-                        <a ui-sref="route-detail({id:scheduledVoyage.route.id})">{{scheduledVoyage.route.name}}</a>
+                        <a ui-sref="route-detail({id:scheduledVoyage.route.id})">{{scheduledVoyage.route.id}}</a>
                     </td>
                     <td>
-                        <a ui-sref="bus-detail({id:scheduledVoyage.bus.id})">{{scheduledVoyage.bus.plate}}</a>
+                        <a ui-sref="bus-detail({id:scheduledVoyage.bus.id})">{{scheduledVoyage.bus.id}}</a>
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
@@ -62,5 +62,9 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
     </div>
 </div>

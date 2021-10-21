@@ -10,7 +10,7 @@
     "changelogDate": "20211016081746",
     "entityTableName": "bus",
     "dto": "no",
-    "pagination": "no",
+    "pagination": "pagination",
     "service": "no",
     "jpaMetamodelFiltering": false
 }

@@ -93,7 +93,7 @@
     "changelogDate": "20211016081752",
     "entityTableName": "raw_table",
     "dto": "no",
-    "pagination": "no",
+    "pagination": "pagination",
     "service": "no",
     "jpaMetamodelFiltering": false
 }

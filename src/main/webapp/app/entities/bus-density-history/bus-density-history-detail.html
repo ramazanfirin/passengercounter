@@ -1,0 +1,47 @@
+
+<div>
+    <h2><span data-translate="passengercounter2App.busDensityHistory.detail.title">Bus Density History</span> {{vm.busDensityHistory.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span data-translate="passengercounter2App.busDensityHistory.recordDate">Record Date</span></dt>
+        <dd>
+            <span>{{vm.busDensityHistory.recordDate | date:'medium'}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.busDensityHistory.totalPassengerCount">Total Passenger Count</span></dt>
+        <dd>
+            <span>{{vm.busDensityHistory.totalPassengerCount}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.busDensityHistory.density">Density</span></dt>
+        <dd>
+            <span>{{vm.busDensityHistory.density}}</span>
+        </dd>
+        <dt><span data-translate="passengercounter2App.busDensityHistory.scheduledVoyage">Scheduled Voyage</span></dt>
+        <dd>
+            <a ui-sref="scheduled-voyage-detail({id:vm.busDensityHistory.scheduledVoyage.id})">{{vm.busDensityHistory.scheduledVoyage.id}}</a>
+        </dd>
+        <dt><span data-translate="passengercounter2App.busDensityHistory.bus">Bus</span></dt>
+        <dd>
+            <a ui-sref="bus-detail({id:vm.busDensityHistory.bus.id})">{{vm.busDensityHistory.bus.id}}</a>
+        </dd>
+        <dt><span data-translate="passengercounter2App.busDensityHistory.station">Station</span></dt>
+        <dd>
+            <a ui-sref="station-detail({id:vm.busDensityHistory.station.id})">{{vm.busDensityHistory.station.id}}</a>
+        </dd>
+        <dt><span data-translate="passengercounter2App.busDensityHistory.route">Route</span></dt>
+        <dd>
+            <a ui-sref="route-detail({id:vm.busDensityHistory.route.id})">{{vm.busDensityHistory.route.id}}</a>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            ui-sref="{{ vm.previousState }}"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span data-translate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button" ui-sref="bus-density-history-detail.edit({id:vm.busDensityHistory.id})" class="btn btn-primary">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <span class="hidden-sm-down" data-translate="entity.action.edit"> Edit</span>
+    </button>
+</div>

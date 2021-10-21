@@ -3,11 +3,11 @@
 
     angular
         .module('passengercounter2App')
-        .controller('StationController', StationController);
+        .controller('BusDensityHistoryController', BusDensityHistoryController);
 
-    StationController.$inject = ['$state', 'Station', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    BusDensityHistoryController.$inject = ['$state', 'BusDensityHistory', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
 
-    function StationController($state, Station, ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function BusDensityHistoryController($state, BusDensityHistory, ParseLinks, AlertService, paginationConstants, pagingParams) {
 
         var vm = this;
 
@@ -20,7 +20,7 @@
         loadAll();
 
         function loadAll () {
-            Station.query({
+            BusDensityHistory.query({
                 page: pagingParams.page - 1,
                 size: vm.itemsPerPage,
                 sort: sort()
@@ -36,7 +36,7 @@
                 vm.links = ParseLinks.parse(headers('link'));
                 vm.totalItems = headers('X-Total-Count');
                 vm.queryCount = vm.totalItems;
-                vm.stations = data;
+                vm.busDensityHistories = data;
                 vm.page = pagingParams.page;
             }
             function onError(error) {

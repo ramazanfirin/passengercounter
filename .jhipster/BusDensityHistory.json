@@ -1,0 +1,49 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "scheduledVoyage",
+            "otherEntityName": "scheduledVoyage",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "bus",
+            "otherEntityName": "bus",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "station",
+            "otherEntityName": "station",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "route",
+            "otherEntityName": "route",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "recordDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "totalPassengerCount",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "density",
+            "fieldType": "Long"
+        }
+    ],
+    "changelogDate": "20211021090817",
+    "entityTableName": "bus_density_history",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false
+}

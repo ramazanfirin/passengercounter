@@ -17,28 +17,28 @@
     <div class="table-responsive">
         <table class="jh-table table table-striped">
             <thead>
-                <tr>
-                    <th><span data-translate="global.field.id">ID</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.deviceIdOriginal">Device Id Original</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.upPeople1">Up People 1</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.downPeople1">Down People 1</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.upPeople2">Up People 2</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.downPeople2">Down People 2</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.upPeople3">Up People 3</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.downPeople3">Down People 3</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.upPeople4">Up People 4</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.downPeople4">Down People 4</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.curPeople">Cur People</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.incrPeople">Incr People</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.lat">Lat</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.lng">Lng</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.insertDate">Insert Date</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.processed">Processed</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.isSuccess">Is Success</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.errorMessage">Error Message</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.device">Device</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.voyage">Voyage</span></th>
-                    <th><span data-translate="passengercounter2App.rawTable.station">Station</span></th>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="deviceIdOriginal"><span data-translate="passengercounter2App.rawTable.deviceIdOriginal">Device Id Original</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="upPeople1"><span data-translate="passengercounter2App.rawTable.upPeople1">Up People 1</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="downPeople1"><span data-translate="passengercounter2App.rawTable.downPeople1">Down People 1</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="upPeople2"><span data-translate="passengercounter2App.rawTable.upPeople2">Up People 2</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="downPeople2"><span data-translate="passengercounter2App.rawTable.downPeople2">Down People 2</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="upPeople3"><span data-translate="passengercounter2App.rawTable.upPeople3">Up People 3</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="downPeople3"><span data-translate="passengercounter2App.rawTable.downPeople3">Down People 3</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="upPeople4"><span data-translate="passengercounter2App.rawTable.upPeople4">Up People 4</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="downPeople4"><span data-translate="passengercounter2App.rawTable.downPeople4">Down People 4</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="curPeople"><span data-translate="passengercounter2App.rawTable.curPeople">Cur People</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="incrPeople"><span data-translate="passengercounter2App.rawTable.incrPeople">Incr People</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="lat"><span data-translate="passengercounter2App.rawTable.lat">Lat</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="lng"><span data-translate="passengercounter2App.rawTable.lng">Lng</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="insertDate"><span data-translate="passengercounter2App.rawTable.insertDate">Insert Date</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="processed"><span data-translate="passengercounter2App.rawTable.processed">Processed</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="isSuccess"><span data-translate="passengercounter2App.rawTable.isSuccess">Is Success</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="errorMessage"><span data-translate="passengercounter2App.rawTable.errorMessage">Error Message</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="device.id"><span data-translate="passengercounter2App.rawTable.device">Device</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="voyage.id"><span data-translate="passengercounter2App.rawTable.voyage">Voyage</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="station.id"><span data-translate="passengercounter2App.rawTable.station">Station</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -96,5 +96,9 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div class="text-center">
+        <jhi-item-count page="vm.page" total="vm.queryCount" items-per-page="vm.itemsPerPage"></jhi-item-count>
+        <uib-pagination class="pagination-sm" total-items="vm.totalItems" items-per-page="vm.itemsPerPage" ng-model="vm.page" ng-change="vm.transition()"></uib-pagination>
     </div>
 </div>

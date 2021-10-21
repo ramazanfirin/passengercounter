@@ -51,6 +51,12 @@ entity RawTable{
     errorMessage String
 }
 
+entity BusDensityHistory{
+	recordDate Instant
+	totalPassengerCount Long
+	density Long
+}
+
 relationship ManyToOne {
 	Device{bus} to Bus
     
@@ -63,5 +69,20 @@ relationship ManyToOne {
 	RawTable{device} to Device
 	RawTable{voyage} to ScheduledVoyage
 	RawTable{station} to Station
-	 
+	
+	BusDensityHistory{scheduledVoyage} to ScheduledVoyage 
+	BusDensityHistory{bus} to Bus
+	BusDensityHistory{station} to Station
+	BusDensityHistory{route} to Route
+	
+		
 }
+
+paginate Bus with pagination
+paginate Device with pagination
+paginate Station with pagination
+paginate StationRouteConnection with pagination
+paginate Route with pagination
+paginate ScheduledVoyage with pagination
+paginate RawTable with pagination
+paginate BusDensityHistory with pagination

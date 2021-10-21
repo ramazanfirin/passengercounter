@@ -6,9 +6,14 @@ import com.masterteknoloji.net.domain.Station;
 import com.masterteknoloji.net.repository.StationRepository;
 import com.masterteknoloji.net.web.rest.errors.BadRequestAlertException;
 import com.masterteknoloji.net.web.rest.util.HeaderUtil;
+import com.masterteknoloji.net.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,14 +85,17 @@ public class StationResource {
     /**
      * GET  /stations : get all the stations.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of stations in body
      */
     @GetMapping("/stations")
     @Timed
-    public List<Station> getAllStations() {
-        log.debug("REST request to get all Stations");
-        return stationRepository.findAll();
-        }
+    public ResponseEntity<List<Station>> getAllStations(Pageable pageable) {
+        log.debug("REST request to get a page of Stations");
+        Page<Station> page = stationRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/stations");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 
     /**
      * GET  /stations/:id : get the "id" station.

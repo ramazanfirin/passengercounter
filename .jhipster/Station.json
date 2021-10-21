@@ -22,7 +22,7 @@
     "changelogDate": "20211016081748",
     "entityTableName": "station",
     "dto": "no",
-    "pagination": "no",
+    "pagination": "pagination",
     "service": "no",
     "jpaMetamodelFiltering": false
 }

@@ -14,7 +14,7 @@
     "changelogDate": "20211016081750",
     "entityTableName": "route",
     "dto": "no",
-    "pagination": "no",
+    "pagination": "pagination",
     "service": "no",
     "jpaMetamodelFiltering": false
 }
