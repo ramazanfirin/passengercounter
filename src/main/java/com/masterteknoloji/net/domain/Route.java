@@ -28,6 +28,9 @@ public class Route implements Serializable {
     @Column(name = "inversed")
     private Boolean inversed;
 
+    @Column(name = "route_id")
+    private Long routeId;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -62,6 +65,19 @@ public class Route implements Serializable {
     public void setInversed(Boolean inversed) {
         this.inversed = inversed;
     }
+
+    public Long getRouteId() {
+        return routeId;
+    }
+
+    public Route routeId(Long routeId) {
+        this.routeId = routeId;
+        return this;
+    }
+
+    public void setRouteId(Long routeId) {
+        this.routeId = routeId;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -90,6 +106,7 @@ public class Route implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", inversed='" + isInversed() + "'" +
+            ", routeId=" + getRouteId() +
             "}";
     }
 }

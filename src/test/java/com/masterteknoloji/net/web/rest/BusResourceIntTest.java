@@ -41,6 +41,9 @@ public class BusResourceIntTest {
     private static final String DEFAULT_PLATE = "AAAAAAAAAA";
     private static final String UPDATED_PLATE = "BBBBBBBBBB";
 
+    private static final Long DEFAULT_BUS_ID = 1L;
+    private static final Long UPDATED_BUS_ID = 2L;
+
     @Autowired
     private BusRepository busRepository;
 
@@ -79,7 +82,8 @@ public class BusResourceIntTest {
      */
     public static Bus createEntity(EntityManager em) {
         Bus bus = new Bus()
-            .plate(DEFAULT_PLATE);
+            .plate(DEFAULT_PLATE)
+            .busId(DEFAULT_BUS_ID);
         return bus;
     }
 
@@ -104,6 +108,7 @@ public class BusResourceIntTest {
         assertThat(busList).hasSize(databaseSizeBeforeCreate + 1);
         Bus testBus = busList.get(busList.size() - 1);
         assertThat(testBus.getPlate()).isEqualTo(DEFAULT_PLATE);
+        assertThat(testBus.getBusId()).isEqualTo(DEFAULT_BUS_ID);
     }
 
     @Test
@@ -136,7 +141,8 @@ public class BusResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(bus.getId().intValue())))
-            .andExpect(jsonPath("$.[*].plate").value(hasItem(DEFAULT_PLATE.toString())));
+            .andExpect(jsonPath("$.[*].plate").value(hasItem(DEFAULT_PLATE.toString())))
+            .andExpect(jsonPath("$.[*].busId").value(hasItem(DEFAULT_BUS_ID.intValue())));
     }
 
     @Test
@@ -150,7 +156,8 @@ public class BusResourceIntTest {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(bus.getId().intValue()))
-            .andExpect(jsonPath("$.plate").value(DEFAULT_PLATE.toString()));
+            .andExpect(jsonPath("$.plate").value(DEFAULT_PLATE.toString()))
+            .andExpect(jsonPath("$.busId").value(DEFAULT_BUS_ID.intValue()));
     }
 
     @Test
@@ -173,7 +180,8 @@ public class BusResourceIntTest {
         // Disconnect from session so that the updates on updatedBus are not directly saved in db
         em.detach(updatedBus);
         updatedBus
-            .plate(UPDATED_PLATE);
+            .plate(UPDATED_PLATE)
+            .busId(UPDATED_BUS_ID);
 
         restBusMockMvc.perform(put("/api/buses")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -185,6 +193,7 @@ public class BusResourceIntTest {
         assertThat(busList).hasSize(databaseSizeBeforeUpdate);
         Bus testBus = busList.get(busList.size() - 1);
         assertThat(testBus.getPlate()).isEqualTo(UPDATED_PLATE);
+        assertThat(testBus.getBusId()).isEqualTo(UPDATED_BUS_ID);
     }
 
     @Test

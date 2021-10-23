@@ -29,6 +29,12 @@ public class BusDensityHistory implements Serializable {
     @Column(name = "total_passenger_count")
     private Long totalPassengerCount;
 
+    @Column(name = "get_in_passenger_count")
+    private Long getInPassengerCount;
+
+    @Column(name = "get_out_passenger_count")
+    private Long getOutPassengerCount;
+
     @Column(name = "density")
     private Long density;
 
@@ -77,6 +83,32 @@ public class BusDensityHistory implements Serializable {
 
     public void setTotalPassengerCount(Long totalPassengerCount) {
         this.totalPassengerCount = totalPassengerCount;
+    }
+
+    public Long getGetInPassengerCount() {
+        return getInPassengerCount;
+    }
+
+    public BusDensityHistory getInPassengerCount(Long getInPassengerCount) {
+        this.getInPassengerCount = getInPassengerCount;
+        return this;
+    }
+
+    public void setGetInPassengerCount(Long getInPassengerCount) {
+        this.getInPassengerCount = getInPassengerCount;
+    }
+
+    public Long getGetOutPassengerCount() {
+        return getOutPassengerCount;
+    }
+
+    public BusDensityHistory getOutPassengerCount(Long getOutPassengerCount) {
+        this.getOutPassengerCount = getOutPassengerCount;
+        return this;
+    }
+
+    public void setGetOutPassengerCount(Long getOutPassengerCount) {
+        this.getOutPassengerCount = getOutPassengerCount;
     }
 
     public Long getDensity() {
@@ -171,6 +203,8 @@ public class BusDensityHistory implements Serializable {
             "id=" + getId() +
             ", recordDate='" + getRecordDate() + "'" +
             ", totalPassengerCount=" + getTotalPassengerCount() +
+            ", getInPassengerCount=" + getGetInPassengerCount() +
+            ", getOutPassengerCount=" + getGetOutPassengerCount() +
             ", density=" + getDensity() +
             "}";
     }

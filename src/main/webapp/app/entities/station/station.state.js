@@ -128,6 +128,7 @@
                                 index: null,
                                 lat: null,
                                 lng: null,
+                                stationId: null,
                                 id: null
                             };
                         }

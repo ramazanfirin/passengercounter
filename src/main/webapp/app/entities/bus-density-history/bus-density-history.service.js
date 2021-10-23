@@ -11,7 +11,8 @@
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},
-            'get': {
+            'analyze': { method: 'GET', isArray:false, url: 'api/bus-density-histories/analyze'},
+			'get': {
                 method: 'GET',
                 transformResponse: function (data) {
                     if (data) {

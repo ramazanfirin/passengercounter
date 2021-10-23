@@ -126,6 +126,7 @@
                             return {
                                 name: null,
                                 inversed: null,
+                                routeId: null,
                                 id: null
                             };
                         }

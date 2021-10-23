@@ -12,6 +12,26 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class ApplicationProperties {
 	
 	String kbbBusLocationServiceEndpoint;
+	
+	Boolean activateScheduled;
+	
+	Boolean simulation;
+
+	public Boolean getSimulation() {
+		return simulation;
+	}
+
+	public void setSimulation(Boolean simulation) {
+		this.simulation = simulation;
+	}
+
+	public Boolean getActivateScheduled() {
+		return activateScheduled;
+	}
+
+	public void setActivateScheduled(Boolean activateScheduled) {
+		this.activateScheduled = activateScheduled;
+	}
 
 	public String getKbbBusLocationServiceEndpoint() {
 		return kbbBusLocationServiceEndpoint;

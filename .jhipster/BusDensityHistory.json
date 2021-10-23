@@ -36,6 +36,14 @@
             "fieldType": "Long"
         },
         {
+            "fieldName": "getInPassengerCount",
+            "fieldType": "Long"
+        },
+        {
+            "fieldName": "getOutPassengerCount",
+            "fieldType": "Long"
+        },
+        {
             "fieldName": "density",
             "fieldType": "Long"
         }

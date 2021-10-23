@@ -9,6 +9,10 @@
         {
             "fieldName": "inversed",
             "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "routeId",
+            "fieldType": "Long"
         }
     ],
     "changelogDate": "20211016081750",

@@ -5,6 +5,10 @@
         {
             "fieldName": "plate",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "busId",
+            "fieldType": "Long"
         }
     ],
     "changelogDate": "20211016081746",

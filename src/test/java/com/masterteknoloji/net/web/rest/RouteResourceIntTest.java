@@ -44,6 +44,9 @@ public class RouteResourceIntTest {
     private static final Boolean DEFAULT_INVERSED = false;
     private static final Boolean UPDATED_INVERSED = true;
 
+    private static final Long DEFAULT_ROUTE_ID = 1L;
+    private static final Long UPDATED_ROUTE_ID = 2L;
+
     @Autowired
     private RouteRepository routeRepository;
 
@@ -83,7 +86,8 @@ public class RouteResourceIntTest {
     public static Route createEntity(EntityManager em) {
         Route route = new Route()
             .name(DEFAULT_NAME)
-            .inversed(DEFAULT_INVERSED);
+            .inversed(DEFAULT_INVERSED)
+            .routeId(DEFAULT_ROUTE_ID);
         return route;
     }
 
@@ -109,6 +113,7 @@ public class RouteResourceIntTest {
         Route testRoute = routeList.get(routeList.size() - 1);
         assertThat(testRoute.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testRoute.isInversed()).isEqualTo(DEFAULT_INVERSED);
+        assertThat(testRoute.getRouteId()).isEqualTo(DEFAULT_ROUTE_ID);
     }
 
     @Test
@@ -142,7 +147,8 @@ public class RouteResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(route.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].inversed").value(hasItem(DEFAULT_INVERSED.booleanValue())));
+            .andExpect(jsonPath("$.[*].inversed").value(hasItem(DEFAULT_INVERSED.booleanValue())))
+            .andExpect(jsonPath("$.[*].routeId").value(hasItem(DEFAULT_ROUTE_ID.intValue())));
     }
 
     @Test
@@ -157,7 +163,8 @@ public class RouteResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(route.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.inversed").value(DEFAULT_INVERSED.booleanValue()));
+            .andExpect(jsonPath("$.inversed").value(DEFAULT_INVERSED.booleanValue()))
+            .andExpect(jsonPath("$.routeId").value(DEFAULT_ROUTE_ID.intValue()));
     }
 
     @Test
@@ -181,7 +188,8 @@ public class RouteResourceIntTest {
         em.detach(updatedRoute);
         updatedRoute
             .name(UPDATED_NAME)
-            .inversed(UPDATED_INVERSED);
+            .inversed(UPDATED_INVERSED)
+            .routeId(UPDATED_ROUTE_ID);
 
         restRouteMockMvc.perform(put("/api/routes")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -194,6 +202,7 @@ public class RouteResourceIntTest {
         Route testRoute = routeList.get(routeList.size() - 1);
         assertThat(testRoute.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testRoute.isInversed()).isEqualTo(UPDATED_INVERSED);
+        assertThat(testRoute.getRouteId()).isEqualTo(UPDATED_ROUTE_ID);
     }
 
     @Test

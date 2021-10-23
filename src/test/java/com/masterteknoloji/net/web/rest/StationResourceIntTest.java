@@ -50,6 +50,9 @@ public class StationResourceIntTest {
     private static final String DEFAULT_LNG = "AAAAAAAAAA";
     private static final String UPDATED_LNG = "BBBBBBBBBB";
 
+    private static final Long DEFAULT_STATION_ID = 1L;
+    private static final Long UPDATED_STATION_ID = 2L;
+
     @Autowired
     private StationRepository stationRepository;
 
@@ -91,7 +94,8 @@ public class StationResourceIntTest {
             .name(DEFAULT_NAME)
             .index(DEFAULT_INDEX)
             .lat(DEFAULT_LAT)
-            .lng(DEFAULT_LNG);
+            .lng(DEFAULT_LNG)
+            .stationId(DEFAULT_STATION_ID);
         return station;
     }
 
@@ -119,6 +123,7 @@ public class StationResourceIntTest {
         assertThat(testStation.getIndex()).isEqualTo(DEFAULT_INDEX);
         assertThat(testStation.getLat()).isEqualTo(DEFAULT_LAT);
         assertThat(testStation.getLng()).isEqualTo(DEFAULT_LNG);
+        assertThat(testStation.getStationId()).isEqualTo(DEFAULT_STATION_ID);
     }
 
     @Test
@@ -154,7 +159,8 @@ public class StationResourceIntTest {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].index").value(hasItem(DEFAULT_INDEX.intValue())))
             .andExpect(jsonPath("$.[*].lat").value(hasItem(DEFAULT_LAT.toString())))
-            .andExpect(jsonPath("$.[*].lng").value(hasItem(DEFAULT_LNG.toString())));
+            .andExpect(jsonPath("$.[*].lng").value(hasItem(DEFAULT_LNG.toString())))
+            .andExpect(jsonPath("$.[*].stationId").value(hasItem(DEFAULT_STATION_ID.intValue())));
     }
 
     @Test
@@ -171,7 +177,8 @@ public class StationResourceIntTest {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.index").value(DEFAULT_INDEX.intValue()))
             .andExpect(jsonPath("$.lat").value(DEFAULT_LAT.toString()))
-            .andExpect(jsonPath("$.lng").value(DEFAULT_LNG.toString()));
+            .andExpect(jsonPath("$.lng").value(DEFAULT_LNG.toString()))
+            .andExpect(jsonPath("$.stationId").value(DEFAULT_STATION_ID.intValue()));
     }
 
     @Test
@@ -197,7 +204,8 @@ public class StationResourceIntTest {
             .name(UPDATED_NAME)
             .index(UPDATED_INDEX)
             .lat(UPDATED_LAT)
-            .lng(UPDATED_LNG);
+            .lng(UPDATED_LNG)
+            .stationId(UPDATED_STATION_ID);
 
         restStationMockMvc.perform(put("/api/stations")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -212,6 +220,7 @@ public class StationResourceIntTest {
         assertThat(testStation.getIndex()).isEqualTo(UPDATED_INDEX);
         assertThat(testStation.getLat()).isEqualTo(UPDATED_LAT);
         assertThat(testStation.getLng()).isEqualTo(UPDATED_LNG);
+        assertThat(testStation.getStationId()).isEqualTo(UPDATED_STATION_ID);
     }
 
     @Test

@@ -17,6 +17,8 @@
             },
             "recordDate": "Record Date",
             "totalPassengerCount": "Total Passenger Count",
+            "getInPassengerCount": "Get In Passenger Count",
+            "getOutPassengerCount": "Get Out Passenger Count",
             "density": "Density",
             "scheduledVoyage": "Scheduled Voyage",
             "bus": "Bus",

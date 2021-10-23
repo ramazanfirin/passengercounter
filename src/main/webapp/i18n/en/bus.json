@@ -15,7 +15,8 @@
             "detail": {
                 "title": "Bus"
             },
-            "plate": "Plate"
+            "plate": "Plate",
+            "busId": "Bus Id"
         }
     }
 }

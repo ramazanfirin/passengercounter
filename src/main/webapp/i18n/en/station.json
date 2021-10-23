@@ -18,7 +18,8 @@
             "name": "Name",
             "index": "Index",
             "lat": "Lat",
-            "lng": "Lng"
+            "lng": "Lng",
+            "stationId": "Station Id"
         }
     }
 }

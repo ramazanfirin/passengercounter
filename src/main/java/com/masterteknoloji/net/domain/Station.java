@@ -34,6 +34,9 @@ public class Station implements Serializable {
     @Column(name = "lng")
     private String lng;
 
+    @Column(name = "station_id")
+    private Long stationId;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -94,6 +97,19 @@ public class Station implements Serializable {
     public void setLng(String lng) {
         this.lng = lng;
     }
+
+    public Long getStationId() {
+        return stationId;
+    }
+
+    public Station stationId(Long stationId) {
+        this.stationId = stationId;
+        return this;
+    }
+
+    public void setStationId(Long stationId) {
+        this.stationId = stationId;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -124,6 +140,7 @@ public class Station implements Serializable {
             ", index=" + getIndex() +
             ", lat='" + getLat() + "'" +
             ", lng='" + getLng() + "'" +
+            ", stationId=" + getStationId() +
             "}";
     }
 }

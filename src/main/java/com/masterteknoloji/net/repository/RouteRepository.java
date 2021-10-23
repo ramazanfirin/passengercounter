@@ -17,4 +17,7 @@ import org.springframework.data.repository.query.Param;
 public interface RouteRepository extends JpaRepository<Route, Long> {
 	@Query("select a from Route a where a.name=:name")
 	Route findByName(@Param("name") String name);
+	
+	@Query("select a from Route a where a.routeId=:routeId")
+	Route findByRouteId(@Param("routeId") Long routeId);
 }

@@ -46,6 +46,12 @@ public class BusDensityHistoryResourceIntTest {
     private static final Long DEFAULT_TOTAL_PASSENGER_COUNT = 1L;
     private static final Long UPDATED_TOTAL_PASSENGER_COUNT = 2L;
 
+    private static final Long DEFAULT_GET_IN_PASSENGER_COUNT = 1L;
+    private static final Long UPDATED_GET_IN_PASSENGER_COUNT = 2L;
+
+    private static final Long DEFAULT_GET_OUT_PASSENGER_COUNT = 1L;
+    private static final Long UPDATED_GET_OUT_PASSENGER_COUNT = 2L;
+
     private static final Long DEFAULT_DENSITY = 1L;
     private static final Long UPDATED_DENSITY = 2L;
 
@@ -89,6 +95,8 @@ public class BusDensityHistoryResourceIntTest {
         BusDensityHistory busDensityHistory = new BusDensityHistory()
             .recordDate(DEFAULT_RECORD_DATE)
             .totalPassengerCount(DEFAULT_TOTAL_PASSENGER_COUNT)
+            .getInPassengerCount(DEFAULT_GET_IN_PASSENGER_COUNT)
+            .getOutPassengerCount(DEFAULT_GET_OUT_PASSENGER_COUNT)
             .density(DEFAULT_DENSITY);
         return busDensityHistory;
     }
@@ -115,6 +123,8 @@ public class BusDensityHistoryResourceIntTest {
         BusDensityHistory testBusDensityHistory = busDensityHistoryList.get(busDensityHistoryList.size() - 1);
         assertThat(testBusDensityHistory.getRecordDate()).isEqualTo(DEFAULT_RECORD_DATE);
         assertThat(testBusDensityHistory.getTotalPassengerCount()).isEqualTo(DEFAULT_TOTAL_PASSENGER_COUNT);
+        assertThat(testBusDensityHistory.getGetInPassengerCount()).isEqualTo(DEFAULT_GET_IN_PASSENGER_COUNT);
+        assertThat(testBusDensityHistory.getGetOutPassengerCount()).isEqualTo(DEFAULT_GET_OUT_PASSENGER_COUNT);
         assertThat(testBusDensityHistory.getDensity()).isEqualTo(DEFAULT_DENSITY);
     }
 
@@ -150,6 +160,8 @@ public class BusDensityHistoryResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(busDensityHistory.getId().intValue())))
             .andExpect(jsonPath("$.[*].recordDate").value(hasItem(DEFAULT_RECORD_DATE.toString())))
             .andExpect(jsonPath("$.[*].totalPassengerCount").value(hasItem(DEFAULT_TOTAL_PASSENGER_COUNT.intValue())))
+            .andExpect(jsonPath("$.[*].getInPassengerCount").value(hasItem(DEFAULT_GET_IN_PASSENGER_COUNT.intValue())))
+            .andExpect(jsonPath("$.[*].getOutPassengerCount").value(hasItem(DEFAULT_GET_OUT_PASSENGER_COUNT.intValue())))
             .andExpect(jsonPath("$.[*].density").value(hasItem(DEFAULT_DENSITY.intValue())));
     }
 
@@ -166,6 +178,8 @@ public class BusDensityHistoryResourceIntTest {
             .andExpect(jsonPath("$.id").value(busDensityHistory.getId().intValue()))
             .andExpect(jsonPath("$.recordDate").value(DEFAULT_RECORD_DATE.toString()))
             .andExpect(jsonPath("$.totalPassengerCount").value(DEFAULT_TOTAL_PASSENGER_COUNT.intValue()))
+            .andExpect(jsonPath("$.getInPassengerCount").value(DEFAULT_GET_IN_PASSENGER_COUNT.intValue()))
+            .andExpect(jsonPath("$.getOutPassengerCount").value(DEFAULT_GET_OUT_PASSENGER_COUNT.intValue()))
             .andExpect(jsonPath("$.density").value(DEFAULT_DENSITY.intValue()));
     }
 
@@ -191,6 +205,8 @@ public class BusDensityHistoryResourceIntTest {
         updatedBusDensityHistory
             .recordDate(UPDATED_RECORD_DATE)
             .totalPassengerCount(UPDATED_TOTAL_PASSENGER_COUNT)
+            .getInPassengerCount(UPDATED_GET_IN_PASSENGER_COUNT)
+            .getOutPassengerCount(UPDATED_GET_OUT_PASSENGER_COUNT)
             .density(UPDATED_DENSITY);
 
         restBusDensityHistoryMockMvc.perform(put("/api/bus-density-histories")
@@ -204,6 +220,8 @@ public class BusDensityHistoryResourceIntTest {
         BusDensityHistory testBusDensityHistory = busDensityHistoryList.get(busDensityHistoryList.size() - 1);
         assertThat(testBusDensityHistory.getRecordDate()).isEqualTo(UPDATED_RECORD_DATE);
         assertThat(testBusDensityHistory.getTotalPassengerCount()).isEqualTo(UPDATED_TOTAL_PASSENGER_COUNT);
+        assertThat(testBusDensityHistory.getGetInPassengerCount()).isEqualTo(UPDATED_GET_IN_PASSENGER_COUNT);
+        assertThat(testBusDensityHistory.getGetOutPassengerCount()).isEqualTo(UPDATED_GET_OUT_PASSENGER_COUNT);
         assertThat(testBusDensityHistory.getDensity()).isEqualTo(UPDATED_DENSITY);
     }
 

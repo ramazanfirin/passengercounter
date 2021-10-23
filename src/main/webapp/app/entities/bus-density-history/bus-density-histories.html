@@ -12,6 +12,26 @@
                 </button>
             </div>
         </div>
+        
+        <div class="row">
+            
+            <div class="form-group">
+	            <label data-translate="passengercounter2App.busDensityHistory.station" for="field_station">Station</label>
+	            <select class="form-control" id="field_station" name="station" ng-model="vm.tempStation" ng-options="station as station.stationId for station in vm.stations track by station.id">
+	                <option value=""></option>
+	            </select>
+       		</div>
+            
+            
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ng-click="vm.analyze()">
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span>
+                        Analyze Data
+                    </span>
+                </button>
+            </div>
+        </div>
     </div>
     <br/>
     <div class="table-responsive">
@@ -21,6 +41,8 @@
                     <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="recordDate"><span data-translate="passengercounter2App.busDensityHistory.recordDate">Record Date</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="totalPassengerCount"><span data-translate="passengercounter2App.busDensityHistory.totalPassengerCount">Total Passenger Count</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="getInPassengerCount"><span data-translate="passengercounter2App.busDensityHistory.getInPassengerCount">Get In Passenger Count</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="getOutPassengerCount"><span data-translate="passengercounter2App.busDensityHistory.getOutPassengerCount">Get Out Passenger Count</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="density"><span data-translate="passengercounter2App.busDensityHistory.density">Density</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="scheduledVoyage.id"><span data-translate="passengercounter2App.busDensityHistory.scheduledVoyage">Scheduled Voyage</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="bus.id"><span data-translate="passengercounter2App.busDensityHistory.bus">Bus</span> <span class="glyphicon glyphicon-sort"></span></th>
@@ -34,18 +56,20 @@
                     <td><a ui-sref="bus-density-history-detail({id:busDensityHistory.id})">{{busDensityHistory.id}}</a></td>
                     <td>{{busDensityHistory.recordDate | date:'medium'}}</td>
                     <td>{{busDensityHistory.totalPassengerCount}}</td>
+                    <td>{{busDensityHistory.getInPassengerCount}}</td>
+                    <td>{{busDensityHistory.getOutPassengerCount}}</td>
                     <td>{{busDensityHistory.density}}</td>
                     <td>
                         <a ui-sref="scheduled-voyage-detail({id:busDensityHistory.scheduledVoyage.id})">{{busDensityHistory.scheduledVoyage.id}}</a>
                     </td>
                     <td>
-                        <a ui-sref="bus-detail({id:busDensityHistory.bus.id})">{{busDensityHistory.bus.id}}</a>
+                        <a ui-sref="bus-detail({id:busDensityHistory.bus.id})">{{busDensityHistory.bus.busId}}</a>
                     </td>
                     <td>
-                        <a ui-sref="station-detail({id:busDensityHistory.station.id})">{{busDensityHistory.station.id}}</a>
+                        <a ui-sref="station-detail({id:busDensityHistory.station.id})">{{busDensityHistory.station.name}}</a>
                     </td>
                     <td>
-                        <a ui-sref="route-detail({id:busDensityHistory.route.id})">{{busDensityHistory.route.id}}</a>
+                        <a ui-sref="route-detail({id:busDensityHistory.route.id})">{{busDensityHistory.route.name}}</a>
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">

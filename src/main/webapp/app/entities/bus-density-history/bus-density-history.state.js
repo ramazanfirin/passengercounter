@@ -126,6 +126,8 @@
                             return {
                                 recordDate: null,
                                 totalPassengerCount: null,
+                                getInPassengerCount: null,
+                                getOutPassengerCount: null,
                                 density: null,
                                 id: null
                             };

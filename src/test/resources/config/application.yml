@@ -114,3 +114,5 @@ jhipster:
 
 application:
     kbbBusLocationServiceEndpoint: https://kaktusmobile.kayseriulasim.com.tr/api/V-Count?koseNo=
+    activateScheduled: false
+    simulation: true

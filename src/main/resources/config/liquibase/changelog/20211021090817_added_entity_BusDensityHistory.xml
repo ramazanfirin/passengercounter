@@ -55,5 +55,17 @@
         <dropDefaultValue tableName="bus_density_history" columnName="record_date" columnDataType="datetime"/>
         
     </changeSet>
+    <changeSet id="20211023090817-1" author="jhipster">
+    	<addColumn 	tableName="bus_density_history" >
+			<column name="get_in_passenger_count" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="get_out_passenger_count" type="bigint">
+                <constraints nullable="true" />
+            </column>
+
+		</addColumn> 
+    </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

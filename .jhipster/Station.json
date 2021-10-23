@@ -17,6 +17,10 @@
         {
             "fieldName": "lng",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "stationId",
+            "fieldType": "Long"
         }
     ],
     "changelogDate": "20211016081748",

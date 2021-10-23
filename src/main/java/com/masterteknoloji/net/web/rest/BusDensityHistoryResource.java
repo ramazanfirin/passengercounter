@@ -1,13 +1,12 @@
 package com.masterteknoloji.net.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
-import com.masterteknoloji.net.domain.BusDensityHistory;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
 
-import com.masterteknoloji.net.repository.BusDensityHistoryRepository;
-import com.masterteknoloji.net.web.rest.errors.BadRequestAlertException;
-import com.masterteknoloji.net.web.rest.util.HeaderUtil;
-import com.masterteknoloji.net.web.rest.util.PaginationUtil;
-import io.github.jhipster.web.util.ResponseUtil;
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -15,13 +14,26 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import com.codahale.metrics.annotation.Timed;
+import com.masterteknoloji.net.domain.BusDensityHistory;
+import com.masterteknoloji.net.domain.Station;
+import com.masterteknoloji.net.repository.BusDensityHistoryRepository;
+import com.masterteknoloji.net.repository.StationRepository;
+import com.masterteknoloji.net.service.DensityCalculaterService;
+import com.masterteknoloji.net.web.rest.errors.BadRequestAlertException;
+import com.masterteknoloji.net.web.rest.util.HeaderUtil;
+import com.masterteknoloji.net.web.rest.util.PaginationUtil;
 
-import java.util.List;
-import java.util.Optional;
+import io.github.jhipster.web.util.ResponseUtil;
 
 /**
  * REST controller for managing BusDensityHistory.
@@ -35,9 +47,15 @@ public class BusDensityHistoryResource {
     private static final String ENTITY_NAME = "busDensityHistory";
 
     private final BusDensityHistoryRepository busDensityHistoryRepository;
+    
+    private final StationRepository stationRepository;
+    
+    private final DensityCalculaterService densityCalculaterService;
 
-    public BusDensityHistoryResource(BusDensityHistoryRepository busDensityHistoryRepository) {
+    public BusDensityHistoryResource(BusDensityHistoryRepository busDensityHistoryRepository, StationRepository stationRepository, DensityCalculaterService densityCalculaterService) {
         this.busDensityHistoryRepository = busDensityHistoryRepository;
+        this.stationRepository = stationRepository;
+        this.densityCalculaterService = densityCalculaterService;
     }
 
     /**
@@ -124,4 +142,15 @@ public class BusDensityHistoryResource {
         busDensityHistoryRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+    
+    @GetMapping("/bus-density-histories/analyze")
+    @Timed
+    public void analyze(HttpServletRequest httpServletRequest) {
+    	String tempStationId = httpServletRequest.getParameter("tempStationId");
+    	Station tempStation = stationRepository.findByStationId(new Long(tempStationId));
+    	densityCalculaterService.setTempStation(tempStation);
+    	densityCalculaterService.calculateDensity();
+    	System.out.println("");
+    }
+
 }

@@ -125,6 +125,7 @@
                         entity: function () {
                             return {
                                 plate: null,
+                                busId: null,
                                 id: null
                             };
                         }

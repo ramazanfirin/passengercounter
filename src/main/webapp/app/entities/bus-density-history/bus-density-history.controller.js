@@ -5,9 +5,9 @@
         .module('passengercounter2App')
         .controller('BusDensityHistoryController', BusDensityHistoryController);
 
-    BusDensityHistoryController.$inject = ['$state', 'BusDensityHistory', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    BusDensityHistoryController.$inject = ['$state', 'BusDensityHistory', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams','Station'];
 
-    function BusDensityHistoryController($state, BusDensityHistory, ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function BusDensityHistoryController($state, BusDensityHistory, ParseLinks, AlertService, paginationConstants, pagingParams,Station) {
 
         var vm = this;
 
@@ -16,6 +16,9 @@
         vm.reverse = pagingParams.ascending;
         vm.transition = transition;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
+		vm.analyze = analyze;
+		vm.tempStation ;
+		vm.stations = Station.query();
 
         loadAll();
 
@@ -56,5 +59,17 @@
                 search: vm.currentSearch
             });
         }
+
+		function analyze(){
+			BusDensityHistory.analyze({
+                tempStationId: vm.tempStation.stationId
+            }, onSuccess, onError);
+            
+            function onSuccess(data, headers) {
+            }
+            function onError(error) {
+                AlertService.error(error.data.message);
+            }
+		}
     }
 })();

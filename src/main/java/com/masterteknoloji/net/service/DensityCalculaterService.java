@@ -11,6 +11,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.masterteknoloji.net.config.ApplicationProperties;
 import com.masterteknoloji.net.domain.Bus;
 import com.masterteknoloji.net.domain.BusDensityHistory;
 import com.masterteknoloji.net.domain.Device;
@@ -21,9 +22,8 @@ import com.masterteknoloji.net.domain.Station;
 import com.masterteknoloji.net.repository.BusDensityHistoryRepository;
 import com.masterteknoloji.net.repository.DeviceRepository;
 import com.masterteknoloji.net.repository.RawTableRepository;
-import com.masterteknoloji.net.repository.RouteRepository;
 import com.masterteknoloji.net.repository.ScheduledVoyageRepository;
-import com.masterteknoloji.net.repository.StationRepository;
+import com.masterteknoloji.net.web.rest.vm.kbb.BusLocationInformationVM;
 
 @Service
 @Transactional
@@ -43,11 +43,19 @@ public class DensityCalculaterService {
     
     private final ScheduledVoyageRepository scheduledVoyageRepository;
     
+    private final ApplicationProperties applicationProperties;
+    
+    private final IntegrationService integrationService;
+    
     private Map<String,Long> currentDevicePassegerCount = new HashMap<String, Long>();
+    
+    private Station tempStation;
     
     public DensityCalculaterService(RawTableRepository rawTableRepository, 
     		BusDensityHistoryRepository busDensityHistoryRepository,DeviceRepository deviceRepository, 
-    		StationService stationService,RouteService routeService,ScheduledVoyageRepository scheduledVoyageRepository) {
+    		StationService stationService,RouteService routeService,
+    		ScheduledVoyageRepository scheduledVoyageRepository,ApplicationProperties applicationProperties,
+    		IntegrationService integrationService) {
 		super();
 		this.rawTableRepository = rawTableRepository;
 		this.busDensityHistoryRepository = busDensityHistoryRepository;
@@ -55,22 +63,54 @@ public class DensityCalculaterService {
 		this.stationService = stationService;
 		this.routeService = routeService;
 		this.scheduledVoyageRepository = scheduledVoyageRepository;
+		this.applicationProperties = applicationProperties;
+		this.integrationService = integrationService;
     }
 
 	@Scheduled(fixedDelay = 60000)
+	public void calculateDensityJob() {
+		log.info("calculateDensityJob basladi");
+		if(applicationProperties.getActivateScheduled()) {
+			calculateDensity();
+		}else {
+			log.info("activated Scheduled is not active");
+		}
+			
+		log.info("calculateDensityJob basladi");
+	}
+	
+	
+	
     public void calculateDensity() {
     	log.info("calculateDensity basladi");
-    
+    	
     	List<RawTable> unprocessedList = rawTableRepository.findUnprocessedRecords(new PageRequest(0, 1000));
+    	int i =0;
     	for (RawTable rawTable : unprocessedList) {
     		try {
+    		
 				String deviceId = rawTable.getDeviceIdOriginal();
 				Long currentPassengerCOunt = calculatePassengeCountOfDevice(rawTable);
 				currentDevicePassegerCount.put(deviceId, currentPassengerCOunt);
 				
 				Bus bus = findBus(deviceId);
-				Station station = findStation(rawTable.getLat(), rawTable.getLng());
-				Route route = findRoute(bus.getId());
+				
+				Station station = null;
+				Route route = null;
+				if(!applicationProperties.getSimulation()) {
+					BusLocationInformationVM busLocationInformationVM = integrationService.getInformationOfBus(bus.getBusId());
+					 
+					//stationService.insertAllStations(busLocationInformationVM);
+					
+					station = stationService.findCurrentStation(busLocationInformationVM);
+					route = routeService.findCurrentRoute(busLocationInformationVM);
+    		    }else {
+    		    	station = tempStation;
+    		    	if(i % 50 ==0)
+    		    		station = stationService.getRandomStation();
+    		    	route = routeService.findGetFirstRoute();
+    		    }
+				
 				ScheduledVoyage scheduledVoyage = findScheduledVoyage(bus.getId());
 				
 				BusDensityHistory busDensityHistory;
@@ -92,12 +132,13 @@ public class DensityCalculaterService {
 				
 				busDensityHistoryRepository.save(busDensityHistory);
 				rawTable.setIsSuccess(true);
-    		} catch (Exception e) {
+			} catch (Exception e) {
     			e.printStackTrace();
 				rawTable.setIsSuccess(false);
 			}
 			rawTable.setProcessed(true);
 			rawTableRepository.save(rawTable);
+			i++;
     	}
     	
        	log.info("calculateDensity bitt");
@@ -129,16 +170,6 @@ public class DensityCalculaterService {
     	return device.getBus();
     }
     
-    public Station findStation(String lat,String lng) {
-    	Station station = stationService.findByCoordinates(lat, lng);
-    	return station;
-    }
-
-    public Route findRoute(Long busId) {
-    	Route route = routeService.findByBusId(busId);
-    	return route;
-    }
-
     public ScheduledVoyage findScheduledVoyage(Long busId) {
     	List<ScheduledVoyage> routeList = scheduledVoyageRepository.findAll();
     	if(routeList.size() > 0)
@@ -146,4 +177,14 @@ public class DensityCalculaterService {
     	else
     		return null;
     }
+    
+    public Station getTempStation() {
+		return tempStation;
+	}
+
+	public void setTempStation(Station tempStation) {
+		this.tempStation = tempStation;
+	}
+
+	
 }
