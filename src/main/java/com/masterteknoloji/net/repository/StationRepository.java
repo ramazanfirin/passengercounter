@@ -19,4 +19,8 @@ import org.springframework.data.repository.query.Param;
 public interface StationRepository extends JpaRepository<Station, Long> {
 	@Query("select a from Station a where a.lat=:lat and a.lng=:lng")
 	Station findStationByCoordinates(@Param("lat") String lat,@Param("lng") String lng);
+
+	@Query("select a from Station a where a.name=:name")
+	Station findStationByName(@Param("name") String name);
 }
+

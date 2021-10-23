@@ -10,5 +10,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
+	
+	String kbbBusLocationServiceEndpoint;
 
+	public String getKbbBusLocationServiceEndpoint() {
+		return kbbBusLocationServiceEndpoint;
+	}
+
+	public void setKbbBusLocationServiceEndpoint(String kbbBusLocationServiceEndpoint) {
+		this.kbbBusLocationServiceEndpoint = kbbBusLocationServiceEndpoint;
+	}
+
+	
 }

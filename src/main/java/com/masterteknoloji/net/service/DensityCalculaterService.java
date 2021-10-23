@@ -37,9 +37,9 @@ public class DensityCalculaterService {
     
     private final DeviceRepository deviceRepository;
     
-    private final StationRepository stationRepository;
+    private final StationService stationService;
     
-    private final RouteRepository routeRepository;
+    private final RouteService routeService;
     
     private final ScheduledVoyageRepository scheduledVoyageRepository;
     
@@ -47,17 +47,17 @@ public class DensityCalculaterService {
     
     public DensityCalculaterService(RawTableRepository rawTableRepository, 
     		BusDensityHistoryRepository busDensityHistoryRepository,DeviceRepository deviceRepository, 
-    		StationRepository stationRepository,RouteRepository routeRepository,ScheduledVoyageRepository scheduledVoyageRepository) {
+    		StationService stationService,RouteService routeService,ScheduledVoyageRepository scheduledVoyageRepository) {
 		super();
 		this.rawTableRepository = rawTableRepository;
 		this.busDensityHistoryRepository = busDensityHistoryRepository;
 		this.deviceRepository = deviceRepository;
-		this.stationRepository = stationRepository;
-		this.routeRepository = routeRepository;
+		this.stationService = stationService;
+		this.routeService = routeService;
 		this.scheduledVoyageRepository = scheduledVoyageRepository;
     }
 
-	//@Scheduled(fixedDelay = 60000)
+	@Scheduled(fixedDelay = 60000)
     public void calculateDensity() {
     	log.info("calculateDensity basladi");
     
@@ -93,6 +93,7 @@ public class DensityCalculaterService {
 				busDensityHistoryRepository.save(busDensityHistory);
 				rawTable.setIsSuccess(true);
     		} catch (Exception e) {
+    			e.printStackTrace();
 				rawTable.setIsSuccess(false);
 			}
 			rawTable.setProcessed(true);
@@ -129,16 +130,13 @@ public class DensityCalculaterService {
     }
     
     public Station findStation(String lat,String lng) {
-    	Station station = stationRepository.findStationByCoordinates(lat, lng);
+    	Station station = stationService.findByCoordinates(lat, lng);
     	return station;
     }
 
     public Route findRoute(Long busId) {
-    	List<Route> routeList = routeRepository.findAll();
-    	if(routeList.size() > 0)
-    		return routeList.get(0);
-    	else
-    		return null;
+    	Route route = routeService.findByBusId(busId);
+    	return route;
     }
 
     public ScheduledVoyage findScheduledVoyage(Long busId) {
