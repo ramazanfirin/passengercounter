@@ -49,6 +49,8 @@ public class DensityCalculaterService {
     
     private Map<String,Long> currentDevicePassegerCount = new HashMap<String, Long>();
     
+    private Map<String,RawTable> lastRawTableMap = new HashMap<String, RawTable>();
+    
     private Station tempStation;
     
     public DensityCalculaterService(RawTableRepository rawTableRepository, 
@@ -90,8 +92,6 @@ public class DensityCalculaterService {
     		try {
     		
 				String deviceId = rawTable.getDeviceIdOriginal();
-				Long currentPassengerCOunt = calculatePassengeCountOfDevice(rawTable);
-				currentDevicePassegerCount.put(deviceId, currentPassengerCOunt);
 				
 				Bus bus = findBus(deviceId);
 				
@@ -106,7 +106,7 @@ public class DensityCalculaterService {
 					route = routeService.findCurrentRoute(busLocationInformationVM);
     		    }else {
     		    	station = tempStation;
-    		    	if(i % 50 ==0)
+    		    	if( i!=0 && i % 50 ==0)
     		    		station = stationService.getRandomStation();
     		    	route = routeService.findGetFirstRoute();
     		    }
@@ -115,17 +115,29 @@ public class DensityCalculaterService {
 				
 				BusDensityHistory busDensityHistory;
 				List<BusDensityHistory> oldvalues = busDensityHistoryRepository.findOldRecord(bus.getId(), station.getId(), route.getId());
-				if(oldvalues.size()>0)
-					busDensityHistory = oldvalues.get(0);
-				else
-					busDensityHistory = new BusDensityHistory();
 				
-				busDensityHistory.setBus(bus);
-				busDensityHistory.setDensity(currentPassengerCOunt);
-				busDensityHistory.setRecordDate(null);
-				busDensityHistory.setRoute(route);
-				busDensityHistory.setScheduledVoyage(scheduledVoyage);
-				busDensityHistory.setStation(station);
+				if(oldvalues.size()>0) {
+					busDensityHistory = oldvalues.get(0);
+				}else {
+					busDensityHistory = new BusDensityHistory();
+					busDensityHistory.setBus(bus);
+					//busDensityHistory.setDensity(currentPassengerCOunt);
+					busDensityHistory.setRecordDate(null);
+					busDensityHistory.setRoute(route);
+					busDensityHistory.setScheduledVoyage(scheduledVoyage);
+					busDensityHistory.setStation(station);
+				}
+				
+				RawTable lastRawTableofDevice = lastRawTableMap.get(deviceId);
+				
+				Long getInDiff = calculateDiffGetIn(lastRawTableofDevice, rawTable);
+				busDensityHistory.setGetInPassengerCount(busDensityHistory.getGetInPassengerCount() + getInDiff);
+				
+				Long getOutDiff = calculateDiffGetOut(lastRawTableofDevice, rawTable);
+				busDensityHistory.setGetOutPassengerCount(busDensityHistory.getGetOutPassengerCount() + getOutDiff);
+				
+				Long calculateCurrentPassengerCount = calculateCurrentPassengerCount(rawTable);
+				currentDevicePassegerCount.put(deviceId, calculateCurrentPassengerCount);
 				
 				Long totalPassengerOfBus = calculatePassengeCountOfBus(bus.getId());
 				busDensityHistory.setTotalPassengerCount(totalPassengerOfBus);
@@ -145,12 +157,6 @@ public class DensityCalculaterService {
         
     }
     
-    public Long calculatePassengeCountOfDevice(RawTable rawTable) {
-    	Long totalGetIn = rawTable.getUpPeople1()+rawTable.getUpPeople2()+rawTable.getUpPeople3()+rawTable.getUpPeople4();
-     	Long totalGetOut = rawTable.getDownPeople1()+rawTable.getDownPeople2()+rawTable.getDownPeople3()+rawTable.getDownPeople4();
-       
-     	return totalGetIn - totalGetOut;
-    }
     
     public Long calculatePassengeCountOfBus(Long busId) {
     	
@@ -186,5 +192,49 @@ public class DensityCalculaterService {
 		this.tempStation = tempStation;
 	}
 
+	public Long calculateDiffGetIn(RawTable lastRawTable,RawTable currentRawTable) {
+		Long result = 0l;
+		
+		if( lastRawTable == null) {
+			result = calculateGetInOfRawTable(currentRawTable);
+		}else {
+			Long totalGetInOfCurrent = calculateGetInOfRawTable(currentRawTable);
+			Long totalGetInOfLast = 	calculateGetInOfRawTable(lastRawTable);
+			result = totalGetInOfCurrent -totalGetInOfLast;
+		}
+		
+		return result;
+	}
+
+	public Long calculateDiffGetOut(RawTable lastRawTable,RawTable currentRawTable) {
+		Long result = 0l;
+		
+		if( lastRawTable == null) {
+			result = calculateGetOutOfRawTable(currentRawTable);
+		}else {
+			Long totalGetOutOfCurrent = calculateGetOutOfRawTable(currentRawTable);
+			Long totalGetOutOfLast = 	calculateGetOutOfRawTable(lastRawTable);
+			result = totalGetOutOfCurrent -totalGetOutOfLast;
+		}
+		
+		return result;
+	}
 	
+	public Long calculateGetInOfRawTable(RawTable rawTable) {
+		Long totalGetIn = 0l;
+		totalGetIn = rawTable.getUpPeople1()+rawTable.getUpPeople2()+rawTable.getUpPeople3()+rawTable.getUpPeople4();
+		return totalGetIn;
+	}
+	
+	public Long calculateGetOutOfRawTable(RawTable rawTable) {
+		Long totalGetIn = 0l;
+		totalGetIn = rawTable.getDownPeople1()+rawTable.getDownPeople2()+rawTable.getDownPeople3()+rawTable.getDownPeople4();
+		return totalGetIn;
+	}
+	
+	public Long calculateCurrentPassengerCount(RawTable rawTable) {
+		Long totalGetIn = calculateGetInOfRawTable(rawTable);
+		Long totalGetOut = calculateGetOutOfRawTable(rawTable);
+		return totalGetIn - totalGetOut;
+	}
 }

@@ -27,16 +27,16 @@ public class BusDensityHistory implements Serializable {
     private Instant recordDate;
 
     @Column(name = "total_passenger_count")
-    private Long totalPassengerCount;
+    private Long totalPassengerCount = 0l;
 
     @Column(name = "get_in_passenger_count")
-    private Long getInPassengerCount;
+    private Long getInPassengerCount = 0l;
 
     @Column(name = "get_out_passenger_count")
-    private Long getOutPassengerCount;
+    private Long getOutPassengerCount = 0l;
 
     @Column(name = "density")
-    private Long density;
+    private Long density = 0l ;
 
     @ManyToOne
     private ScheduledVoyage scheduledVoyage;

@@ -119,6 +119,7 @@ public class DensityCalculaterServiceIntTest {
     	rawTable.setProcessed(false);
     	rawTableRepository.save(rawTable);
     	
+    	densityCalculaterService.setTempStation(station1);
     	densityCalculaterService.calculateDensity();
     	
     	List<BusDensityHistory> result = busDensityHistoryRepository.findAll();
@@ -130,6 +131,9 @@ public class DensityCalculaterServiceIntTest {
     	assertThat(item.getScheduledVoyage().getName()).isEqualTo(scheduledVoyage.getName());
     	assertThat(item.getStation().getName()).isEqualTo(station1.getName());
     	assertThat(item.getTotalPassengerCount()).isEqualTo(4);
+    	assertThat(item.getGetInPassengerCount()).isEqualTo(8);
+    	assertThat(item.getGetOutPassengerCount()).isEqualTo(4);
+    	assertThat(item.getStation().getId()).isEqualTo(station1.getId());
     	
     	rawTable = rawTableRepository.findOne(rawTable.getId());
     	assertThat(rawTable.isProcessed()).isEqualTo(true);
@@ -168,6 +172,7 @@ public class DensityCalculaterServiceIntTest {
     	rawTable2.setProcessed(false);
     	rawTableRepository.save(rawTable2);
     	
+    	densityCalculaterService.setTempStation(station1);
     	densityCalculaterService.calculateDensity();
     	
     	List<BusDensityHistory> result = busDensityHistoryRepository.findAll();
@@ -179,6 +184,9 @@ public class DensityCalculaterServiceIntTest {
     	assertThat(item.getScheduledVoyage().getName()).isEqualTo(scheduledVoyage.getName());
     	assertThat(item.getStation().getName()).isEqualTo(station1.getName());
     	assertThat(item.getTotalPassengerCount()).isEqualTo(8);
+    	assertThat(item.getGetInPassengerCount()).isEqualTo(24);
+    	assertThat(item.getGetOutPassengerCount()).isEqualTo(12);
+    	
     	
     	rawTable = rawTableRepository.findOne(rawTable.getId());
     	assertThat(rawTable.isProcessed()).isEqualTo(true);
@@ -202,6 +210,9 @@ public class DensityCalculaterServiceIntTest {
     	rawTable.setProcessed(false);
     	rawTableRepository.save(rawTable);
     	
+    	densityCalculaterService.setTempStation(station1);
+    	densityCalculaterService.calculateDensity();
+    	
     	RawTable rawTable2 = new RawTable();
     	rawTable2.setDeviceIdOriginal("123");
     	rawTable2.setDownPeople1(2l);
@@ -217,6 +228,7 @@ public class DensityCalculaterServiceIntTest {
     	rawTable2.setProcessed(false);
     	rawTableRepository.save(rawTable2);
     	
+    	densityCalculaterService.setTempStation(station2);
     	densityCalculaterService.calculateDensity();
     	
     	List<BusDensityHistory> result = busDensityHistoryRepository.findAll();
@@ -228,6 +240,9 @@ public class DensityCalculaterServiceIntTest {
     	assertThat(item.getScheduledVoyage().getName()).isEqualTo(scheduledVoyage.getName());
     	assertThat(item.getStation().getName()).isEqualTo(station1.getName());
     	assertThat(item.getTotalPassengerCount()).isEqualTo(4);
+    	assertThat(item.getStation().getId()).isEqualTo(station1.getId());
+    	assertThat(item.getGetInPassengerCount()).isEqualTo(8);
+    	assertThat(item.getGetOutPassengerCount()).isEqualTo(4);
     	
     	BusDensityHistory item2 = result.get(1);
     	assertThat(item2.getBus().getPlate()).isEqualTo(bus.getPlate());
@@ -235,6 +250,9 @@ public class DensityCalculaterServiceIntTest {
     	assertThat(item2.getScheduledVoyage().getName()).isEqualTo(scheduledVoyage.getName());
     	assertThat(item2.getStation().getName()).isEqualTo(station1.getName());
     	assertThat(item2.getTotalPassengerCount()).isEqualTo(8);
+    	assertThat(item2.getStation().getId()).isEqualTo(station2.getId());
+    	assertThat(item2.getGetInPassengerCount()).isEqualTo(16);
+    	assertThat(item2.getGetOutPassengerCount()).isEqualTo(8);
     	
     	rawTable = rawTableRepository.findOne(rawTable.getId());
     	assertThat(rawTable.isProcessed()).isEqualTo(true);
