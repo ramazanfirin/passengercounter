@@ -86,7 +86,7 @@ public class DensityCalculaterService {
     public void calculateDensity() {
     	log.info("calculateDensity basladi");
     	
-    	List<RawTable> unprocessedList = rawTableRepository.findUnprocessedRecords(new PageRequest(0, 1000));
+    	List<RawTable> unprocessedList = rawTableRepository.findUnprocessedRecords(new PageRequest(0, 10));
     	int i =0;
     	for (RawTable rawTable : unprocessedList) {
     		try {
@@ -106,8 +106,8 @@ public class DensityCalculaterService {
 					route = routeService.findCurrentRoute(busLocationInformationVM);
     		    }else {
     		    	station = tempStation;
-    		    	if( i!=0 && i % 50 ==0)
-    		    		station = stationService.getRandomStation();
+//    		    	if( i!=0 && i % 50 ==0)
+//    		    		station = stationService.getRandomStation();
     		    	route = routeService.findGetFirstRoute();
     		    }
 				
@@ -122,7 +122,7 @@ public class DensityCalculaterService {
 					busDensityHistory = new BusDensityHistory();
 					busDensityHistory.setBus(bus);
 					//busDensityHistory.setDensity(currentPassengerCOunt);
-					busDensityHistory.setRecordDate(null);
+					
 					busDensityHistory.setRoute(route);
 					busDensityHistory.setScheduledVoyage(scheduledVoyage);
 					busDensityHistory.setStation(station);
@@ -142,8 +142,10 @@ public class DensityCalculaterService {
 				Long totalPassengerOfBus = calculatePassengeCountOfBus(bus.getId());
 				busDensityHistory.setTotalPassengerCount(totalPassengerOfBus);
 				
+				busDensityHistory.setRecordDate(rawTable.getInsertDate());
 				busDensityHistoryRepository.save(busDensityHistory);
 				rawTable.setIsSuccess(true);
+				lastRawTableMap.put(deviceId, rawTable);
 			} catch (Exception e) {
     			e.printStackTrace();
 				rawTable.setIsSuccess(false);
