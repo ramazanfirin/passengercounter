@@ -33,4 +33,19 @@
                                  referencedTableName="route"/>
 
     </changeSet>
+    
+    <changeSet id="20211026090817-2" author="jhipster">
+        
+         <addForeignKeyConstraint baseColumnNames="first_raw_record_id"
+                                 baseTableName="bus_density_history"
+                                 constraintName="fk_bus_density_history_first_raw_record_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="raw_table"/>
+
+        <addForeignKeyConstraint baseColumnNames="last_raw_record_id"
+                                 baseTableName="bus_density_history"
+                                 constraintName="fk_bus_density_history_last_raw_record_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="raw_table"/>
+     </changeSet>
 </databaseChangeLog>

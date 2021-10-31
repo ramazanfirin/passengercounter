@@ -126,6 +126,7 @@ public class DensityCalculaterService {
 					busDensityHistory.setRoute(route);
 					busDensityHistory.setScheduledVoyage(scheduledVoyage);
 					busDensityHistory.setStation(station);
+					busDensityHistory.setFirstRawRecord(rawTable);
 				}
 				
 				RawTable lastRawTableofDevice = lastRawTableMap.get(deviceId);
@@ -142,7 +143,8 @@ public class DensityCalculaterService {
 				Long totalPassengerOfBus = calculatePassengeCountOfBus(bus.getId());
 				busDensityHistory.setTotalPassengerCount(totalPassengerOfBus);
 				
-				busDensityHistory.setRecordDate(rawTable.getInsertDate());
+				//busDensityHistory.setRecordDate(rawTable.getInsertDate());
+				busDensityHistory.setLastRawRecord(rawTable);
 				busDensityHistoryRepository.save(busDensityHistory);
 				rawTable.setIsSuccess(true);
 				lastRawTableMap.put(deviceId, rawTable);

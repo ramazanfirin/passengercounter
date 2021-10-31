@@ -23,7 +23,9 @@
             "scheduledVoyage": "Scheduled Voyage",
             "bus": "Bus",
             "station": "Station",
-            "route": "Route"
+            "route": "Route",
+            "firstRawRecord": "First Raw Record",
+            "lastRawRecord": "Last Raw Record"
         }
     }
 }

@@ -30,7 +30,7 @@
                         Analyze Data
                     </span>
                 </button>
-            </div>
+    </div>
         </div>
     </div>
     <br/>
@@ -48,6 +48,8 @@
                     <th jh-sort-by="bus.id"><span data-translate="passengercounter2App.busDensityHistory.bus">Bus</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="station.id"><span data-translate="passengercounter2App.busDensityHistory.station">Station</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="route.id"><span data-translate="passengercounter2App.busDensityHistory.route">Route</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="firstRawRecord.id"><span data-translate="passengercounter2App.busDensityHistory.firstRawRecord">First Raw Record</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="lastRawRecord.id"><span data-translate="passengercounter2App.busDensityHistory.lastRawRecord">Last Raw Record</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -63,13 +65,19 @@
                         <a ui-sref="scheduled-voyage-detail({id:busDensityHistory.scheduledVoyage.id})">{{busDensityHistory.scheduledVoyage.id}}</a>
                     </td>
                     <td>
-                        <a ui-sref="bus-detail({id:busDensityHistory.bus.id})">{{busDensityHistory.bus.busId}}</a>
+                        <a ui-sref="bus-detail({id:busDensityHistory.bus.id})">{{busDensityHistory.bus.id}}</a>
                     </td>
                     <td>
                         <a ui-sref="station-detail({id:busDensityHistory.station.id})">{{busDensityHistory.station.name}}</a>
                     </td>
                     <td>
                         <a ui-sref="route-detail({id:busDensityHistory.route.id})">{{busDensityHistory.route.name}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="raw-table-detail({id:busDensityHistory.firstRawRecord.id})">{{busDensityHistory.firstRawRecord.id}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="raw-table-detail({id:busDensityHistory.lastRawRecord.id})">{{busDensityHistory.lastRawRecord.id}}</a>
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">

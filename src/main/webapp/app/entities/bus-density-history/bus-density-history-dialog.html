@@ -72,6 +72,18 @@
                 <option value=""></option>
             </select>
         </div>
+        <div class="form-group">
+            <label data-translate="passengercounter2App.busDensityHistory.firstRawRecord" for="field_firstRawRecord">First Raw Record</label>
+            <select class="form-control" id="field_firstRawRecord" name="firstRawRecord" ng-model="vm.busDensityHistory.firstRawRecord" ng-options="rawTable as rawTable.id for rawTable in vm.rawtables track by rawTable.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label data-translate="passengercounter2App.busDensityHistory.lastRawRecord" for="field_lastRawRecord">Last Raw Record</label>
+            <select class="form-control" id="field_lastRawRecord" name="lastRawRecord" ng-model="vm.busDensityHistory.lastRawRecord" ng-options="rawTable as rawTable.id for rawTable in vm.rawtables track by rawTable.id">
+                <option value=""></option>
+            </select>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">

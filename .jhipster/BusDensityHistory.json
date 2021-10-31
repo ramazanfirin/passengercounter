@@ -24,6 +24,18 @@
             "relationshipName": "route",
             "otherEntityName": "route",
             "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "firstRawRecord",
+            "otherEntityName": "rawTable",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "lastRawRecord",
+            "otherEntityName": "rawTable",
+            "otherEntityField": "id"
         }
     ],
     "fields": [

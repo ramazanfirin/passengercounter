@@ -80,6 +80,10 @@ relationship ManyToOne {
 	BusDensityHistory{station} to Station
 	BusDensityHistory{route} to Route
 	
+	BusDensityHistory{firstRawRecord} to RawTable
+	BusDensityHistory{lastRawRecord} to RawTable
+	
+	
 		
 }
 

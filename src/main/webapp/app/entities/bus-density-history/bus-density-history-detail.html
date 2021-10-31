@@ -40,6 +40,14 @@
         <dd>
             <a ui-sref="route-detail({id:vm.busDensityHistory.route.id})">{{vm.busDensityHistory.route.id}}</a>
         </dd>
+        <dt><span data-translate="passengercounter2App.busDensityHistory.firstRawRecord">First Raw Record</span></dt>
+        <dd>
+            <a ui-sref="raw-table-detail({id:vm.busDensityHistory.firstRawRecord.id})">{{vm.busDensityHistory.firstRawRecord.id}}</a>
+        </dd>
+        <dt><span data-translate="passengercounter2App.busDensityHistory.lastRawRecord">Last Raw Record</span></dt>
+        <dd>
+            <a ui-sref="raw-table-detail({id:vm.busDensityHistory.lastRawRecord.id})">{{vm.busDensityHistory.lastRawRecord.id}}</a>
+        </dd>
     </dl>
 
     <button type="submit"

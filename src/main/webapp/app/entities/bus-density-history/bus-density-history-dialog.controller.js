@@ -5,9 +5,9 @@
         .module('passengercounter2App')
         .controller('BusDensityHistoryDialogController', BusDensityHistoryDialogController);
 
-    BusDensityHistoryDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'BusDensityHistory', 'ScheduledVoyage', 'Bus', 'Station', 'Route'];
+    BusDensityHistoryDialogController.$inject = ['$timeout', '$scope', '$stateParams', '$uibModalInstance', 'entity', 'BusDensityHistory', 'ScheduledVoyage', 'Bus', 'Station', 'Route', 'RawTable'];
 
-    function BusDensityHistoryDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, BusDensityHistory, ScheduledVoyage, Bus, Station, Route) {
+    function BusDensityHistoryDialogController ($timeout, $scope, $stateParams, $uibModalInstance, entity, BusDensityHistory, ScheduledVoyage, Bus, Station, Route, RawTable) {
         var vm = this;
 
         vm.busDensityHistory = entity;
@@ -19,6 +19,7 @@
         vm.buses = Bus.query();
         vm.stations = Station.query();
         vm.routes = Route.query();
+        vm.rawtables = RawTable.query();
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();

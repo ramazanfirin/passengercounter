@@ -50,6 +50,12 @@ public class BusDensityHistory implements Serializable {
     @ManyToOne
     private Route route;
 
+    @ManyToOne
+    private RawTable firstRawRecord;
+
+    @ManyToOne
+    private RawTable lastRawRecord;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -174,6 +180,32 @@ public class BusDensityHistory implements Serializable {
 
     public void setRoute(Route route) {
         this.route = route;
+    }
+
+    public RawTable getFirstRawRecord() {
+        return firstRawRecord;
+    }
+
+    public BusDensityHistory firstRawRecord(RawTable rawTable) {
+        this.firstRawRecord = rawTable;
+        return this;
+    }
+
+    public void setFirstRawRecord(RawTable rawTable) {
+        this.firstRawRecord = rawTable;
+    }
+
+    public RawTable getLastRawRecord() {
+        return lastRawRecord;
+    }
+
+    public BusDensityHistory lastRawRecord(RawTable rawTable) {
+        this.lastRawRecord = rawTable;
+        return this;
+    }
+
+    public void setLastRawRecord(RawTable rawTable) {
+        this.lastRawRecord = rawTable;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
