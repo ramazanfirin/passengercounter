@@ -79,6 +79,8 @@ public class DensityCalculaterService {
     
     private final StationRepository stationRepository;
     
+    private Long correction;
+    
     public DensityCalculaterService(RawTableRepository rawTableRepository, 
     		BusDensityHistoryRepository busDensityHistoryRepository,DeviceRepository deviceRepository, 
     		StationService stationService,RouteService routeService,
@@ -109,69 +111,16 @@ public class DensityCalculaterService {
 		log.info("calculateDensityJob basladi");
 	}
 	
-	public void calculateCoordinatesOfRawTable(RawTable rawTable) throws IOException {
-		CloseableHttpClient httpClient = HttpClients.createDefault();
-		BusLocationInformationVM busLocation = null;
-		String result="";
-		
-		String deviceId=rawTable.getDeviceIdOriginal();
-		Instant endDate=rawTable.getInsertDate().plusSeconds(5);
-		Instant startDate=rawTable.getInsertDate().plusSeconds(-5);
-		
-		String start = simpleDateFormat.format(Date.from(startDate));
-		String end = simpleDateFormat.format(Date.from(endDate));
-		//String parameters = URLEncoder.encode("devIdno="+deviceId.toString()+"&begintime="+start+"&endtime="+end,"UTF-8");
-		String parameters = "devIdno="+deviceId.toString()+"&begintime="+start+"&endtime="+end;
-		
-		String url = "http://passengercounter.masterteknoloji.net/StandardApiAction_queryTrackDetail.action?"+parameters.replace(" ", "+");
-		try {
-			HttpGet request = new HttpGet(url);
-			CloseableHttpResponse response = httpClient.execute(request);
-			try {
-				System.out.println(response.getProtocolVersion()); // HTTP/1.1
-				System.out.println(response.getStatusLine().getStatusCode()); // 200
-				System.out.println(response.getStatusLine().getReasonPhrase()); // OK
-				System.out.println(response.getStatusLine().toString()); // HTTP/1.1 200 OK
-
-				HttpEntity entity = response.getEntity();
-				if (entity != null) {
-					result = EntityUtils.toString(entity);
-					JsonNode actualObj = objectMapper.readTree(result);
-					
-					ArrayNode arrayNode = (ArrayNode)actualObj.get("tracks");
-					JsonNode item = arrayNode.get(0);
-					JsonNode lat = item.get("lat");
-					JsonNode lng = item.get("lng");
-					
-					rawTable.setLat((String)lat.asText());
-					rawTable.setLng((String)lng.asText());
-					rawTableRepository.save(rawTable);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}finally {
-				response.close();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			httpClient.close();
-		}
-		System.out.println("kbb servisi çağrıldı");
-		System.out.println("result:"+result);
-		
-	}
 	
     public void calculateDensity() {
     	log.info("calculateDensity basladi");
     	
-    	
-    	List<RawTable> unprocessedList = rawTableRepository.findUnprocessedRecords(new PageRequest(0, 10));
+    	correction = 0l;
+    	List<RawTable> unprocessedList = rawTableRepository.findUnprocessedRecords(new PageRequest(0, 500));
     	int i =0;
     	for (RawTable rawTable : unprocessedList) {
     		try {
-    			calculateCoordinatesOfRawTable(rawTable);
-    		
+    			
     			rawTable = rawTableRepository.findOne(rawTable.getId());
 				String deviceId = rawTable.getDeviceIdOriginal();
 				
@@ -187,8 +136,6 @@ public class DensityCalculaterService {
 					station = stationService.findCurrentStation(busLocationInformationVM);
 					route = routeService.findCurrentRoute(busLocationInformationVM);
     		    }else {
-    		    	station = tempStation;
-    		    	 
     		    	station = findNearestStation(rawTable.getLat(),rawTable.getLng());
     		    	
 //    		    	if( i!=0 && i % 50 ==0)
@@ -222,17 +169,18 @@ public class DensityCalculaterService {
 				Long getOutDiff = calculateDiffGetOut(lastRawTableofDevice, rawTable);
 				busDensityHistory.setGetOutPassengerCount(busDensityHistory.getGetOutPassengerCount() + getOutDiff);
 				
-				Long calculateCurrentPassengerCount = calculateCurrentPassengerCount(rawTable);
+				Long calculateCurrentPassengerCount = calculateCurrentPassengerCount(lastRawTableofDevice,rawTable);
 				currentDevicePassegerCount.put(deviceId, calculateCurrentPassengerCount);
 				
 				Long totalPassengerOfBus = calculatePassengeCountOfBus(bus.getId());
 				busDensityHistory.setTotalPassengerCount(totalPassengerOfBus);
 				
-				//busDensityHistory.setRecordDate(rawTable.getInsertDate());
+				busDensityHistory.setRecordDate(rawTable.getInsertDate());
 				busDensityHistory.setLastRawRecord(rawTable);
 				busDensityHistoryRepository.save(busDensityHistory);
 				rawTable.setIsSuccess(true);
 				lastRawTableMap.put(deviceId, rawTable);
+				i++;
 			} catch (Exception e) {
     			e.printStackTrace();
 				rawTable.setIsSuccess(false);
@@ -255,9 +203,12 @@ public class DensityCalculaterService {
     	for (Iterator iterator = stationList.iterator(); iterator.hasNext();) {
 			Station station = (Station) iterator.next();
 			double discante = distance(new Double(station.getLat()), new Double(station.getLng()), new Double(lat), new Double(lng), "K");
-			if(discante<10)
+			if(discante<10) {
+				System.out.println("discante:"+discante+ ",lat="+lat+",lng="+lng+"st_lat="+station.getLat()+",st_lan="+station.getLng());
 				result = station;
-    	}
+				break;
+			}	
+		}
     	
     	if(result == null)
     		result = insertNewStation(lat, lng);
@@ -287,7 +238,7 @@ public class DensityCalculaterService {
 			dist = Math.toDegrees(dist);
 			dist = dist * 60 * 1.1515;
 			if (unit.equals("K")) {
-				dist = dist * 1.609344 / 1000;
+				dist = dist * 1.609344 * 1000;
 			} else if (unit.equals("N")) {
 				dist = dist * 0.8684;
 			}
@@ -333,7 +284,7 @@ public class DensityCalculaterService {
 		Long result = 0l;
 		
 		if( lastRawTable == null) {
-			result = calculateGetInOfRawTable(currentRawTable);
+			result = 0l;
 		}else {
 			Long totalGetInOfCurrent = calculateGetInOfRawTable(currentRawTable);
 			Long totalGetInOfLast = 	calculateGetInOfRawTable(lastRawTable);
@@ -347,7 +298,7 @@ public class DensityCalculaterService {
 		Long result = 0l;
 		
 		if( lastRawTable == null) {
-			result = calculateGetOutOfRawTable(currentRawTable);
+			result = 0l;
 		}else {
 			Long totalGetOutOfCurrent = calculateGetOutOfRawTable(currentRawTable);
 			Long totalGetOutOfLast = 	calculateGetOutOfRawTable(lastRawTable);
@@ -369,9 +320,18 @@ public class DensityCalculaterService {
 		return totalGetIn;
 	}
 	
-	public Long calculateCurrentPassengerCount(RawTable rawTable) {
+	public Long calculateCurrentPassengerCount(RawTable lastRawTable,RawTable rawTable) {
+		if( lastRawTable == null) { 
+			Long totalGetIn = calculateGetInOfRawTable(rawTable);
+			Long totalGetOut = calculateGetOutOfRawTable(rawTable);
+			correction = totalGetIn - totalGetOut;
+			System.out.println("correction : "+ correction);
+			return 0l;
+		}	
 		Long totalGetIn = calculateGetInOfRawTable(rawTable);
 		Long totalGetOut = calculateGetOutOfRawTable(rawTable);
-		return totalGetIn - totalGetOut;
+		
+		//totalGetIn  =totalGetIn + 130;
+		return totalGetIn - totalGetOut-correction;
 	}
 }

@@ -62,10 +62,10 @@
                     <td>{{busDensityHistory.getOutPassengerCount}}</td>
                     <td>{{busDensityHistory.density}}</td>
                     <td>
-                        <a ui-sref="scheduled-voyage-detail({id:busDensityHistory.scheduledVoyage.id})">{{busDensityHistory.scheduledVoyage.id}}</a>
+                        <a ui-sref="scheduled-voyage-detail({id:busDensityHistory.scheduledVoyage.id})">{{busDensityHistory.scheduledVoyage.name}}</a>
                     </td>
                     <td>
-                        <a ui-sref="bus-detail({id:busDensityHistory.bus.id})">{{busDensityHistory.bus.id}}</a>
+                        <a ui-sref="bus-detail({id:busDensityHistory.bus.id})">{{busDensityHistory.bus.plate}}</a>
                     </td>
                     <td>
                         <a ui-sref="station-detail({id:busDensityHistory.station.id})">{{busDensityHistory.station.name}}</a>
