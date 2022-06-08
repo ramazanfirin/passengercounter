@@ -153,7 +153,6 @@ public class DensityCalculaterService {
 				}else {
 					busDensityHistory = new BusDensityHistory();
 					busDensityHistory.setBus(bus);
-					//busDensityHistory.setDensity(currentPassengerCOunt);
 					
 					busDensityHistory.setRoute(route);
 					busDensityHistory.setScheduledVoyage(scheduledVoyage);
@@ -177,6 +176,8 @@ public class DensityCalculaterService {
 				
 				busDensityHistory.setRecordDate(rawTable.getInsertDate());
 				busDensityHistory.setLastRawRecord(rawTable);
+				busDensityHistory.setDensity(100*totalPassengerOfBus/60);
+				
 				busDensityHistoryRepository.save(busDensityHistory);
 				rawTable.setIsSuccess(true);
 				lastRawTableMap.put(deviceId, rawTable);

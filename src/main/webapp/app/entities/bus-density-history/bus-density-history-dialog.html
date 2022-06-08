@@ -1,5 +1,4 @@
-<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.3/angular.min.js"></script>
-  <script src="http://maps.googleapis.com/maps/api/js?sensor=false&language=en"></script>
+
 
 
 <form name="editForm" role="form" novalidate ng-submit="vm.save()">
@@ -9,10 +8,17 @@
                 ng-click="vm.clear()">&times;</button>
         <h4 class="modal-title" id="myBusDensityHistoryLabel" data-translate="passengercounter2App.busDensityHistory.home.createOrEditLabel">Create or edit a Bus Density History</h4>
     </div>
-    <div class="modal-body">
-       <div id="googleMap"></div>
-    </div>
-    <div class="modal-footer">
+	<div class="modal-body">
+		<!-- 
+      <div map-lazy-load="https://maps.google.com/maps/api/js" 
+  map-lazy-load-params="https://maps.googleapis.com/maps/api/js?key">
+  <ng-map center="36.845138,34.632225" zoom="12" style="height:600px">
+   -->
+
+		<div id="dvMap" style="width: 800px; height: 800px"></div>
+		
+	</div>
+	<div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
             <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span data-translate="entity.action.cancel">Cancel</span>
         </button>
