@@ -47,6 +47,8 @@
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
                     $translatePartialLoader.addPart('busDensityHistory');
                     $translatePartialLoader.addPart('global');
+                    $translatePartialLoader.addPart('route');
+                    $translatePartialLoader.addPart('scheduledVoyage');
                     return $translate.refresh();
                 }]
             }

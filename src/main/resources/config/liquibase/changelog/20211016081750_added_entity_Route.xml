@@ -42,5 +42,13 @@
             </column>
 		</addColumn> 
     </changeSet>
+    
+    <changeSet id="20220609232300-5" author="jhipster">
+    	<addColumn 	tableName="route" >
+			<column name="route_code" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+		</addColumn> 
+    </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

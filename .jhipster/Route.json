@@ -13,6 +13,10 @@
         {
             "fieldName": "routeId",
             "fieldType": "Long"
+        },
+        {
+            "fieldName": "routeCode",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20211016081750",

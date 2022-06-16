@@ -38,6 +38,11 @@ spring:
             enabled: false # we use gulp + BrowserSync for livereload
     jackson:
         serialization.indent_output: true
+    data:
+        web:
+            pageable:
+                size-parameter:500     
+            
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
         url: jdbc:mysql://localhost:3306/passengercounter2?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC 

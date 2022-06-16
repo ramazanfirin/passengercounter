@@ -2,7 +2,7 @@
     "passengercounter2App": {
         "busDensityHistory" : {
             "home": {
-                "title": "Bus Density Histories",
+                "title": "Otobüs Yoğunluk Raporu",
                 "createLabel": "Create a new Bus Density History",
                 "createOrEditLabel": "Create or edit a Bus Density History"
             },
@@ -13,17 +13,17 @@
                 "question": "Are you sure you want to delete Bus Density History {{ id }}?"
             },
             "detail": {
-                "title": "Bus Density History"
+                "title": "Otobüs Yoğunluk Raporu"
             },
-            "recordDate": "Record Date",
-            "totalPassengerCount": "Total Passenger Count",
-            "getInPassengerCount": "Get In Passenger Count",
-            "getOutPassengerCount": "Get Out Passenger Count",
-            "density": "Density",
-            "scheduledVoyage": "Scheduled Voyage",
-            "bus": "Bus",
-            "station": "Station",
-            "route": "Route",
+            "recordDate": "Tarih/Saat",
+            "totalPassengerCount": "İçerdeki Yolcu Sayısı",
+            "getInPassengerCount": "Binen Yolcu Sayısı",
+            "getOutPassengerCount": "İnen Yolcu Sayısı",
+            "density": "Yoğunluk",
+            "scheduledVoyage": "Sefer Saati",
+            "bus": "Otobüs",
+            "station": "Durak",
+            "route": "Hat",
             "firstRawRecord": "First Raw Record",
             "lastRawRecord": "Last Raw Record"
         }

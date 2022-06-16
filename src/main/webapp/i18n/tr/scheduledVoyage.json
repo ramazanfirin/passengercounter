@@ -16,7 +16,7 @@
                 "title": "Scheduled Voyage"
             },
             "name": "Name",
-            "scheduledTime": "Scheduled Time",
+            "scheduledTime": "Sefer Saati",
             "route": "Route",
             "bus": "Bus"
         }

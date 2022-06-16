@@ -127,6 +127,7 @@
                                 name: null,
                                 inversed: null,
                                 routeId: null,
+                                routeCode: null,
                                 id: null
                             };
                         }

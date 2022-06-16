@@ -20,4 +20,7 @@ public interface RouteRepository extends JpaRepository<Route, Long> {
 	
 	@Query("select a from Route a where a.routeId=:routeId")
 	Route findByRouteId(@Param("routeId") Long routeId);
+	
+	@Query("select a from Route a where a.routeCode=:routeCode")
+	Route findByRouteCode(@Param("routeCode") String routeCode);
 }

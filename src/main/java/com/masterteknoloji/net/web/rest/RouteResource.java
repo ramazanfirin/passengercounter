@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -90,7 +91,7 @@ public class RouteResource {
      */
     @GetMapping("/routes")
     @Timed
-    public ResponseEntity<List<Route>> getAllRoutes(Pageable pageable) {
+    public ResponseEntity<List<Route>> getAllRoutes(@PageableDefault(page = 0, size = 500) Pageable pageable) {
         log.debug("REST request to get a page of Routes");
         Page<Route> page = routeRepository.findAll(pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/routes");

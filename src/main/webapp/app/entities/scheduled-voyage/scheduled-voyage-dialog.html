@@ -32,13 +32,13 @@
 
         <div class="form-group">
             <label data-translate="passengercounter2App.scheduledVoyage.route" for="field_route">Route</label>
-            <select class="form-control" id="field_route" name="route" ng-model="vm.scheduledVoyage.route" ng-options="route as route.id for route in vm.routes track by route.id">
+            <select class="form-control" id="field_route" name="route" ng-model="vm.scheduledVoyage.route" ng-options="route as route.routeCode for route in vm.routes track by route.id">
                 <option value=""></option>
             </select>
         </div>
         <div class="form-group">
             <label data-translate="passengercounter2App.scheduledVoyage.bus" for="field_bus">Bus</label>
-            <select class="form-control" id="field_bus" name="bus" ng-model="vm.scheduledVoyage.bus" ng-options="bus as bus.id for bus in vm.buses track by bus.id">
+            <select class="form-control" id="field_bus" name="bus" ng-model="vm.scheduledVoyage.bus" ng-options="bus as bus.plate for bus in vm.buses track by bus.id">
                 <option value=""></option>
             </select>
         </div>

@@ -23,6 +23,7 @@
                     <th jh-sort-by="index"><span data-translate="passengercounter2App.stationRouteConnection.index">Index</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="station.id"><span data-translate="passengercounter2App.stationRouteConnection.station">Station</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="route.id"><span data-translate="passengercounter2App.stationRouteConnection.route">Route</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="route.id"><span data-translate="passengercounter2App.stationRouteConnection.routeCode">Route</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
@@ -32,10 +33,13 @@
                     <td>{{stationRouteConnection.name}}</td>
                     <td>{{stationRouteConnection.index}}</td>
                     <td>
-                        <a ui-sref="station-detail({id:stationRouteConnection.station.id})">{{stationRouteConnection.station.id}}</a>
+                        <a ui-sref="station-detail({id:stationRouteConnection.station.id})">{{stationRouteConnection.station.name}}</a>
                     </td>
                     <td>
-                        <a ui-sref="route-detail({id:stationRouteConnection.route.id})">{{stationRouteConnection.route.id}}</a>
+                        <a ui-sref="route-detail({id:stationRouteConnection.route.id})">{{stationRouteConnection.route.name}}</a>
+                    </td>
+                    <td>
+                        <a ui-sref="route-detail({id:stationRouteConnection.route.id})">{{stationRouteConnection.route.routeCode}}</a>
                     </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">

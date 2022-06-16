@@ -62,6 +62,12 @@ public class RouteService {
 			return null;
 	}
 	
+	public Route findRouteByCode(String routeCode) {
+		
+		Route route = routeRepository.findByRouteCode(routeCode);
+	    return route;
+	}
+	
 	
 	public Route findCurrentRoute(BusLocationInformationVM busLocationInformationVM) {
 		

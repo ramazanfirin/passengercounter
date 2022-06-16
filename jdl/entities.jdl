@@ -27,6 +27,7 @@ entity Route
 	name String
     inversed Boolean
     routeId Long
+    routeCode String
 }
 
 entity ScheduledVoyage  {

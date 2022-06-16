@@ -25,5 +25,7 @@ public interface StationRepository extends JpaRepository<Station, Long> {
 	
 	@Query("select a from Station a where a.stationId=:stationId")
 	Station findByStationId(@Param("stationId") Long stationId);
+	
+	
 }
 

@@ -2,7 +2,7 @@
     "passengercounter2App": {
         "route" : {
             "home": {
-                "title": "Routes",
+                "title": "Hatlar",
                 "createLabel": "Create a new Route",
                 "createOrEditLabel": "Create or edit a Route"
             },
@@ -15,9 +15,10 @@
             "detail": {
                 "title": "Route"
             },
-            "name": "Name",
+            "name": "Hat",
             "inversed": "Inversed",
-            "routeId": "Route Id"
+            "routeId": "Route Id",
+            "routeCode": "Hat Kodu"
         }
     }
 }

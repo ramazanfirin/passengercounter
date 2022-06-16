@@ -19,8 +19,16 @@
 		vm.analyze = analyze;
 		vm.tempStation ;
 		vm.stations = Station.query();
+		vm.debug=false;
+		vm.formatTime = formatTime;
 
         loadAll();
+        
+        function formatTime(date){
+	        var result = new Date(date);
+			result.setHours(result.getHours()-8);
+			return result;
+		}
 
         function loadAll () {
             BusDensityHistory.query({

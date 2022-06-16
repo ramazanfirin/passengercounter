@@ -1,5 +1,6 @@
 package com.masterteknoloji.net.web.rest;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -10,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +27,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codahale.metrics.annotation.Timed;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.masterteknoloji.net.domain.BusDensityHistory;
 import com.masterteknoloji.net.domain.Station;
 import com.masterteknoloji.net.repository.BusDensityHistoryRepository;
 import com.masterteknoloji.net.repository.StationRepository;
 import com.masterteknoloji.net.service.DensityCalculaterService;
+import com.masterteknoloji.net.service.IntegrationService;
 import com.masterteknoloji.net.web.rest.errors.BadRequestAlertException;
 import com.masterteknoloji.net.web.rest.util.HeaderUtil;
 import com.masterteknoloji.net.web.rest.util.PaginationUtil;
@@ -51,11 +56,14 @@ public class BusDensityHistoryResource {
     private final StationRepository stationRepository;
     
     private final DensityCalculaterService densityCalculaterService;
+    
+    private final IntegrationService integrationService;
 
-    public BusDensityHistoryResource(BusDensityHistoryRepository busDensityHistoryRepository, StationRepository stationRepository, DensityCalculaterService densityCalculaterService) {
+    public BusDensityHistoryResource(BusDensityHistoryRepository busDensityHistoryRepository, StationRepository stationRepository, DensityCalculaterService densityCalculaterService,IntegrationService integrationService) {
         this.busDensityHistoryRepository = busDensityHistoryRepository;
         this.stationRepository = stationRepository;
         this.densityCalculaterService = densityCalculaterService;
+        this.integrationService = integrationService;
     }
 
     /**
@@ -108,9 +116,10 @@ public class BusDensityHistoryResource {
      */
     @GetMapping("/bus-density-histories")
     @Timed
-    public ResponseEntity<List<BusDensityHistory>> getAllBusDensityHistories(Pageable pageable) {
+    public ResponseEntity<List<BusDensityHistory>> getAllBusDensityHistories(@PageableDefault(page = 0, size = 500) Pageable pageable) {
         log.debug("REST request to get a page of BusDensityHistories");
-        Page<BusDensityHistory> page = busDensityHistoryRepository.findAll(pageable);
+        Pageable pageable2 = new PageRequest(0, 2000);
+        Page<BusDensityHistory> page = busDensityHistoryRepository.findAll(pageable2);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/bus-density-histories");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
@@ -151,6 +160,19 @@ public class BusDensityHistoryResource {
     	densityCalculaterService.setTempStation(tempStation);
     	densityCalculaterService.calculateDensity();
     	System.out.println("");
+    }
+    
+
+    @GetMapping("/bus-density-histories/migrateData")
+    @Timed
+    public void migrateData(HttpServletRequest httpServletRequest) throws JsonProcessingException, IOException {
+    	integrationService.getRouteListFromMersin();
+    }
+    
+    @GetMapping("/bus-density-histories/migrateStation")
+    @Timed
+    public void migrateStation(HttpServletRequest httpServletRequest) throws JsonProcessingException, IOException {
+    	integrationService.getStationListFromMersin();
     }
 
 }

@@ -42,6 +42,7 @@ import com.masterteknoloji.net.repository.DeviceRepository;
 import com.masterteknoloji.net.repository.RawTableRepository;
 import com.masterteknoloji.net.repository.ScheduledVoyageRepository;
 import com.masterteknoloji.net.repository.StationRepository;
+import com.masterteknoloji.net.repository.StationRouteConnectionRepository;
 import com.masterteknoloji.net.web.rest.vm.kbb.BusLocationInformationVM;
 
 @Service
@@ -79,13 +80,16 @@ public class DensityCalculaterService {
     
     private final StationRepository stationRepository;
     
+    private final StationRouteConnectionRepository stationRouteConnectionRepository;
+    
     private Long correction;
     
     public DensityCalculaterService(RawTableRepository rawTableRepository, 
     		BusDensityHistoryRepository busDensityHistoryRepository,DeviceRepository deviceRepository, 
     		StationService stationService,RouteService routeService,
     		ScheduledVoyageRepository scheduledVoyageRepository,ApplicationProperties applicationProperties,
-    		IntegrationService integrationService, ObjectMapper objectMapper,StationRepository stationRepository) {
+    		IntegrationService integrationService, ObjectMapper objectMapper,StationRepository stationRepository,
+    		 StationRouteConnectionRepository stationRouteConnectionRepository) {
 		super();
 		this.rawTableRepository = rawTableRepository;
 		this.busDensityHistoryRepository = busDensityHistoryRepository;
@@ -97,6 +101,7 @@ public class DensityCalculaterService {
 		this.integrationService = integrationService;
 		this.objectMapper = objectMapper;
 		this.stationRepository = stationRepository;
+		this.stationRouteConnectionRepository = stationRouteConnectionRepository;
     }
 
 	@Scheduled(fixedDelay = 60000)
@@ -122,9 +127,15 @@ public class DensityCalculaterService {
     		try {
     			
     			rawTable = rawTableRepository.findOne(rawTable.getId());
-				String deviceId = rawTable.getDeviceIdOriginal();
+    			String deviceId = rawTable.getDeviceIdOriginal();
+    			RawTable lastRawTableofDevice = lastRawTableMap.get(deviceId);
 				
-				Bus bus = findBus(deviceId);
+    			if(checkIsItUnnecesary(rawTable, lastRawTableofDevice)) {
+    				rawTable.setIsSuccess(true);
+    				saveRawTable(rawTable);
+    			}
+    			
+    			Bus bus = findBus(deviceId);
 				
 				Station station = null;
 				Route route = null;
@@ -136,11 +147,13 @@ public class DensityCalculaterService {
 					station = stationService.findCurrentStation(busLocationInformationVM);
 					route = routeService.findCurrentRoute(busLocationInformationVM);
     		    }else {
-    		    	station = findNearestStation(rawTable.getLat(),rawTable.getLng());
+    		    	
     		    	
 //    		    	if( i!=0 && i % 50 ==0)
 //    		    		station = stationService.getRandomStation();
-    		    	route = routeService.findGetFirstRoute();
+    		    	//route = routeService.findGetFirstRoute();
+    		    	route =routeService.findRouteByCode("28M-G");
+    		    	station = findNearestStation(rawTable.getLat(),rawTable.getLng(),route.getId());
     		    }
 				
 				ScheduledVoyage scheduledVoyage = findScheduledVoyage(bus.getId());
@@ -160,7 +173,6 @@ public class DensityCalculaterService {
 					busDensityHistory.setFirstRawRecord(rawTable);
 				}
 				
-				RawTable lastRawTableofDevice = lastRawTableMap.get(deviceId);
 				
 				Long getInDiff = calculateDiffGetIn(lastRawTableofDevice, rawTable);
 				busDensityHistory.setGetInPassengerCount(busDensityHistory.getGetInPassengerCount() + getInDiff);
@@ -186,8 +198,7 @@ public class DensityCalculaterService {
     			e.printStackTrace();
 				rawTable.setIsSuccess(false);
 			}
-			rawTable.setProcessed(true);
-			rawTableRepository.save(rawTable);
+    		saveRawTable(rawTable);
 			i++;
     	}
     	
@@ -195,27 +206,75 @@ public class DensityCalculaterService {
         
     }
     
-    public Station findNearestStation(String lat,String lng) {
-    	Station result = null;
-    	List<Station> stationList = stationRepository.findAll();
-    	if(stationList.size()==0)
-    		result = insertNewStation(lat, lng);
+    public void saveRawTable(RawTable rawTable) {
+    	rawTable.setProcessed(true);
+		rawTableRepository.save(rawTable);
+    }
+    
+    public Boolean checkIsItUnnecesary(RawTable rawTable,RawTable lastRawTableofDevice ) {
+    	if(lastRawTableofDevice == null)
+    		return false;
     	
+    	if(rawTable.getDeviceIdOriginal().equals(lastRawTableofDevice.getDeviceIdOriginal())
+    		&& rawTable.getDownPeople1().longValue() == lastRawTableofDevice.getDownPeople1().longValue()	
+    		&& rawTable.getUpPeople1().longValue() == lastRawTableofDevice.getUpPeople1().longValue()	
+    		
+    		&& rawTable.getDownPeople2().longValue() == lastRawTableofDevice.getDownPeople2().longValue()	
+    		&& rawTable.getUpPeople2().longValue() == lastRawTableofDevice.getUpPeople2().longValue()	
+    		
+    		&& rawTable.getDownPeople3().longValue() == lastRawTableofDevice.getDownPeople3().longValue()	
+    		&& rawTable.getUpPeople3().longValue() == lastRawTableofDevice.getUpPeople3().longValue()	
+    			
+    		&& rawTable.getDownPeople4().longValue() == lastRawTableofDevice.getDownPeople4().longValue()	
+    		&& rawTable.getUpPeople4().longValue() == lastRawTableofDevice.getUpPeople4().longValue()	
+    	) return true;
+    		else
+    	return false;
+    }
+    
+    public Station findNearestStation(String lat,String lng,Long routeId) {
+    	Station result = null;
+    	List<Station> stationList = stationRouteConnectionRepository.findStationListByRouteId(routeId);
+    	//if(stationList.size()==0)
+    	//	result = insertNewStation(lat, lng);
+    	
+    	
+    	if(!lat.contains(".")){
+    		lat = lat.substring(0, 2) + "." + lat.substring(2, lat.length());
+    	}
+    	
+    	if(!lng.contains(".")){
+    		lng = lng.substring(0, 2) + "." + lng.substring(2, lng.length());
+    	}
+    	
+    	Station nearestStation = null;
+    	double nearestDistance = 10000000;
     	for (Iterator iterator = stationList.iterator(); iterator.hasNext();) {
 			Station station = (Station) iterator.next();
-			double discante = distance(new Double(station.getLat()), new Double(station.getLng()), new Double(lat), new Double(lng), "K");
-			if(discante<10) {
+			double discante = distance(new Double(station.getLat()), new Double(station.getLng()), new Double(lng), new Double(lat), "K");
+			if(discante<52) {
 				System.out.println("discante:"+discante+ ",lat="+lat+",lng="+lng+"st_lat="+station.getLat()+",st_lan="+station.getLng());
-				result = station;
+				nearestStation = station;
+				nearestDistance =  discante;
 				break;
 			}	
+			if(discante<nearestDistance) {
+				nearestDistance = discante;
+				nearestStation = station;
+			}
 		}
     	
-    	if(result == null)
-    		result = insertNewStation(lat, lng);
+    	if(nearestStation.getId()==4690)
+    		System.out.println("dsfsdfsdf");
+    	System.out.println("nearest distance = " + nearestDistance);
+    	return nearestStation;
     	
     	
-    	return result;
+    	//if(result == null)
+    		//result = insertNewStation(lat, lng);
+    	
+    	
+    	//return result;
     }
     
     public Station insertNewStation(String lat,String lng) {
