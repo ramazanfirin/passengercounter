@@ -2,8 +2,8 @@
     "passengercounter2App": {
         "scheduledVoyage" : {
             "home": {
-                "title": "Scheduled Voyages",
-                "createLabel": "Create a new Scheduled Voyage",
+                "title": "Sefer",
+                "createLabel": "Sefer Tanımla",
                 "createOrEditLabel": "Create or edit a Scheduled Voyage"
             },
             "created": "A new Scheduled Voyage is created with identifier {{ param }}",
@@ -13,12 +13,12 @@
                 "question": "Are you sure you want to delete Scheduled Voyage {{ id }}?"
             },
             "detail": {
-                "title": "Scheduled Voyage"
+                "title": "Sefer"
             },
-            "name": "Name",
+            "name": "İsim",
             "scheduledTime": "Sefer Saati",
-            "route": "Route",
-            "bus": "Bus"
+            "route": "Hat",
+            "bus": "Otobüs"
         }
     }
 }

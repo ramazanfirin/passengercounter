@@ -6,6 +6,7 @@ import com.masterteknoloji.net.domain.BusDensityHistory;
 import com.masterteknoloji.net.repository.BusDensityHistoryRepository;
 import com.masterteknoloji.net.repository.StationRepository;
 import com.masterteknoloji.net.service.DensityCalculaterService;
+import com.masterteknoloji.net.service.IntegrationService;
 import com.masterteknoloji.net.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -74,6 +75,9 @@ public class BusDensityHistoryResourceIntTest {
     
     @Autowired
     private DensityCalculaterService densityCalculaterService;
+    
+    @Autowired
+    private IntegrationService integrationService;
 
     @Autowired
     private EntityManager em;
@@ -85,7 +89,7 @@ public class BusDensityHistoryResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final BusDensityHistoryResource busDensityHistoryResource = new BusDensityHistoryResource(busDensityHistoryRepository, stationRepository, densityCalculaterService);
+        final BusDensityHistoryResource busDensityHistoryResource = new BusDensityHistoryResource(busDensityHistoryRepository, stationRepository, densityCalculaterService,integrationService);
         this.restBusDensityHistoryMockMvc = MockMvcBuilders.standaloneSetup(busDensityHistoryResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

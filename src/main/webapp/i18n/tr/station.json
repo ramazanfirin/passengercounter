@@ -2,8 +2,8 @@
     "passengercounter2App": {
         "station" : {
             "home": {
-                "title": "Stations",
-                "createLabel": "Create a new Station",
+                "title": "Durak",
+                "createLabel": "Durak Tanımla",
                 "createOrEditLabel": "Create or edit a Station"
             },
             "created": "A new Station is created with identifier {{ param }}",
@@ -13,13 +13,13 @@
                 "question": "Are you sure you want to delete Station {{ id }}?"
             },
             "detail": {
-                "title": "Station"
+                "title": "Durak"
             },
-            "name": "Name",
-            "index": "Index",
-            "lat": "Lat",
-            "lng": "Lng",
-            "stationId": "Station Id"
+            "name": "Durak",
+            "index": "Sıra",
+            "lat": "Enlem",
+            "lng": "Boylam",
+            "stationId": "Durak Id"
         }
     }
 }

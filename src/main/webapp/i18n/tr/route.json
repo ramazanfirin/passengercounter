@@ -2,8 +2,8 @@
     "passengercounter2App": {
         "route" : {
             "home": {
-                "title": "Hatlar",
-                "createLabel": "Create a new Route",
+                "title": "Hat",
+                "createLabel": "Hat Tanımla",
                 "createOrEditLabel": "Create or edit a Route"
             },
             "created": "A new Route is created with identifier {{ param }}",
@@ -13,11 +13,11 @@
                 "question": "Are you sure you want to delete Route {{ id }}?"
             },
             "detail": {
-                "title": "Route"
+                "title": "Hat"
             },
             "name": "Hat",
             "inversed": "Inversed",
-            "routeId": "Route Id",
+            "routeId": "Hat Id",
             "routeCode": "Hat Kodu"
         }
     }

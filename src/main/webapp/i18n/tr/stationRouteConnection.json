@@ -2,8 +2,8 @@
     "passengercounter2App": {
         "stationRouteConnection" : {
             "home": {
-                "title": "Station Route Connections",
-                "createLabel": "Create a new Station Route Connection",
+                "title": "Hat-Durak İlişkisi",
+                "createLabel": "Hat-Durak İlişkisi Tanımla",
                 "createOrEditLabel": "Create or edit a Station Route Connection"
             },
             "created": "A new Station Route Connection is created with identifier {{ param }}",
@@ -13,12 +13,12 @@
                 "question": "Are you sure you want to delete Station Route Connection {{ id }}?"
             },
             "detail": {
-                "title": "Station Route Connection"
+                "title": "Hat-Durak İlişkisi"
             },
-            "name": "Name",
-            "index": "Index",
-            "station": "Station",
-            "route": "Route"
+            "name": "İsim",
+            "index": "Sıra",
+            "station": "Durak",
+            "route": "Hat"
         }
     }
 }

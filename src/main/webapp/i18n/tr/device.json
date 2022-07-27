@@ -2,8 +2,8 @@
     "passengercounter2App": {
         "device" : {
             "home": {
-                "title": "Devices",
-                "createLabel": "Create a new Device",
+                "title": "Cihaz",
+                "createLabel": "Cihaz Tanımla",
                 "createOrEditLabel": "Create or edit a Device"
             },
             "created": "A new Device is created with identifier {{ param }}",
@@ -13,10 +13,10 @@
                 "question": "Are you sure you want to delete Device {{ id }}?"
             },
             "detail": {
-                "title": "Device"
+                "title": "Cihaz"
             },
-            "deviceId": "Device Id",
-            "bus": "Bus"
+            "deviceId": "Cihaz Id",
+            "bus": "Otobüs"
         }
     }
 }

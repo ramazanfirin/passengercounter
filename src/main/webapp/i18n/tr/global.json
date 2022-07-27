@@ -7,14 +7,14 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Varlıklar",
-                "bus": "Bus",
-                "device": "Device",
-                "station": "Station",
-                "stationRouteConnection": "Station Route Connection",
-                "route": "Route",
-                "scheduledVoyage": "Scheduled Voyage",
+                "bus": "Otobüs",
+                "device": "Cihaz",
+                "station": "Durak",
+                "stationRouteConnection": "Hat-Durak İlişkisi",
+                "route": "Hat",
+                "scheduledVoyage": "Sefer",
                 "rawTable": "Raw Table",
-                "busDensityHistory": "Bus Density History",
+                "busDensityHistory": "Bus Yoğunluk Raporu",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
