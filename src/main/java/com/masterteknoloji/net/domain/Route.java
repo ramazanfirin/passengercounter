@@ -29,7 +29,7 @@ public class Route implements Serializable {
     private Boolean inversed;
 
     @Column(name = "route_id")
-    private Long routeId;
+    private String routeId;
 
     @Column(name = "route_code")
     private String routeCode;
@@ -69,16 +69,16 @@ public class Route implements Serializable {
         this.inversed = inversed;
     }
 
-    public Long getRouteId() {
+    public String getRouteId() {
         return routeId;
     }
 
-    public Route routeId(Long routeId) {
+    public Route routeId(String routeId) {
         this.routeId = routeId;
         return this;
     }
 
-    public void setRouteId(Long routeId) {
+    public void setRouteId(String routeId) {
         this.routeId = routeId;
     }
 

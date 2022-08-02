@@ -44,8 +44,8 @@ public class RouteResourceIntTest {
     private static final Boolean DEFAULT_INVERSED = false;
     private static final Boolean UPDATED_INVERSED = true;
 
-    private static final Long DEFAULT_ROUTE_ID = 1L;
-    private static final Long UPDATED_ROUTE_ID = 2L;
+    private static final String DEFAULT_ROUTE_ID = "1L";
+    private static final String UPDATED_ROUTE_ID = "2L";
 
     private static final String DEFAULT_ROUTE_CODE = "AAAAAAAAAA";
     private static final String UPDATED_ROUTE_CODE = "BBBBBBBBBB";
@@ -153,7 +153,7 @@ public class RouteResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(route.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].inversed").value(hasItem(DEFAULT_INVERSED.booleanValue())))
-            .andExpect(jsonPath("$.[*].routeId").value(hasItem(DEFAULT_ROUTE_ID.intValue())))
+            .andExpect(jsonPath("$.[*].routeId").value(hasItem(DEFAULT_ROUTE_ID)))
             .andExpect(jsonPath("$.[*].routeCode").value(hasItem(DEFAULT_ROUTE_CODE.toString())));
     }
 
@@ -170,7 +170,7 @@ public class RouteResourceIntTest {
             .andExpect(jsonPath("$.id").value(route.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.inversed").value(DEFAULT_INVERSED.booleanValue()))
-            .andExpect(jsonPath("$.routeId").value(DEFAULT_ROUTE_ID.intValue()))
+            .andExpect(jsonPath("$.routeId").value(DEFAULT_ROUTE_ID))
             .andExpect(jsonPath("$.routeCode").value(DEFAULT_ROUTE_CODE.toString()));
     }
 

@@ -81,7 +81,7 @@ public class RouteService {
 			if(currentRoute == null) {
 				currentRoute = new Route();
 				currentRoute.setName(busLocationInformationVM.getLine().getKaktusHatAdi());
-				currentRoute.setRouteId(busLocationInformationVM.getLine().getKaktusHatId());
+				currentRoute.setRouteId(busLocationInformationVM.getLine().getKaktusHatId().toString());
 				routeRepository.save(currentRoute);
 			}
 		}

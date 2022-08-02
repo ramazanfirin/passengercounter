@@ -13,6 +13,8 @@
     <include file="config/liquibase/changelog/20211016081751_added_entity_ScheduledVoyage.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20211016081752_added_entity_RawTable.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20211021090817_added_entity_BusDensityHistory.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220728081750_added_entity_Route.xml" relativeToChangelogFile="false"/>
+    
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20211016081747_added_entity_constraints_Device.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20211016081749_added_entity_constraints_StationRouteConnection.xml" relativeToChangelogFile="false"/>

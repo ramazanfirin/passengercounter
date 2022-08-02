@@ -16,6 +16,27 @@ public class ApplicationProperties {
 	Boolean activateScheduled;
 	
 	Boolean simulation;
+	
+	String mersinTiKodu;
+	
+	String mersinProjeKodu;
+	
+
+	public String getMersinTiKodu() {
+		return mersinTiKodu;
+	}
+
+	public void setMersinTiKodu(String mersinTiKodu) {
+		this.mersinTiKodu = mersinTiKodu;
+	}
+
+	public String getMersinProjeKodu() {
+		return mersinProjeKodu;
+	}
+
+	public void setMersinProjeKodu(String mersinProjeKodu) {
+		this.mersinProjeKodu = mersinProjeKodu;
+	}
 
 	public Boolean getSimulation() {
 		return simulation;

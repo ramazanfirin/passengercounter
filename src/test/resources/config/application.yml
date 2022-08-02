@@ -116,3 +116,5 @@ application:
     kbbBusLocationServiceEndpoint: https://kaktusmobile.kayseriulasim.com.tr/api/V-Count?koseNo=
     activateScheduled: false
     simulation: true
+    mersinTiKodu: aytm33bzd_=hss
+    mersinProjeKodu: 330 

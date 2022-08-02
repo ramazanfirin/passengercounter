@@ -1,16 +1,23 @@
 package com.masterteknoloji.net.service.integrations;
 
+import java.util.List;
+
+import com.masterteknoloji.net.domain.Route;
+import com.masterteknoloji.net.domain.ScheduledVoyage;
+import com.masterteknoloji.net.domain.Station;
+import com.masterteknoloji.net.domain.StationRouteConnection;
+
 public interface CityDataProvider {
 
 	public void getBusList();
 	
-	public void getRoutList();
+	public List<Route> getRoutList() throws Exception; 
 	
-	public void getStationList();
+	public List<Station> getStationList() throws Exception;
 	
-	public void getStationRouteConnectionList();
+	public List<StationRouteConnection> getStationRouteConnectionList(String routeCode) throws Exception;
 	
-	public void getScheduledVoyageList();
+	public List<ScheduledVoyage> getScheduledVoyageList(String routeCode) throws Exception;
 	
 	public void getCurrentPosition();
 	

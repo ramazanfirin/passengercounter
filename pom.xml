@@ -361,6 +361,18 @@
     <version>1.1.2</version>
 </dependency>
 
+<dependency>
+    <groupId>commons-discovery</groupId>
+    <artifactId>commons-discovery</artifactId>
+    <version>0.5</version>
+    <scope>test</scope> 
+</dependency>
+
+<dependency>
+    <groupId>wsdl4j</groupId>
+    <artifactId>wsdl4j</artifactId>
+    <version>1.6.2</version>
+</dependency>
 
         
         <!-- jhipster-needle-maven-add-dependency -->
