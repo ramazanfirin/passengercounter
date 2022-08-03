@@ -14,33 +14,51 @@
         </div>
     </div>
     <br/>
+    <div class="row">
+    	<div class="col-xs-10">
+            <label data-translate="passengercounter2App.stationRouteConnection.route" for="field_route">Route</label>
+            <select class="form-control" id="field_route" name="route" ng-model="vm.route" ng-options="route as (route.routeCode+' '+route.name) for route in vm.routes track by route.id">
+                <option value=""></option>
+            </select>
+        </div>
+        <div class="col-xs-2">
+             <label>&nbsp;</label>
+        
+                <button class="btn btn-primary form-control" ng-click="vm.findByRoute()">
+                    <span>
+                        Ara
+                    </span>
+                </button>
+            </div>
+    </div>
+    <br></br>
     <div class="table-responsive">
         <table class="jh-table table table-striped">
             <thead>
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                     <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="name"><span data-translate="passengercounter2App.stationRouteConnection.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="index"><span data-translate="passengercounter2App.stationRouteConnection.index">Index</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="station.id"><span data-translate="passengercounter2App.stationRouteConnection.station">Station</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="route.id"><span data-translate="passengercounter2App.stationRouteConnection.route">Route</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="route.id"><span data-translate="passengercounter2App.stationRouteConnection.routeCode">Route</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="station.id"><span data-translate="passengercounter2App.stationRouteConnection.station">Station</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="index"><span data-translate="passengercounter2App.stationRouteConnection.index">Index</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="stationRouteConnection in vm.stationRouteConnections track by stationRouteConnection.id">
                     <td><a ui-sref="station-route-connection-detail({id:stationRouteConnection.id})">{{stationRouteConnection.id}}</a></td>
-                    <td>{{stationRouteConnection.name}}</td>
-                    <td>{{stationRouteConnection.index}}</td>
-                    <td>
-                        <a ui-sref="station-detail({id:stationRouteConnection.station.id})">{{stationRouteConnection.station.name}}</a>
-                    </td>
-                    <td>
+                                        <td>
                         <a ui-sref="route-detail({id:stationRouteConnection.route.id})">{{stationRouteConnection.route.name}}</a>
                     </td>
                     <td>
                         <a ui-sref="route-detail({id:stationRouteConnection.route.id})">{{stationRouteConnection.route.routeCode}}</a>
                     </td>
+                    <td>
+                        <a ui-sref="station-detail({id:stationRouteConnection.station.id})">{{stationRouteConnection.station.name}}</a>
+                    </td>
+                    <td>{{stationRouteConnection.index}}</td>
+                    
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

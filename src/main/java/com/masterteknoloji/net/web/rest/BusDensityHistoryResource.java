@@ -37,6 +37,7 @@ import com.masterteknoloji.net.service.IntegrationService;
 import com.masterteknoloji.net.web.rest.errors.BadRequestAlertException;
 import com.masterteknoloji.net.web.rest.util.HeaderUtil;
 import com.masterteknoloji.net.web.rest.util.PaginationUtil;
+import com.masterteknoloji.net.web.rest.vm.SearchByRouteIdVM;
 
 import io.github.jhipster.web.util.ResponseUtil;
 
@@ -173,6 +174,14 @@ public class BusDensityHistoryResource {
     @Timed
     public void migrateStation(HttpServletRequest httpServletRequest) throws JsonProcessingException, IOException {
     	integrationService.getStationListFromMersin();
+    }
+    
+    @PostMapping("/bus-density-histories/findByRouteAndScheduledTime")
+    @Timed
+    public List<BusDensityHistory> findByRouteAndScheduledTime(@RequestBody SearchByRouteIdVM byRouteIdVM) {
+        log.debug("REST request to get a page of BusDensityHistories");
+        List<BusDensityHistory> page = busDensityHistoryRepository.findByScheduledVoyageId(byRouteIdVM.getRouteId(),byRouteIdVM.getScheduledVoyageId());
+        return page;
     }
 
 }

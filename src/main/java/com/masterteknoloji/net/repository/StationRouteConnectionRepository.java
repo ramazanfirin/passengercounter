@@ -22,4 +22,8 @@ public interface StationRouteConnectionRepository extends JpaRepository<StationR
 	
 	@Query("select a from StationRouteConnection a where a.route.routeCode =:routeCode and a.station.id = :stationId")
 	StationRouteConnection findStationRouteConnection(@Param("routeCode") String routeCode,@Param("stationId") Long stationId);
+
+	@Query("select a from StationRouteConnection a where a.route.id =:routeId")
+	List<StationRouteConnection> findByRouteId(@Param("routeId") Long routeId);
+	
 }

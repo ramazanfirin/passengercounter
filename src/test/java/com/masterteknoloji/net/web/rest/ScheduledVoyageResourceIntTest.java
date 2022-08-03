@@ -1,10 +1,15 @@
 package com.masterteknoloji.net.web.rest;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.masterteknoloji.net.Passengercounter2App;
-
+import com.masterteknoloji.net.domain.BusDensityHistory;
+import com.masterteknoloji.net.domain.Route;
 import com.masterteknoloji.net.domain.ScheduledVoyage;
+import com.masterteknoloji.net.repository.RouteRepository;
 import com.masterteknoloji.net.repository.ScheduledVoyageRepository;
 import com.masterteknoloji.net.web.rest.errors.ExceptionTranslator;
+import com.masterteknoloji.net.web.rest.vm.SearchByRouteIdVM;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +22,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,6 +66,12 @@ public class ScheduledVoyageResourceIntTest {
 
     @Autowired
     private EntityManager em;
+    
+    @Autowired
+    private RouteRepository routeRepository;
+    
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private MockMvc restScheduledVoyageMockMvc;
 
@@ -233,6 +245,35 @@ public class ScheduledVoyageResourceIntTest {
         assertThat(scheduledVoyageList).hasSize(databaseSizeBeforeDelete - 1);
     }
 
+    @Test
+    @Transactional
+    public void findByRouteId() throws Exception {
+    
+    	Route route = new Route();
+        route.setRouteCode("sdf");
+        routeRepository.save(route);
+        
+        ScheduledVoyage scheduledVoyage = new ScheduledVoyage();
+        scheduledVoyage.setRoute(route);
+        scheduledVoyage.setScheduledTime(Instant.now());
+        scheduledVoyageRepository.save(scheduledVoyage);
+        
+         
+        SearchByRouteIdVM searchbyRouteIdVM = new SearchByRouteIdVM();
+        searchbyRouteIdVM.setRouteId(route.getId());
+        searchbyRouteIdVM.setDate(Instant.now());
+        
+        MvcResult resultMvc=restScheduledVoyageMockMvc.perform(post("/api/scheduled-voyages/getByRouteId")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(searchbyRouteIdVM)))
+                .andExpect(status().isOk()).andReturn();
+        
+        List<ScheduledVoyage> asList = objectMapper.readValue(resultMvc.getResponse().getContentAsString(), new TypeReference<List<ScheduledVoyage>>() { });
+        assertThat(asList.size()).isEqualTo(1);
+        assertThat(asList.get(0).getRoute()).isNotNull();
+        assertThat(asList.get(0).getScheduledTime()).isNotNull();
+    }
+    
     @Test
     @Transactional
     public void equalsVerifier() throws Exception {

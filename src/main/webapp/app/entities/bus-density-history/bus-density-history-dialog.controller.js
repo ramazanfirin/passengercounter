@@ -24,6 +24,7 @@
 
         loadAll();
 
+        /*
         function loadAll () {
             BusDensityHistory.query({
                 page: 0,
@@ -47,7 +48,23 @@
                 AlertService.error(error.data.message);
             }
         }
-
+*/
+function loadAll () {
+	       vm.input= {};
+			vm.input.routeId = vm.busDensityHistory.route.id;
+			vm.input.scheduledVoyageId = vm.busDensityHistory.scheduledVoyage.id;
+			BusDensityHistory.findByRouteAndScheduledTime(vm.input, onSearchSuccess, onSearchError);
+	
+	}
+	
+	function onSearchSuccess(data, headers) {
+			vm.busDensityHistories = data;
+			prepareMap();
+		}
+		
+		function onSearchError(error) {
+			 AlertService.error(error.data.message);
+		}
 
         $timeout(function (){
             angular.element('.form-group:eq(1)>input').focus();
@@ -83,7 +100,7 @@
 					title: busDensity.station.name,
 					label: {
 						text: busDensity.station.name,
-						color: 'yellow',
+						color: 'blue',
 					},
 					customInfo: busDensity.density
 				});

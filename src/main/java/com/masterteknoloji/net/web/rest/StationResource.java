@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.masterteknoloji.net.domain.Station;
 
 import com.masterteknoloji.net.repository.StationRepository;
+import com.masterteknoloji.net.service.integrations.ImportService;
 import com.masterteknoloji.net.web.rest.errors.BadRequestAlertException;
 import com.masterteknoloji.net.web.rest.util.HeaderUtil;
 import com.masterteknoloji.net.web.rest.util.PaginationUtil;
@@ -35,9 +36,12 @@ public class StationResource {
     private static final String ENTITY_NAME = "station";
 
     private final StationRepository stationRepository;
+    
+    private final ImportService importService;
 
-    public StationResource(StationRepository stationRepository) {
+    public StationResource(StationRepository stationRepository, ImportService importService) {
         this.stationRepository = stationRepository;
+        this.importService = importService;
     }
 
     /**
@@ -123,5 +127,15 @@ public class StationResource {
         log.debug("REST request to delete Station : {}", id);
         stationRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+    
+    @GetMapping("/stations/importMersinData")
+    @Timed
+    public ResponseEntity<Void> importMersinData() throws Exception {
+    	importService.importMersinStations();
+    	importService.importMersinRoutes();
+    	importService.importMersinStationRouteConnectionList();
+    	importService.importMersinSchedulesVoyges(30l);
+        return ResponseEntity.ok().build();
     }
 }

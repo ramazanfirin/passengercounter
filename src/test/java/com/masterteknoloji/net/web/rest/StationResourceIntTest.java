@@ -4,6 +4,7 @@ import com.masterteknoloji.net.Passengercounter2App;
 
 import com.masterteknoloji.net.domain.Station;
 import com.masterteknoloji.net.repository.StationRepository;
+import com.masterteknoloji.net.service.integrations.ImportService;
 import com.masterteknoloji.net.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -67,6 +68,9 @@ public class StationResourceIntTest {
 
     @Autowired
     private EntityManager em;
+    
+    @Autowired
+    private ImportService importService;
 
     private MockMvc restStationMockMvc;
 
@@ -75,7 +79,7 @@ public class StationResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final StationResource stationResource = new StationResource(stationRepository);
+        final StationResource stationResource = new StationResource(stationRepository,importService);
         this.restStationMockMvc = MockMvcBuilders.standaloneSetup(stationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)

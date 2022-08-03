@@ -5,9 +5,9 @@
         .module('passengercounter2App')
         .controller('ScheduledVoyageController', ScheduledVoyageController);
 
-    ScheduledVoyageController.$inject = ['$state', 'ScheduledVoyage', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    ScheduledVoyageController.$inject = ['$state', 'ScheduledVoyage', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams','Route'];
 
-    function ScheduledVoyageController($state, ScheduledVoyage, ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function ScheduledVoyageController($state, ScheduledVoyage, ParseLinks, AlertService, paginationConstants, pagingParams,Route) {
 
         var vm = this;
 
@@ -16,7 +16,10 @@
         vm.reverse = pagingParams.ascending;
         vm.transition = transition;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
-
+        vm.routes = Route.query();
+        vm.findByRoute = findByRoute;
+        vm.datePickerOpenStatus = {};
+        vm.openCalendar = openCalendar;
         loadAll();
 
         function loadAll () {
@@ -44,6 +47,22 @@
             }
         }
 
+		function findByRoute() {
+			vm.input= {};
+			vm.input.routeId = vm.route.id;
+			vm.input.date = vm.scheduledTime;
+			ScheduledVoyage.findByRouteId(vm.input, onfindByRouteSuccess, onfindByRouteError);
+            
+        }
+        
+        function onfindByRouteSuccess(data, headers) {
+			vm.scheduledVoyages = data;
+		}
+		
+		function onfindByRouteError(error) {
+			 AlertService.error(error.data.message);
+		}
+
         function loadPage(page) {
             vm.page = page;
             vm.transition();
@@ -55,6 +74,12 @@
                 sort: vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc'),
                 search: vm.currentSearch
             });
+        }
+        
+        vm.datePickerOpenStatus.scheduledTime = false;
+
+        function openCalendar (date) {
+            vm.datePickerOpenStatus[date] = true;
         }
     }
 })();

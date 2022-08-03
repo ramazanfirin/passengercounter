@@ -5,9 +5,9 @@
         .module('passengercounter2App')
         .controller('StationRouteConnectionController', StationRouteConnectionController);
 
-    StationRouteConnectionController.$inject = ['$state', 'StationRouteConnection', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams'];
+    StationRouteConnectionController.$inject = ['$state', 'StationRouteConnection', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams','Route'];
 
-    function StationRouteConnectionController($state, StationRouteConnection, ParseLinks, AlertService, paginationConstants, pagingParams) {
+    function StationRouteConnectionController($state, StationRouteConnection, ParseLinks, AlertService, paginationConstants, pagingParams,Route) {
 
         var vm = this;
 
@@ -16,6 +16,8 @@
         vm.reverse = pagingParams.ascending;
         vm.transition = transition;
         vm.itemsPerPage = paginationConstants.itemsPerPage;
+		vm.routes = Route.query();
+		vm.findByRoute = findByRoute;
 
         loadAll();
 
@@ -48,6 +50,20 @@
             vm.page = page;
             vm.transition();
         }
+
+		function findByRoute() {
+            StationRouteConnection.findByRouteId({
+                id: vm.route.id
+            }, onfindByRouteSuccess, onfindByRouteError);
+        }
+        
+        function onfindByRouteSuccess(data, headers) {
+			vm.stationRouteConnections = data;
+		}
+		
+		function onfindByRouteError(error) {
+			 AlertService.error(error.data.message);
+		}
 
         function transition() {
             $state.transitionTo($state.$current, {

@@ -1,10 +1,19 @@
 package com.masterteknoloji.net.web.rest;
 
-import com.masterteknoloji.net.Passengercounter2App;
+import static com.masterteknoloji.net.web.rest.TestUtil.createFormattingConversionService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.masterteknoloji.net.domain.StationRouteConnection;
-import com.masterteknoloji.net.repository.StationRouteConnectionRepository;
-import com.masterteknoloji.net.web.rest.errors.ExceptionTranslator;
+import java.util.List;
+
+import javax.persistence.EntityManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,17 +26,20 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.util.List;
-
-import static com.masterteknoloji.net.web.rest.TestUtil.createFormattingConversionService;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.masterteknoloji.net.Passengercounter2App;
+import com.masterteknoloji.net.domain.Route;
+import com.masterteknoloji.net.domain.Station;
+import com.masterteknoloji.net.domain.StationRouteConnection;
+import com.masterteknoloji.net.repository.RouteRepository;
+import com.masterteknoloji.net.repository.StationRepository;
+import com.masterteknoloji.net.repository.StationRouteConnectionRepository;
+import com.masterteknoloji.net.web.rest.errors.ExceptionTranslator;
 
 /**
  * Test class for the StationRouteConnectionResource REST controller.
@@ -58,6 +70,15 @@ public class StationRouteConnectionResourceIntTest {
 
     @Autowired
     private EntityManager em;
+    
+    @Autowired
+    private RouteRepository routeRepository;
+    
+    @Autowired
+    private StationRepository stationRepository;
+    
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private MockMvc restStationRouteConnectionMockMvc;
 
@@ -229,6 +250,44 @@ public class StationRouteConnectionResourceIntTest {
         // Validate the database is empty
         List<StationRouteConnection> stationRouteConnectionList = stationRouteConnectionRepository.findAll();
         assertThat(stationRouteConnectionList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+    
+    @Test
+    @Transactional
+    public void findByRouteId() throws Exception {
+    
+    	Route route = new Route();
+        route.setRouteCode("sdf");
+        routeRepository.save(route);
+        
+        Station station = new Station();
+        stationRepository.save(station);
+        
+        Station station2 = new Station();
+        stationRepository.save(station2);
+        
+        StationRouteConnection stationRouteConnection = new StationRouteConnection();
+        stationRouteConnection.setRoute(route);
+        stationRouteConnection.setStation(station);
+        stationRouteConnectionRepository.save(stationRouteConnection);
+        
+        StationRouteConnection stationRouteConnection2 = new StationRouteConnection();
+        stationRouteConnection2.setRoute(route);
+        stationRouteConnection2.setStation(station2);
+        stationRouteConnectionRepository.save(stationRouteConnection2);
+        
+        
+        MvcResult resultMvc=restStationRouteConnectionMockMvc.perform(get("/api/station-route-connections/getByRouteId?id="+route.getId()))
+        .andExpect(status().isOk()).andReturn();
+        
+        List<StationRouteConnection> asList = objectMapper.readValue(resultMvc.getResponse().getContentAsString(), new TypeReference<List<StationRouteConnection>>() { });
+        assertThat(asList.size()).isEqualTo(2);
+        assertThat(asList.get(0).getRoute().getId()).isEqualTo(route.getId());
+        assertThat(asList.get(0).getStation().getId()).isEqualTo(station.getId());
+
+        assertThat(asList.get(1).getRoute().getId()).isEqualTo(route.getId());
+        assertThat(asList.get(1).getStation().getId()).isEqualTo(station2.getId());
+
     }
 
     @Test

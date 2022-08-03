@@ -1,13 +1,21 @@
 package com.masterteknoloji.net.web.rest;
 
-import com.masterteknoloji.net.Passengercounter2App;
+import static com.masterteknoloji.net.web.rest.TestUtil.createFormattingConversionService;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.masterteknoloji.net.domain.BusDensityHistory;
-import com.masterteknoloji.net.repository.BusDensityHistoryRepository;
-import com.masterteknoloji.net.repository.StationRepository;
-import com.masterteknoloji.net.service.DensityCalculaterService;
-import com.masterteknoloji.net.service.IntegrationService;
-import com.masterteknoloji.net.web.rest.errors.ExceptionTranslator;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
+
+import javax.persistence.EntityManager;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,19 +28,24 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
-import java.util.List;
-
-import static com.masterteknoloji.net.web.rest.TestUtil.createFormattingConversionService;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.masterteknoloji.net.Passengercounter2App;
+import com.masterteknoloji.net.domain.BusDensityHistory;
+import com.masterteknoloji.net.domain.Route;
+import com.masterteknoloji.net.domain.ScheduledVoyage;
+import com.masterteknoloji.net.repository.BusDensityHistoryRepository;
+import com.masterteknoloji.net.repository.RouteRepository;
+import com.masterteknoloji.net.repository.ScheduledVoyageRepository;
+import com.masterteknoloji.net.repository.StationRepository;
+import com.masterteknoloji.net.service.DensityCalculaterService;
+import com.masterteknoloji.net.service.IntegrationService;
+import com.masterteknoloji.net.web.rest.errors.ExceptionTranslator;
+import com.masterteknoloji.net.web.rest.vm.SearchByRouteIdVM;
 
 /**
  * Test class for the BusDensityHistoryResource REST controller.
@@ -81,7 +94,16 @@ public class BusDensityHistoryResourceIntTest {
 
     @Autowired
     private EntityManager em;
+    
+    @Autowired
+    private RouteRepository routeRepository;
+    
+    @Autowired
+    private ScheduledVoyageRepository scheduledVoyageRepository;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+    
     private MockMvc restBusDensityHistoryMockMvc;
 
     private BusDensityHistory busDensityHistory;
@@ -270,6 +292,38 @@ public class BusDensityHistoryResourceIntTest {
         // Validate the database is empty
         List<BusDensityHistory> busDensityHistoryList = busDensityHistoryRepository.findAll();
         assertThat(busDensityHistoryList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+    
+    @Test
+    @Transactional
+    public void findByRouteAndScheduledTime() throws Exception {
+    
+    	Route route = new Route();
+        route.setRouteCode("sdf");
+        routeRepository.save(route);
+        
+        ScheduledVoyage scheduledVoyage = new ScheduledVoyage();
+        scheduledVoyage.setRoute(route);
+        scheduledVoyageRepository.save(scheduledVoyage);
+        
+        BusDensityHistory busDensityHistory = new BusDensityHistory();
+        busDensityHistory.setRoute(route);
+        busDensityHistory.setScheduledVoyage(scheduledVoyage);;
+        busDensityHistoryRepository.save(busDensityHistory);
+        
+        SearchByRouteIdVM searchbyRouteIdVM = new SearchByRouteIdVM();
+        searchbyRouteIdVM.setRouteId(route.getId());
+        searchbyRouteIdVM.setScheduledVoyageId(scheduledVoyage.getId());
+        
+        MvcResult resultMvc=restBusDensityHistoryMockMvc.perform(post("/api/bus-density-histories/findByRouteAndScheduledTime")
+                .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                .content(TestUtil.convertObjectToJsonBytes(searchbyRouteIdVM)))
+                .andExpect(status().isOk()).andReturn();
+        
+        List<BusDensityHistory> asList = objectMapper.readValue(resultMvc.getResponse().getContentAsString(), new TypeReference<List<BusDensityHistory>>() { });
+        assertThat(asList.size()).isEqualTo(1);
+        assertThat(asList.get(0).getRoute()).isNotNull();
+        assertThat(asList.get(0).getScheduledVoyage()).isNotNull();
     }
 
     @Test

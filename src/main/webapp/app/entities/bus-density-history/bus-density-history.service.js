@@ -12,6 +12,8 @@
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},
             'analyze': { method: 'GET', isArray:false, url: 'api/bus-density-histories/analyze'},
+            'findByRouteAndScheduledTime': { method: 'POST', isArray:true, url: 'api/bus-density-histories/findByRouteAndScheduledTime'},
+            
             'get': {
                 method: 'GET',
                 transformResponse: function (data) {

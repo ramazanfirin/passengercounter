@@ -20,7 +20,6 @@
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                     <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="name"><span data-translate="passengercounter2App.route.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="inversed"><span data-translate="passengercounter2App.route.inversed">Inversed</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="routeId"><span data-translate="passengercounter2App.route.routeId">Route Id</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="routeCode"><span data-translate="passengercounter2App.route.routeCode">Route Code</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
@@ -30,7 +29,6 @@
                 <tr ng-repeat="route in vm.routes track by route.id">
                     <td><a ui-sref="route-detail({id:route.id})">{{route.id}}</a></td>
                     <td>{{route.name}}</td>
-                    <td>{{route.inversed}}</td>
                     <td>{{route.routeId}}</td>
                     <td>{{route.routeCode}}</td>
                     <td class="text-right">

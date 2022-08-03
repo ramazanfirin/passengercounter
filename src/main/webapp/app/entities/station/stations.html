@@ -20,7 +20,6 @@
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
                     <th jh-sort-by="id"><span data-translate="global.field.id">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="name"><span data-translate="passengercounter2App.station.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="index"><span data-translate="passengercounter2App.station.index">Index</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="lat"><span data-translate="passengercounter2App.station.lat">Lat</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="lng"><span data-translate="passengercounter2App.station.lng">Lng</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="stationId"><span data-translate="passengercounter2App.station.stationId">Station Id</span> <span class="glyphicon glyphicon-sort"></span></th>
@@ -31,7 +30,6 @@
                 <tr ng-repeat="station in vm.stations track by station.id">
                     <td><a ui-sref="station-detail({id:station.id})">{{station.id}}</a></td>
                     <td>{{station.name}}</td>
-                    <td>{{station.index}}</td>
                     <td>{{station.lat}}</td>
                     <td>{{station.lng}}</td>
                     <td>{{station.stationId}}</td>

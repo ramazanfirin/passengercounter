@@ -4,6 +4,6 @@
     angular
         .module('passengercounter2App')
         .constant('paginationConstants', {
-            'itemsPerPage': 20
+            'itemsPerPage': 100
         });
 })();

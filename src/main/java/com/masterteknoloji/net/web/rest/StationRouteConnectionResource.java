@@ -124,4 +124,12 @@ public class StationRouteConnectionResource {
         stationRouteConnectionRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+    
+    @GetMapping("/station-route-connections/getByRouteId")
+    @Timed
+    public ResponseEntity<List<StationRouteConnection>> getByRouteId(@RequestParam Long id) {
+        log.debug("REST request to get StationRouteConnection : {}", id);
+        List<StationRouteConnection> stationRouteConnection = stationRouteConnectionRepository.findByRouteId(id);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(stationRouteConnection));
+    }
 }

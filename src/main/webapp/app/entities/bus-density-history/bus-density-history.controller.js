@@ -5,9 +5,9 @@
         .module('passengercounter2App')
         .controller('BusDensityHistoryController', BusDensityHistoryController);
 
-    BusDensityHistoryController.$inject = ['$state', 'BusDensityHistory', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams','Station'];
+    BusDensityHistoryController.$inject = ['$state', 'BusDensityHistory', 'ParseLinks', 'AlertService', 'paginationConstants', 'pagingParams','Station','Route','ScheduledVoyage'];
 
-    function BusDensityHistoryController($state, BusDensityHistory, ParseLinks, AlertService, paginationConstants, pagingParams,Station) {
+    function BusDensityHistoryController($state, BusDensityHistory, ParseLinks, AlertService, paginationConstants, pagingParams,Station,Route,ScheduledVoyage ) {
 
         var vm = this;
 
@@ -21,8 +21,15 @@
 		vm.stations = Station.query();
 		vm.debug=false;
 		vm.formatTime = formatTime;
+		vm.routes = Route.query();
+		vm.openCalendar = openCalendar;
+		vm.search = search;
 
+ 		vm.datePickerOpenStatus = {};
+ 		vm.getScheduledList = getScheduledList;
+ 		vm.showMap = showMap;
         loadAll();
+        vm.idOfFirtRecord="";
         
         function formatTime(date){
 	        var result = new Date(date);
@@ -78,6 +85,58 @@
             function onError(error) {
                 AlertService.error(error.data.message);
             }
+		}
+		
+		vm.datePickerOpenStatus.scheduledTime = false;
+
+        function openCalendar (date) {
+            vm.datePickerOpenStatus[date] = true;
+        }
+        
+        
+        function getScheduledList(){
+			findByRoute();
+		}
+		
+		function findByRoute() {
+			vm.input= {};
+			vm.input.routeId = vm.route.id;
+			vm.input.date = vm.scheduledTime;
+			ScheduledVoyage.findByRouteId(vm.input, onfindByRouteSuccess, onfindByRouteError);
+            
+        }
+        
+        function onfindByRouteSuccess(data, headers) {
+			vm.scheduledVoyages = data;
+		}
+		
+		function onfindByRouteError(error) {
+			 AlertService.error(error.data.message);
+		}
+		
+		function search() {
+			vm.input= {};
+			vm.input.routeId = vm.route.id;
+			vm.input.date = vm.scheduledTimeValue.scheduledTime;
+			vm.input.scheduledVoyageId = vm.scheduledTimeValue.id;
+			vm.idOfFirtRecord = "";
+			BusDensityHistory.findByRouteAndScheduledTime(vm.input, onSearchSuccess, onSearchError);
+            
+        }
+        
+        function onSearchSuccess(data, headers) {
+			vm.busDensityHistories = data;
+			if(vm.busDensityHistories.length>0)
+				vm.idOfFirtRecord = vm.busDensityHistories[0].id;	
+			
+		}
+		
+		function onSearchError(error) {
+			 AlertService.error(error.data.message);
+		}
+		
+		function showMap(){
+			 $state.go('bus-density-history.edit', { routeId: vm.route.id ,scheduledVoyageId:vm.scheduledTimeValue.id });
 		}
     }
 })();

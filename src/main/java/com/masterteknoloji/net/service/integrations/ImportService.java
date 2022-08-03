@@ -85,9 +85,6 @@ public class ImportService {
 
 	}
 	
-	public void importMersinStatioRouteConnection() {
-		
-	}
 	
 	public void importMersinSchedulesVoyges(Long dayCount) throws Exception {
 		

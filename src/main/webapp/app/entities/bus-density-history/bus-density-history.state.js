@@ -49,6 +49,7 @@
                     $translatePartialLoader.addPart('global');
                     $translatePartialLoader.addPart('route');
                     $translatePartialLoader.addPart('scheduledVoyage');
+                     $translatePartialLoader.addPart('stationRouteConnection');
                     return $translate.refresh();
                 }]
             }
@@ -98,11 +99,11 @@
                     controllerAs: 'vm',
                     backdrop: 'static',
                     size: 'lg',
-                    resolve: {
-                        entity: ['BusDensityHistory', function(BusDensityHistory) {
-                            return BusDensityHistory.get({id : $stateParams.id}).$promise;
-                        }]
-                    }
+                    //resolve: {
+                        //entity: ['BusDensityHistory', function(BusDensityHistory) {
+                         //   return BusDensityHistory.get({id : $stateParams.id}).$promise;
+                    //    }]
+                    //}
                 }).result.then(function() {
                     $state.go('^', {}, { reload: false });
                 }, function() {

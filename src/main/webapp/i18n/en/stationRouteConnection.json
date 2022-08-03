@@ -18,7 +18,8 @@
             "name": "Name",
             "index": "Index",
             "station": "Station",
-            "route": "Route"
+            "route": "Route",
+            "routeCode": "Route Code"
         }
     }
 }

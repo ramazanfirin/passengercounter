@@ -11,6 +11,7 @@
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},
+            'findByRouteId': { method: 'POST', isArray: true, url: 'api/scheduled-voyages/getByRouteId'},
             'get': {
                 method: 'GET',
                 transformResponse: function (data) {

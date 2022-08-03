@@ -20,4 +20,7 @@ public interface BusDensityHistoryRepository extends JpaRepository<BusDensityHis
 
 	@Query("select a from BusDensityHistory a where a.bus.id=:busId and a.station.id=:stationId and a.route.id=:routeId")
 	List<BusDensityHistory> findOldRecord(@Param("busId") Long busId, @Param("stationId") Long stationId,@Param("routeId") Long routeId );
+	
+	@Query("select a from BusDensityHistory a where a.route.id=:routeId and a.scheduledVoyage.id = :scheduledVoyageId")
+	List<BusDensityHistory> findByScheduledVoyageId(@Param("routeId") Long routeId, @Param("scheduledVoyageId") Long scheduledVoyageId );
 }

@@ -11,6 +11,7 @@
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},
+            'findByRouteId': { method: 'GET', isArray: true, url: 'api/station-route-connections/getByRouteId'},
             'get': {
                 method: 'GET',
                 transformResponse: function (data) {

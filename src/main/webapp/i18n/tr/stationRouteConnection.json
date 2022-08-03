@@ -18,7 +18,8 @@
             "name": "İsim",
             "index": "Sıra",
             "station": "Durak",
-            "route": "Hat"
+            "route": "Hat",
+            "routeCode": "Hat Kodu"
         }
     }
 }
