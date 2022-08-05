@@ -1,0 +1,15 @@
+unit test
+device service -> findByDeviceId -> cache
+ScheduledVoyageService -> findOrInsertScheduledVoyage -> cache
+RouteDetectionService -> detectRoute
+StationService ->findByStationId
+BusDensityHistoryRepository->findOldRecord
+BusService -> updateCurrentBusValues
+BusDensityHistoryService-> getRecordCount
+RawTableService -> 
+RouteDetectionService->detectRoute
+
+cache yapısı
+loglama
+dış çağrıların loglanması,
+guncel durum ekranı

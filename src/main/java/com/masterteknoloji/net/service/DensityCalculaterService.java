@@ -110,6 +110,7 @@ public class DensityCalculaterService {
     }
 
 	//@Scheduled(fixedDelay = 60000)
+    //eski servis
 	public void calculateDensityJob() {
 		log.info("calculateDensityJob basladi");
 		if(applicationProperties.getActivateScheduled()) {
@@ -156,7 +157,7 @@ public class DensityCalculaterService {
 				ScheduledVoyage scheduledVoyage = findScheduledVoyage(bus.getId());
 				
 				BusDensityHistory busDensityHistory;
-				List<BusDensityHistory> oldvalues = busDensityHistoryRepository.findOldRecord(bus.getId(), station.getId(), route.getId());
+				List<BusDensityHistory> oldvalues = busDensityHistoryRepository.findOldRecord(bus.getId(), station.getId(), route.getId(),scheduledVoyage.getId());
 				
 				if(oldvalues.size()>0) {
 					busDensityHistory = oldvalues.get(0);

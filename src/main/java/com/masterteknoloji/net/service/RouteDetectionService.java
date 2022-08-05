@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -29,34 +31,34 @@ import com.masterteknoloji.net.web.rest.vm.BusCurrentLocationInformation;
 @Service
 public class RouteDetectionService {
 
+	private final Logger log = LoggerFactory.getLogger(RouteDetectionService.class);
+
 	private final RawTableRepository rawTableRepository;
-	
+
 	private final DeviceRepository deviceRepository;
-	
+
 	private final MersinCityDataProviderService mersinCityDataProviderService;
 
 	private final RouteService routeService;
-	
+
 	private final StationService stationService;
-	
+
 	private final ScheduledVoyageService scheduledVoyageService;
 
 	private final BusDensityHistoryRepository busDensityHistoryRepository;
-	
+
 	private final DeviceService deviceService;
-	
+
 	private final BusService busService;
-	
+
 	private final BusDensityHistoryService busDensityHistoryService;
-	
-	private Map<String,Long> currentDevicePassegerCount = new HashMap<String, Long>();
-	
-	private Map<String,Long> correctionMap = new HashMap<String, Long>();
-	
-	public RouteDetectionService(RawTableRepository rawTableRepository, DeviceRepository deviceRepository, 
-			MersinCityDataProviderService mersinCityDataProviderService, RouteService routeService, 
-			StationService stationService,ScheduledVoyageService scheduledVoyageService,
-			BusDensityHistoryRepository busDensityHistoryRepository,DeviceService deviceService,BusService busService,
+
+	private Map<String, Long> correctionMap = new HashMap<String, Long>();
+
+	public RouteDetectionService(RawTableRepository rawTableRepository, DeviceRepository deviceRepository,
+			MersinCityDataProviderService mersinCityDataProviderService, RouteService routeService,
+			StationService stationService, ScheduledVoyageService scheduledVoyageService,
+			BusDensityHistoryRepository busDensityHistoryRepository, DeviceService deviceService, BusService busService,
 			BusDensityHistoryService busDensityHistoryService) {
 		super();
 		this.rawTableRepository = rawTableRepository;
@@ -71,57 +73,76 @@ public class RouteDetectionService {
 		this.busDensityHistoryService = busDensityHistoryService;
 	}
 
-	 private Map<String,RawTable> lastRawTableMap = new HashMap<String, RawTable>();
+	private Map<String, RawTable> lastRawTableMap = new HashMap<String, RawTable>();
 
-	 @Scheduled(fixedDelay = 60000)
+	@Scheduled(fixedDelay = 60000)
 	public void detectRoute() {
+        
+		log.info("RouteDetectionJob Basladi");;
 		
 		List<RawTable> unprocessedList = rawTableRepository.findUnprocessedRecords(new PageRequest(0, 500));
-    	int i =0;
-    	for (RawTable rawTable : unprocessedList) {
-    		try {
-    			
-    			rawTable = rawTableRepository.findOne(rawTable.getId());
-    			String deviceId = rawTable.getDeviceIdOriginal();
-    			
-    			RawTable lastRawTableofDevice = lastRawTableMap.get(deviceId);
+		int i = 0;
+		log.info("RouteDetectionJob analiz edilecek kayit sayisi:"+unprocessedList.size());;
+		for (RawTable rawTable : unprocessedList) {
+			try {
+
+				rawTable = rawTableRepository.findOne(rawTable.getId());
+				String deviceId = rawTable.getDeviceIdOriginal();
+
+				RawTable lastRawTableofDevice = lastRawTableMap.get(deviceId);
+
+				if (Util.checkIsItUnnecesary(rawTable, lastRawTableofDevice)) {
+					saveSuccessfuly(rawTable);
+					log.info("RouteDetectionJob bir önceki kayit ile ayni.id:"+rawTable.getId());
+					continue;
+				}
+
+				Bus bus = findBus(deviceId);
+
+				BusCurrentLocationInformation busCurrentLocationInformation = mersinCityDataProviderService
+						.getCurrentPosition(bus.getPlate());
 				
-    			if(Util.checkIsItUnnecesary(rawTable, lastRawTableofDevice)) {
-    				saveSuccessfuly(rawTable);
-    				continue;
-    			}
-    			
-    			Bus bus = findBus(deviceId);
-    			
-    			BusCurrentLocationInformation busCurrentLocationInformation = mersinCityDataProviderService.getCurrentPosition(bus.getPlate()); 
-    			if(busCurrentLocationInformation.getHatNo().equals("0")) {
-    				rawTable.setErrorMessage("aktif_sefer_bulanamadi");
-    				saveSuccessfuly(rawTable);
-    				continue;
-    			}
-    			
-    			Route route = routeService.findRouteByCode(busCurrentLocationInformation.getHatNo());
-    			Station station = stationService.findByStationId(Long.parseLong(busCurrentLocationInformation.getDurak()));
-    			Instant scheduledTime = calculateScheduledTime(busCurrentLocationInformation);
-    			ScheduledVoyage scheduledVoyage= scheduledVoyageService.findOrInsertScheduledVoyage(route, scheduledTime, bus); 
-    	
-    			saveStatistics(rawTable, bus, station, route, scheduledVoyage);
-    			
-    		} catch (Exception e) {
+				if (busCurrentLocationInformation.getHatNo().equals("0")) {
+					saveError(rawTable, "RouteDetectionJob aktif_sefer_bulanamadi");
+					continue;
+				}
+
+				Route route = routeService.findRouteByCode(busCurrentLocationInformation.getHatNo());
+				if (route==null) {
+					saveError(rawTable, "RouteDetectionJob route bulanamadi");
+					continue;
+				}
+				
+				Station station = stationService.findByStationId(Long.parseLong(busCurrentLocationInformation.getDurak()));
+				if (station==null) {
+					saveError(rawTable, "RouteDetectionJob durak bulanamadi");
+					continue;
+				}
+				
+				Instant scheduledTime = calculateScheduledTime(busCurrentLocationInformation);
+				ScheduledVoyage scheduledVoyage = scheduledVoyageService.findOrInsertScheduledVoyage(route,scheduledTime, bus);
+
+				saveStatistics(rawTable, bus, station, route, scheduledVoyage);
+
+			} catch (Exception e) {
 				saveError(rawTable, e.getMessage());
 				e.printStackTrace();
 			}
-    	}
-    	
-	}
-	
-	public void saveStatistics(RawTable rawTable, Bus bus,Station station, Route route, ScheduledVoyage scheduledVoyage ) throws Exception{
-		BusDensityHistory busDensityHistory;
-		List<BusDensityHistory> oldvalues = busDensityHistoryRepository.findOldRecord(bus.getId(), station.getId(), route.getId(),scheduledVoyage.getId());
+		}
+		log.info("RouteDetectionJob Bitti");;
 		
-		if(oldvalues.size()>0) {
+
+	}
+
+	public void saveStatistics(RawTable rawTable, Bus bus, Station station, Route route,
+			ScheduledVoyage scheduledVoyage) throws Exception {
+		BusDensityHistory busDensityHistory;
+		List<BusDensityHistory> oldvalues = busDensityHistoryRepository.findOldRecord(bus.getId(), station.getId(),
+				route.getId(), scheduledVoyage.getId());
+
+		if (oldvalues.size() > 0) {
 			busDensityHistory = oldvalues.get(0);
-		}else {
+		} else {
 			busDensityHistory = new BusDensityHistory();
 			busDensityHistory.setBus(bus);
 			busDensityHistory.setRoute(route);
@@ -131,71 +152,80 @@ public class RouteDetectionService {
 		}
 		String deviceId = rawTable.getDeviceIdOriginal();
 		RawTable lastRawTableofDevice = lastRawTableMap.get(deviceId);
-		
+
 		Long getInDiff = Util.calculateDiffGetIn(lastRawTableofDevice, rawTable);
 		busDensityHistory.setGetInPassengerCount(busDensityHistory.getGetInPassengerCount() + getInDiff);
-		
+
 		Long getOutDiff = Util.calculateDiffGetOut(lastRawTableofDevice, rawTable);
 		busDensityHistory.setGetOutPassengerCount(busDensityHistory.getGetOutPassengerCount() + getOutDiff);
-		
+
 		Long correction = calculateCorrection(route.getId(), scheduledVoyage.getId(), bus.getId(), rawTable);
-		Long totalPassengerOfBus = Util.calculateCurrentPassengerCount(lastRawTableofDevice,rawTable,correction);
-		currentDevicePassegerCount.put(deviceId, totalPassengerOfBus);
-		
+		Long totalPassengerOfBus = Util.calculateCurrentPassengerCount(lastRawTableofDevice, rawTable, correction);
+	
 		busDensityHistory.setTotalPassengerCount(totalPassengerOfBus);
 		busDensityHistory.setRecordDate(rawTable.getInsertDate());
 		busDensityHistory.setLastRawRecord(rawTable);
-		Long density = 100*totalPassengerOfBus/60;
+		Long density = 100 * totalPassengerOfBus / 60;
 		busDensityHistory.setDensity(density);
 		busDensityHistoryRepository.save(busDensityHistory);
-		
+
 		saveSuccessfuly(rawTable);
 		busService.updateCurrentBusValues(bus, station, route, scheduledVoyage, totalPassengerOfBus, density);
 		lastRawTableMap.put(deviceId, rawTable);
-		
+
+	}
+
+	public Boolean isValid(BusCurrentLocationInformation busCurrentLocationInformation) {
+		if(busCurrentLocationInformation.getHatNo().equals("") || busCurrentLocationInformation.getDurak().equals("") ||
+				busCurrentLocationInformation.getTarihSaat().equals("")) {
+			return false;
+		}else {
+			return true;
+		}
+			
 	}
 	
 	public Bus findBus(String deviceId) {
-    	Device device = deviceService.findByDeviceId(deviceId);
-    	return device.getBus();
-    }
-	
+		Device device = deviceService.findByDeviceId(deviceId);
+		return device.getBus();
+	}
+
 	public Instant calculateScheduledTime(BusCurrentLocationInformation busCurrentLocationInformation) {
 		Date date = new Date();
 		String[] values = busCurrentLocationInformation.getTarihSaat().split(":");
-    	date.setHours(Integer.parseInt(values[0]));
-    	date.setMinutes(Integer.parseInt(values[1]));
-    	date.setSeconds(0);
-    	
-    	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-    	
-    	return Instant.parse(dateFormat.format(date)+".00Z");
-    	//return date.toInstant();
+		date.setHours(Integer.parseInt(values[0]));
+		date.setMinutes(Integer.parseInt(values[1]));
+		date.setSeconds(0);
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+
+		return Instant.parse(dateFormat.format(date) + ".00Z");
+		// return date.toInstant();
 	}
-	
-	public Long calculateCorrection(Long routeId,Long scheduledVoyageId, Long busId,RawTable rawTable) {
+
+	public Long calculateCorrection(Long routeId, Long scheduledVoyageId, Long busId, RawTable rawTable) {
 		Long correction = 0l;
 		Long count = busDensityHistoryService.getRecordCount(routeId, scheduledVoyageId, busId);
-		
-		if(count == 0 || correctionMap.get(rawTable.getDeviceIdOriginal()) == null) {
+
+		if (count == 0 || correctionMap.get(rawTable.getDeviceIdOriginal()) == null) {
 			Long totalGetIn = Util.calculateGetInOfRawTable(rawTable);
 			Long totalGetOut = Util.calculateGetOutOfRawTable(rawTable);
 			correction = totalGetIn - totalGetOut;
-			correctionMap.put(rawTable.getDeviceIdOriginal(),correction);
-		}else {
+			correctionMap.put(rawTable.getDeviceIdOriginal(), correction);
+		} else {
 			correction = correctionMap.get(rawTable.getDeviceIdOriginal());
-		}	
-			
+		}
+
 		return correction;
 	}
-	
+
 	public void saveSuccessfuly(RawTable rawTable) {
 		rawTable.setIsSuccess(true);
 		rawTable.setProcessed(true);
 		rawTableRepository.save(rawTable);
 	}
-	
-	public void saveError(RawTable rawTable,String error) {
+
+	public void saveError(RawTable rawTable, String error) {
 		rawTable.setIsSuccess(false);
 		rawTable.setProcessed(true);
 		rawTable.setErrorMessage(error);
