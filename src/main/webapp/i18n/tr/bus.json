@@ -3,6 +3,7 @@
         "bus" : {
             "home": {
                 "title": "Otobüs",
+                "title2": "Otobüs Anlık Bilgi",
                 "createLabel": "Otobüs Tanımla",
                 "createOrEditLabel": "Create or edit a Bus"
             },
@@ -16,7 +17,9 @@
                 "title": "Bus"
             },
             "plate": "Plaka",
-            "busId": "Otobüs Id"
+            "busId": "Otobüs Id",
+            "currentPassengerCount":"Passenger Count",
+            "currentDensity":"Density"
         }
     }
 }

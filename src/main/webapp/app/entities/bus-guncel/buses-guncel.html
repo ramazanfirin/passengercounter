@@ -1,0 +1,35 @@
+<div>
+    <h2 data-translate="passengercounter2App.bus.home.title2">Buses</h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
+                    <th jh-sort-by="plate"><span data-translate="passengercounter2App.bus.plate">Plate</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="name"><span data-translate="passengercounter2App.route.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="routeCode"><span data-translate="passengercounter2App.route.routeCode">Route Code</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="name"><span data-translate="passengercounter2App.station.name">Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="scheduledTime"><span data-translate="passengercounter2App.scheduledVoyage.scheduledTime">Scheduled Time</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="id"><span data-translate="passengercounter2App.bus.currentPassengerCount">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="id"><span data-translate="passengercounter2App.bus.currentDensity">ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    
+                    
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="bus in vm.buses track by bus.id">
+                    <td>{{bus.plate}}</td>
+                    <td>{{bus.routeName}}</td>
+                    <td>{{bus.routeCode}}</td>
+                    <td>{{bus.stationName}}</td>
+                    <td>{{bus.scheduledVoyage}}</td>
+                    <td>{{bus.passengerCount}}</td>
+                    <td>{{bus.density}}</td>
+                    </tr>
+            </tbody>
+        </table>
+    </div>
+   
+</div>

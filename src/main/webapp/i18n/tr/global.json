@@ -15,6 +15,7 @@
                 "scheduledVoyage": "Sefer",
                 "rawTable": "Raw Table",
                 "busDensityHistory": "Bus Yoğunluk Raporu",
+                "currentBusInformation": "Otobüs Anlık Bilgi",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

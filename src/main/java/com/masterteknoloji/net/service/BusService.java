@@ -13,6 +13,8 @@ import com.masterteknoloji.net.domain.Route;
 import com.masterteknoloji.net.domain.ScheduledVoyage;
 import com.masterteknoloji.net.domain.Station;
 import com.masterteknoloji.net.repository.BusRepository;
+import com.masterteknoloji.net.repository.RouteRepository;
+import com.masterteknoloji.net.repository.StationRepository;
 import com.masterteknoloji.net.service.integrations.mersin.MersinCityDataProviderService;
 import com.masterteknoloji.net.web.rest.vm.BusCurrentLocationInformation;
 
@@ -26,10 +28,17 @@ public class BusService {
 	
 	private final MersinCityDataProviderService mersinCityDataProviderService;
 	
-	public BusService(BusRepository busRepository, MersinCityDataProviderService mersinCityDataProviderService) {
+	private final RouteRepository routeRepository;
+	
+	private final StationRepository stationRepository;
+	
+	public BusService(BusRepository busRepository, MersinCityDataProviderService mersinCityDataProviderService,
+			RouteRepository routeRepository, StationRepository stationRepository) {
 		super();
 		this.busRepository = busRepository;
 		this.mersinCityDataProviderService = mersinCityDataProviderService;
+		this.routeRepository = routeRepository;
+		this.stationRepository = stationRepository;
 	}
 	
 	public void updateCurrentBusValues(Bus bus, Station station, Route route , ScheduledVoyage scheduledVoyage, Long currentPassengerCount, Long currentDensity) {
@@ -55,6 +64,21 @@ public class BusService {
 				bus.setCurrentStation(null);
 				busMap.put(bus.getPlate(), bus);
 			}
+		}
+	}
+	
+	//@Scheduled(fixedDelay = 60000)
+	public void detectLastStatusOfBus_For_LocaL_Test() throws Exception {
+		Route route = routeRepository.findByRouteCode("26M-G");
+		Station station = stationRepository.findByStationId(50172l);
+		
+		List<Bus> list = busRepository.findAll();
+		for (Bus bus : list) {
+			bus.setCurrentRoute(route);
+			bus.setCurrentStation(station);
+			bus.setCurrentDensity(40l);
+			bus.setCurrentPassengerCount(30l);
+			busMap.put(bus.getPlate(), bus);
 		}
 	}
 	

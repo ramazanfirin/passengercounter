@@ -11,6 +11,8 @@
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},
+            'findBusesCurrentStatus': { method: 'GET', isArray:true, url: 'api/buses/buses-guncel'},
+            
             'get': {
                 method: 'GET',
                 transformResponse: function (data) {

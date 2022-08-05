@@ -3,6 +3,7 @@
         "bus" : {
             "home": {
                 "title": "Buses",
+                "title2": "Buses Current Information",
                 "createLabel": "Create a new Bus",
                 "createOrEditLabel": "Create or edit a Bus"
             },
@@ -16,7 +17,9 @@
                 "title": "Bus"
             },
             "plate": "Plate",
-            "busId": "Bus Id"
+            "busId": "Bus Id",
+            "currentPassengerCount":"Passenger Count",
+            "currentDensity":"Density"
         }
     }
 }
