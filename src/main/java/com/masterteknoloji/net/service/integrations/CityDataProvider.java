@@ -6,6 +6,7 @@ import com.masterteknoloji.net.domain.Route;
 import com.masterteknoloji.net.domain.ScheduledVoyage;
 import com.masterteknoloji.net.domain.Station;
 import com.masterteknoloji.net.domain.StationRouteConnection;
+import com.masterteknoloji.net.web.rest.vm.BusCurrentLocationInformation;
 
 public interface CityDataProvider {
 
@@ -19,6 +20,6 @@ public interface CityDataProvider {
 	
 	public List<ScheduledVoyage> getScheduledVoyageList(String routeCode) throws Exception;
 	
-	public void getCurrentPosition();
+	public BusCurrentLocationInformation getCurrentPosition(String plaka) throws Exception;
 	
 }

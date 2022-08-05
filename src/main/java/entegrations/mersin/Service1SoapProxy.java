@@ -128,6 +128,12 @@ public class Service1SoapProxy implements entegrations.mersin.Service1Soap {
     return service1Soap.hattaki_araclar(proje_kodu, hatno, ti);
   }
   
+  public entegrations.mersin.Arac_bilgiResponseArac_bilgiResult arac_bilgi(java.lang.String proje_kodu, java.lang.String plaka, java.lang.String ti) throws java.rmi.RemoteException{
+    if (service1Soap == null)
+      _initService1SoapProxy();
+    return service1Soap.arac_bilgi(proje_kodu, plaka, ti);
+  }
+  
   public entegrations.mersin.Yanimdaki_duraklarResponseYanimdaki_duraklarResult yanimdaki_duraklar(java.lang.String proje_kodu, java.lang.String ti, java.lang.String enlem, java.lang.String boylam) throws java.rmi.RemoteException{
     if (service1Soap == null)
       _initService1SoapProxy();

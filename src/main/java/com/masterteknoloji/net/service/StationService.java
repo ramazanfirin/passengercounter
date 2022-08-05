@@ -84,4 +84,10 @@ public class StationService {
 		
 		return stations.get(number);
 	}
+	
+	public Station findByStationId(Long stationId) {
+		
+		Station station = stationRepository.findByStationId(stationId);
+		return station;
+	}
 }

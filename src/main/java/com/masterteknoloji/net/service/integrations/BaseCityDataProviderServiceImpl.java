@@ -10,6 +10,7 @@ import com.masterteknoloji.net.domain.Route;
 import com.masterteknoloji.net.domain.ScheduledVoyage;
 import com.masterteknoloji.net.domain.Station;
 import com.masterteknoloji.net.domain.StationRouteConnection;
+import com.masterteknoloji.net.web.rest.vm.BusCurrentLocationInformation;
 
 @Service
 public class BaseCityDataProviderServiceImpl implements CityDataProvider{
@@ -44,8 +45,8 @@ public class BaseCityDataProviderServiceImpl implements CityDataProvider{
 	}
 
 	@Override
-	public void getCurrentPosition() {
-		// TODO Auto-generated method stub
+	public BusCurrentLocationInformation getCurrentPosition(String plaka) throws Exception {
+		return null;
 		
 	}
 	

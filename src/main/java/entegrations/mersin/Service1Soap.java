@@ -22,6 +22,7 @@ public interface Service1Soap extends java.rmi.Remote {
     public entegrations.mersin.Durak_araResponseDurak_araResult durak_ara(java.lang.String proje_kodu, java.lang.String durak, java.lang.String ti) throws java.rmi.RemoteException;
     public entegrations.mersin.Hat_Durak2ResponseHat_Durak2Result hat_Durak2(java.lang.String proje_kodu, java.lang.String hatno, java.lang.String ti) throws java.rmi.RemoteException;
     public entegrations.mersin.Hattaki_araclarResponseHattaki_araclarResult hattaki_araclar(java.lang.String proje_kodu, java.lang.String hatno, java.lang.String ti) throws java.rmi.RemoteException;
+    public entegrations.mersin.Arac_bilgiResponseArac_bilgiResult arac_bilgi(java.lang.String proje_kodu, java.lang.String plaka, java.lang.String ti) throws java.rmi.RemoteException;
     public entegrations.mersin.Yanimdaki_duraklarResponseYanimdaki_duraklarResult yanimdaki_duraklar(java.lang.String proje_kodu, java.lang.String ti, java.lang.String enlem, java.lang.String boylam) throws java.rmi.RemoteException;
     public entegrations.mersin.Durak_DakikaResponseDurak_DakikaResult durak_Dakika(java.lang.String proje_kodu, java.lang.String durakno, java.lang.String ti) throws java.rmi.RemoteException;
     public entegrations.mersin.Tarife_ara2ResponseTarife_ara2Result tarife_ara2(java.lang.String proje_kodu, java.lang.String hat, java.lang.String ti) throws java.rmi.RemoteException;

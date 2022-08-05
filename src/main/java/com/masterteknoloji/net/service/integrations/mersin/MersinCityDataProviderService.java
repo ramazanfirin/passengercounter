@@ -15,8 +15,10 @@ import com.masterteknoloji.net.domain.ScheduledVoyage;
 import com.masterteknoloji.net.domain.Station;
 import com.masterteknoloji.net.domain.StationRouteConnection;
 import com.masterteknoloji.net.service.integrations.BaseCityDataProviderServiceImpl;
+import com.masterteknoloji.net.web.rest.vm.BusCurrentLocationInformation;
 import com.masterteknoloji.net.web.rest.vm.MersinScheduledVoyageVM;
 
+import entegrations.mersin.Arac_bilgiResponseArac_bilgiResult;
 import entegrations.mersin.DuraklarResponseDuraklarResult;
 import entegrations.mersin.Hat_DurakResponseHat_DurakResult;
 import entegrations.mersin.HatlarResponseHatlarResult;
@@ -234,4 +236,28 @@ public class MersinCityDataProviderService extends BaseCityDataProviderServiceIm
 		
 	}
 
+	@Override
+	public BusCurrentLocationInformation getCurrentPosition(String plaka) throws Exception {
+		BusCurrentLocationInformation busCurrentLocationInformation = new BusCurrentLocationInformation();
+		
+		Arac_bilgiResponseArac_bilgiResult response = service1.getService1Soap().arac_bilgi(projeKodu, plaka, tiKodu);
+		MessageElement[] elements = response.get_any();	
+		List list = elements[1].getChildren();
+		
+		MessageElement item1 = (MessageElement)list.get(0);
+		List list2 = item1.getChildren();
+
+		MessageElement item2 = (MessageElement)list2.get(0);
+
+		String hatNo = findByName(item2, "hat_no");
+		String seferSaat = findByName(item2, "sefer_saat");
+		String durak = findByName(item2, "durak");
+		
+		busCurrentLocationInformation.setHatNo(hatNo);
+		busCurrentLocationInformation.setDurak(durak);
+		busCurrentLocationInformation.setTarihSaat(seferSaat);
+		
+		return busCurrentLocationInformation;
+		
+	}
 }

@@ -16,7 +16,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
     static org.apache.axis.description.OperationDesc [] _operations;
 
     static {
-        _operations = new org.apache.axis.description.OperationDesc[26];
+        _operations = new org.apache.axis.description.OperationDesc[27];
         _initOperationDesc1();
         _initOperationDesc2();
         _initOperationDesc3();
@@ -271,6 +271,24 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
         _operations[13] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
+        oper.setName("arac_bilgi");
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "proje_kodu"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "plaka"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "ti"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
+        param.setOmittable(true);
+        oper.addParameter(param);
+        oper.setReturnType(new javax.xml.namespace.QName("http://tempuri.org/", ">>arac_bilgiResponse>arac_bilgiResult"));
+        oper.setReturnClass(entegrations.mersin.Arac_bilgiResponseArac_bilgiResult.class);
+        oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "arac_bilgiResult"));
+        oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
+        oper.setUse(org.apache.axis.constants.Use.LITERAL);
+        _operations[14] = oper;
+
+        oper = new org.apache.axis.description.OperationDesc();
         oper.setName("yanimdaki_duraklar");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "proje_kodu"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
         param.setOmittable(true);
@@ -289,7 +307,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
         oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "yanimdaki_duraklarResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[14] = oper;
+        _operations[15] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("Durak_Dakika");
@@ -307,7 +325,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
         oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "Durak_DakikaResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[15] = oper;
+        _operations[16] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("Tarife_ara2");
@@ -325,7 +343,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
         oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "Tarife_ara2Result"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[16] = oper;
+        _operations[17] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("Tarife_ara");
@@ -343,7 +361,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
         oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "Tarife_araResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[17] = oper;
+        _operations[18] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("duyurular");
@@ -358,8 +376,13 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
         oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "duyurularResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[18] = oper;
+        _operations[19] = oper;
 
+    }
+
+    private static void _initOperationDesc3(){
+        org.apache.axis.description.OperationDesc oper;
+        org.apache.axis.description.ParameterDesc param;
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("aus_duyuru_liste");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "proje_kodu"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -373,13 +396,8 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
         oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "aus_duyuru_listeResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[19] = oper;
+        _operations[20] = oper;
 
-    }
-
-    private static void _initOperationDesc3(){
-        org.apache.axis.description.OperationDesc oper;
-        org.apache.axis.description.ParameterDesc param;
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("aus_haber_liste");
         param = new org.apache.axis.description.ParameterDesc(new javax.xml.namespace.QName("http://tempuri.org/", "proje_kodu"), org.apache.axis.description.ParameterDesc.IN, new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"), java.lang.String.class, false, false);
@@ -393,7 +411,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
         oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "aus_haber_listeResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[20] = oper;
+        _operations[21] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("aus_proje_liste");
@@ -408,7 +426,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
         oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "aus_proje_listeResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[21] = oper;
+        _operations[22] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("aus_icerik_detay");
@@ -429,7 +447,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
         oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "aus_icerik_detayResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[22] = oper;
+        _operations[23] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("aus_icerik_resim");
@@ -450,7 +468,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
         oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "aus_icerik_resimResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[23] = oper;
+        _operations[24] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("okul_servisi_ara");
@@ -468,7 +486,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
         oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "okul_servisi_araResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[24] = oper;
+        _operations[25] = oper;
 
         oper = new org.apache.axis.description.OperationDesc();
         oper.setName("servistest");
@@ -477,7 +495,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
         oper.setReturnQName(new javax.xml.namespace.QName("http://tempuri.org/", "servistestResult"));
         oper.setStyle(org.apache.axis.constants.Style.WRAPPED);
         oper.setUse(org.apache.axis.constants.Use.LITERAL);
-        _operations[25] = oper;
+        _operations[26] = oper;
 
     }
 
@@ -510,6 +528,13 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
             java.lang.Class simpledf = org.apache.axis.encoding.ser.SimpleDeserializerFactory.class;
             java.lang.Class simplelistsf = org.apache.axis.encoding.ser.SimpleListSerializerFactory.class;
             java.lang.Class simplelistdf = org.apache.axis.encoding.ser.SimpleListDeserializerFactory.class;
+            qName = new javax.xml.namespace.QName("http://tempuri.org/", ">>arac_bilgiResponse>arac_bilgiResult");
+            cachedSerQNames.add(qName);
+            cls = entegrations.mersin.Arac_bilgiResponseArac_bilgiResult.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
             qName = new javax.xml.namespace.QName("http://tempuri.org/", ">>aus_duyuru_listeResponse>aus_duyuru_listeResult");
             cachedSerQNames.add(qName);
             cls = entegrations.mersin.Aus_duyuru_listeResponseAus_duyuru_listeResult.class;
@@ -674,6 +699,20 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
             qName = new javax.xml.namespace.QName("http://tempuri.org/", ">>yanimdaki_duraklarResponse>yanimdaki_duraklarResult");
             cachedSerQNames.add(qName);
             cls = entegrations.mersin.Yanimdaki_duraklarResponseYanimdaki_duraklarResult.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://tempuri.org/", ">arac_bilgi");
+            cachedSerQNames.add(qName);
+            cls = entegrations.mersin.Arac_bilgi.class;
+            cachedSerClasses.add(cls);
+            cachedSerFactories.add(beansf);
+            cachedDeserFactories.add(beandf);
+
+            qName = new javax.xml.namespace.QName("http://tempuri.org/", ">arac_bilgiResponse");
+            cachedSerQNames.add(qName);
+            cls = entegrations.mersin.Arac_bilgiResponse.class;
             cachedSerClasses.add(cls);
             cachedSerFactories.add(beansf);
             cachedDeserFactories.add(beandf);
@@ -1556,12 +1595,46 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
 }
     }
 
-    public entegrations.mersin.Yanimdaki_duraklarResponseYanimdaki_duraklarResult yanimdaki_duraklar(java.lang.String proje_kodu, java.lang.String ti, java.lang.String enlem, java.lang.String boylam) throws java.rmi.RemoteException {
+    public entegrations.mersin.Arac_bilgiResponseArac_bilgiResult arac_bilgi(java.lang.String proje_kodu, java.lang.String plaka, java.lang.String ti) throws java.rmi.RemoteException {
         if (super.cachedEndpoint == null) {
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
         _call.setOperation(_operations[14]);
+        _call.setUseSOAPAction(true);
+        _call.setSOAPActionURI("http://tempuri.org/arac_bilgi");
+        _call.setEncodingStyle(null);
+        _call.setProperty(org.apache.axis.client.Call.SEND_TYPE_ATTR, Boolean.FALSE);
+        _call.setProperty(org.apache.axis.AxisEngine.PROP_DOMULTIREFS, Boolean.FALSE);
+        _call.setSOAPVersion(org.apache.axis.soap.SOAPConstants.SOAP11_CONSTANTS);
+        _call.setOperationName(new javax.xml.namespace.QName("http://tempuri.org/", "arac_bilgi"));
+
+        setRequestHeaders(_call);
+        setAttachments(_call);
+ try {        java.lang.Object _resp = _call.invoke(new java.lang.Object[] {proje_kodu, plaka, ti});
+
+        if (_resp instanceof java.rmi.RemoteException) {
+            throw (java.rmi.RemoteException)_resp;
+        }
+        else {
+            extractAttachments(_call);
+            try {
+                return (entegrations.mersin.Arac_bilgiResponseArac_bilgiResult) _resp;
+            } catch (java.lang.Exception _exception) {
+                return (entegrations.mersin.Arac_bilgiResponseArac_bilgiResult) org.apache.axis.utils.JavaUtils.convert(_resp, entegrations.mersin.Arac_bilgiResponseArac_bilgiResult.class);
+            }
+        }
+  } catch (org.apache.axis.AxisFault axisFaultException) {
+  throw axisFaultException;
+}
+    }
+
+    public entegrations.mersin.Yanimdaki_duraklarResponseYanimdaki_duraklarResult yanimdaki_duraklar(java.lang.String proje_kodu, java.lang.String ti, java.lang.String enlem, java.lang.String boylam) throws java.rmi.RemoteException {
+        if (super.cachedEndpoint == null) {
+            throw new org.apache.axis.NoEndPointException();
+        }
+        org.apache.axis.client.Call _call = createCall();
+        _call.setOperation(_operations[15]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tempuri.org/yanimdaki_duraklar");
         _call.setEncodingStyle(null);
@@ -1595,7 +1668,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[15]);
+        _call.setOperation(_operations[16]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tempuri.org/Durak_Dakika");
         _call.setEncodingStyle(null);
@@ -1629,7 +1702,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[16]);
+        _call.setOperation(_operations[17]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tempuri.org/Tarife_ara2");
         _call.setEncodingStyle(null);
@@ -1663,7 +1736,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[17]);
+        _call.setOperation(_operations[18]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tempuri.org/Tarife_ara");
         _call.setEncodingStyle(null);
@@ -1697,7 +1770,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[18]);
+        _call.setOperation(_operations[19]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tempuri.org/duyurular");
         _call.setEncodingStyle(null);
@@ -1731,7 +1804,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[19]);
+        _call.setOperation(_operations[20]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tempuri.org/aus_duyuru_liste");
         _call.setEncodingStyle(null);
@@ -1765,7 +1838,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[20]);
+        _call.setOperation(_operations[21]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tempuri.org/aus_haber_liste");
         _call.setEncodingStyle(null);
@@ -1799,7 +1872,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[21]);
+        _call.setOperation(_operations[22]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tempuri.org/aus_proje_liste");
         _call.setEncodingStyle(null);
@@ -1833,7 +1906,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[22]);
+        _call.setOperation(_operations[23]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tempuri.org/aus_icerik_detay");
         _call.setEncodingStyle(null);
@@ -1867,7 +1940,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[23]);
+        _call.setOperation(_operations[24]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tempuri.org/aus_icerik_resim");
         _call.setEncodingStyle(null);
@@ -1901,7 +1974,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[24]);
+        _call.setOperation(_operations[25]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tempuri.org/okul_servisi_ara");
         _call.setEncodingStyle(null);
@@ -1935,7 +2008,7 @@ public class Service1SoapStub extends org.apache.axis.client.Stub implements ent
             throw new org.apache.axis.NoEndPointException();
         }
         org.apache.axis.client.Call _call = createCall();
-        _call.setOperation(_operations[25]);
+        _call.setOperation(_operations[26]);
         _call.setUseSOAPAction(true);
         _call.setSOAPActionURI("http://tempuri.org/servistest");
         _call.setEncodingStyle(null);

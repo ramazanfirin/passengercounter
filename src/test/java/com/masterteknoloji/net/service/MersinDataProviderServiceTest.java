@@ -16,6 +16,7 @@ import com.masterteknoloji.net.domain.ScheduledVoyage;
 import com.masterteknoloji.net.domain.Station;
 import com.masterteknoloji.net.domain.StationRouteConnection;
 import com.masterteknoloji.net.service.integrations.mersin.MersinCityDataProviderService;
+import com.masterteknoloji.net.web.rest.vm.BusCurrentLocationInformation;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Passengercounter2App.class)
@@ -62,7 +63,7 @@ public class MersinDataProviderServiceTest {
 	 @Test
 	 public void getScheduledVoyageList() throws Exception {
 		List<ScheduledVoyage>  result = mersinCityDataProviderService.getScheduledVoyageList("11M-G"); 
-		assertThat(result.size()).isGreaterThan(70);
+		assertThat(result.size()).isGreaterThan(50);
 		 
 		ScheduledVoyage scheduledVoyage  = result.get(0);
 		assertThat(scheduledVoyage.getRoute()).isNotNull();
@@ -70,6 +71,13 @@ public class MersinDataProviderServiceTest {
 		assertThat(scheduledVoyage.getScheduledTime()).isNotNull();
 	 }
 	 
-	 
+	 @Test
+	 public void getAracBilgi() throws Exception {
+		BusCurrentLocationInformation  result = mersinCityDataProviderService.getCurrentPosition("33AKN32");
+		 
+		assertThat(result.getDurak()).isNotNull();
+		assertThat(result.getHatNo()).isNotNull();
+		assertThat(result.getTarihSaat()).isNotNull();
+	 }
 	
 }

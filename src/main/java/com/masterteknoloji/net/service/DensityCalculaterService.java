@@ -43,6 +43,7 @@ import com.masterteknoloji.net.repository.RawTableRepository;
 import com.masterteknoloji.net.repository.ScheduledVoyageRepository;
 import com.masterteknoloji.net.repository.StationRepository;
 import com.masterteknoloji.net.repository.StationRouteConnectionRepository;
+import com.masterteknoloji.net.service.integrations.mersin.MersinCityDataProviderService;
 import com.masterteknoloji.net.web.rest.vm.kbb.BusLocationInformationVM;
 
 @Service
@@ -82,6 +83,8 @@ public class DensityCalculaterService {
     
     private final StationRouteConnectionRepository stationRouteConnectionRepository;
     
+    private final MersinCityDataProviderService mersinCityDataProviderService;
+    
     private Long correction;
     
     public DensityCalculaterService(RawTableRepository rawTableRepository, 
@@ -89,7 +92,8 @@ public class DensityCalculaterService {
     		StationService stationService,RouteService routeService,
     		ScheduledVoyageRepository scheduledVoyageRepository,ApplicationProperties applicationProperties,
     		IntegrationService integrationService, ObjectMapper objectMapper,StationRepository stationRepository,
-    		 StationRouteConnectionRepository stationRouteConnectionRepository) {
+    		 StationRouteConnectionRepository stationRouteConnectionRepository,
+    		 MersinCityDataProviderService mersinCityDataProviderService) {
 		super();
 		this.rawTableRepository = rawTableRepository;
 		this.busDensityHistoryRepository = busDensityHistoryRepository;
@@ -102,9 +106,10 @@ public class DensityCalculaterService {
 		this.objectMapper = objectMapper;
 		this.stationRepository = stationRepository;
 		this.stationRouteConnectionRepository = stationRouteConnectionRepository;
+		this.mersinCityDataProviderService = mersinCityDataProviderService;
     }
 
-	@Scheduled(fixedDelay = 60000)
+	//@Scheduled(fixedDelay = 60000)
 	public void calculateDensityJob() {
 		log.info("calculateDensityJob basladi");
 		if(applicationProperties.getActivateScheduled()) {
@@ -141,17 +146,9 @@ public class DensityCalculaterService {
 				Route route = null;
 				if(!applicationProperties.getSimulation()) {
 					BusLocationInformationVM busLocationInformationVM = integrationService.getInformationOfBus(bus.getBusId());
-					 
-					//stationService.insertAllStations(busLocationInformationVM);
-					
 					station = stationService.findCurrentStation(busLocationInformationVM);
 					route = routeService.findCurrentRoute(busLocationInformationVM);
     		    }else {
-    		    	
-    		    	
-//    		    	if( i!=0 && i % 50 ==0)
-//    		    		station = stationService.getRandomStation();
-    		    	//route = routeService.findGetFirstRoute();
     		    	route =routeService.findRouteByCode("28M-G");
     		    	station = findNearestStation(rawTable.getLat(),rawTable.getLng(),route.getId());
     		    }
