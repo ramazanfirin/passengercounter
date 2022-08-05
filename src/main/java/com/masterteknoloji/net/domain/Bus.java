@@ -28,6 +28,21 @@ public class Bus implements Serializable {
     @Column(name = "bus_id")
     private Long busId;
 
+    @Transient
+    private Route currentRoute;
+    
+    @Transient
+    private Station currentStation;
+    
+    @Transient
+    private ScheduledVoyage currentScheduledVoyage;
+    
+    @Transient
+    private Long currentPassengerCount;
+    
+    @Transient
+    private long currentDensity;
+    
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -92,4 +107,44 @@ public class Bus implements Serializable {
             ", busId=" + getBusId() +
             "}";
     }
+
+	public Route getCurrentRoute() {
+		return currentRoute;
+	}
+
+	public void setCurrentRoute(Route currentRoute) {
+		this.currentRoute = currentRoute;
+	}
+
+	public Station getCurrentStation() {
+		return currentStation;
+	}
+
+	public void setCurrentStation(Station currentStation) {
+		this.currentStation = currentStation;
+	}
+
+	public ScheduledVoyage getCurrentScheduledVoyage() {
+		return currentScheduledVoyage;
+	}
+
+	public void setCurrentScheduledVoyage(ScheduledVoyage currentScheduledVoyage) {
+		this.currentScheduledVoyage = currentScheduledVoyage;
+	}
+
+	public Long getCurrentPassengerCount() {
+		return currentPassengerCount;
+	}
+
+	public void setCurrentPassengerCount(Long currentPassengerCount) {
+		this.currentPassengerCount = currentPassengerCount;
+	}
+
+	public long getCurrentDensity() {
+		return currentDensity;
+	}
+
+	public void setCurrentDensity(long currentDensity) {
+		this.currentDensity = currentDensity;
+	}
 }

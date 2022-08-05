@@ -65,20 +65,16 @@ public class Util {
 		return totalGetIn;
 	}
 	
-	public static Long calculateCurrentPassengerCount(RawTable lastRawTable,RawTable rawTable) {
-		if( lastRawTable == null) { 
-			Long totalGetIn = calculateGetInOfRawTable(rawTable);
-			Long totalGetOut = calculateGetOutOfRawTable(rawTable);
-			//correction = totalGetIn - totalGetOut;
-			//System.out.println("correction : "+ correction);
+	public static Long calculateCurrentPassengerCount(RawTable lastRawTable,RawTable rawTable,Long correction) {
+		if( lastRawTable == null) {
 			return 0l;
 		}	
 		Long totalGetIn = calculateGetInOfRawTable(rawTable);
 		Long totalGetOut = calculateGetOutOfRawTable(rawTable);
 		
 		//totalGetIn  =totalGetIn + 130;
-		//return totalGetIn - totalGetOut-correction;
-		return totalGetIn - totalGetOut;
+		return totalGetIn - totalGetOut-correction;
+		//return totalGetIn - totalGetOut;
 	}
 	
 	

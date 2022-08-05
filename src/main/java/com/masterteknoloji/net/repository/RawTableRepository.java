@@ -19,4 +19,7 @@ public interface RawTableRepository extends JpaRepository<RawTable, Long> {
 
 	@Query("select a from RawTable a where a.processed=false order by id")
 	List<RawTable> findUnprocessedRecords(Pageable pageable);
+	
+//	@Query("select a from RawTable a where a.processed=false order by id")
+//	List<RawTable> findUnprocessedRecords(Pageable pageable);
 }
