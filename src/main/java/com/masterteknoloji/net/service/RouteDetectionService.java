@@ -2,6 +2,7 @@ package com.masterteknoloji.net.service;
 
 import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -206,7 +207,7 @@ public class RouteDetectionService {
 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
-		return Instant.parse(dateFormat.format(date) + ".00Z");
+		return Instant.parse(dateFormat.format(date) + ".00Z").minus(3, ChronoUnit.HOURS);
 		// return date.toInstant();
 	}
 

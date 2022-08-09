@@ -62,7 +62,7 @@
                 <tr ng-repeat="scheduledVoyage in vm.scheduledVoyages track by scheduledVoyage.id">
                     <td><a ui-sref="scheduled-voyage-detail({id:scheduledVoyage.id})">{{scheduledVoyage.id}}</a></td>
                     <td>{{scheduledVoyage.name}}</td>
-                    <td>{{scheduledVoyage.scheduledTime | date:'medium'}}</td>
+                    <td>{{scheduledVoyage.scheduledTime | date:'dd.MM.y HH:mm' :'UTC +0'}}</td>
                     <td>
                         <a ui-sref="route-detail({id:scheduledVoyage.route.id})">{{scheduledVoyage.route.routeCode}}</a>
                     </td>

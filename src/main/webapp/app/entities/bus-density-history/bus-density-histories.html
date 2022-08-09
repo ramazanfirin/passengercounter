@@ -1,10 +1,11 @@
+<script src="/bower_components/ngmap/build/scripts/ng-map.min.js"></script>
 <div>
     <h2 data-translate="passengercounter2App.busDensityHistory.home.title">Bus Density Histories</h2>
     <jhi-alert></jhi-alert>
     <div class="container-fluid">
         <div class="row">
             <div class="col-xs-4 no-padding-left">
-                <!-- 
+                <!--  
                 <button class="btn btn-primary" ui-sref="bus-density-history.new" >
                     <span class="glyphicon glyphicon-plus"></span>
                     <span  data-translate="passengercounter2App.busDensityHistory.home.createLabel">
@@ -67,7 +68,7 @@
         
         <div class="col-xs-2">
              <label data-translate="passengercounter2App.stationRouteConnection.route" for="field_route">Route</label>
-              <select class="form-control" id="field_scheduledTimeValue" name="scheduledTimeValue" ng-model="vm.scheduledTimeValue" ng-options="scheduledVoyages as (scheduledVoyages.scheduledTime | date:'H:mm' ) for  scheduledVoyages in vm.scheduledVoyages track by scheduledVoyages.id">
+              <select class="form-control" id="field_scheduledTimeValue" name="scheduledTimeValue" ng-model="vm.scheduledTimeValue" ng-options="scheduledVoyages as (scheduledVoyages.scheduledTime | date:'H:mm' :'UTC +0' ) for  scheduledVoyages in vm.scheduledVoyages track by scheduledVoyages.id">
                 <option value=""></option>
             </select>
         </div>
@@ -136,7 +137,7 @@
                         {{busDensityHistory.route.name}}
                     </td>
                     <td>
-                        {{busDensityHistory.scheduledVoyage.scheduledTime  | date:'dd.MM.y hh:mm'}}
+                        {{busDensityHistory.scheduledVoyage.scheduledTime  | date:'dd.MM.y HH:mm' :'UTC +0'}}
                     </td>
                     <td>
                     	{{busDensityHistory.bus.plate}}
@@ -146,7 +147,7 @@
                     </td>
                     
                     <td>
-                    {{vm.formatTime(busDensityHistory.recordDate) | date:'dd.MM.y hh:mm:ss'}}</td>
+                    {{busDensityHistory.recordDate | date:'dd.MM.y HH:mm:ss' :'UTC +0'}}</td>
                     
                     <td>{{busDensityHistory.getInPassengerCount}}</td>
                     <td>{{busDensityHistory.getOutPassengerCount}}</td>
