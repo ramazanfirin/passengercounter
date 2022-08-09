@@ -1,5 +1,9 @@
 package com.masterteknoloji.net.service.util;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+
 import com.masterteknoloji.net.domain.RawTable;
 
 public class Util {
@@ -77,6 +81,20 @@ public class Util {
 		//return totalGetIn - totalGetOut;
 	}
 	
+	public static Boolean isValid(RawTable rawTable) {
+		Boolean result = true;
+		Instant insertDate =rawTable.getInsertDate().minus(8,ChronoUnit.HOURS);
+		Duration duration = Duration.between(insertDate, Instant.now());
+		
+		System.out.println(Instant.now());
+		System.out.println(rawTable.getInsertDate());
+		System.out.println(insertDate);
+		System.out.println(duration.getSeconds());
+		if(duration.getSeconds()>120)
+			result = false;
+		
+		return result;
+	}
 	
 
 }

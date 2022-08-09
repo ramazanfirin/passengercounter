@@ -92,11 +92,18 @@ public class RouteDetectionService {
 				RawTable lastRawTableofDevice = lastRawTableMap.get(deviceId);
 
 				if (Util.checkIsItUnnecesary(rawTable, lastRawTableofDevice)) {
-					saveSuccessfuly(rawTable);
+					saveError(rawTable, "dublicate");
 					log.info("RouteDetectionJob bir önceki kayit ile ayni.id:"+rawTable.getId());
 					continue;
 				}
 
+				if(!Util.isValid(rawTable)) {
+					saveError(rawTable, "timeout");
+					log.info("RouteDetectionJob timeout.id:"+rawTable.getId());
+					continue;
+				}
+				
+				
 				Bus bus = findBus(deviceId);
 
 				BusCurrentLocationInformation busCurrentLocationInformation = mersinCityDataProviderService
@@ -109,13 +116,13 @@ public class RouteDetectionService {
 
 				Route route = routeService.findRouteByCode(busCurrentLocationInformation.getHatNo());
 				if (route==null) {
-					saveError(rawTable, "RouteDetectionJob route bulanamadi");
+					saveError(rawTable, "RouteDetectionJob route bulanamadi:"+busCurrentLocationInformation.getHatNo());
 					continue;
 				}
 				
 				Station station = stationService.findByStationId(Long.parseLong(busCurrentLocationInformation.getDurak()));
 				if (station==null) {
-					saveError(rawTable, "RouteDetectionJob durak bulanamadi");
+					saveError(rawTable, "RouteDetectionJob durak bulanamadi:"+busCurrentLocationInformation.getDurak());
 					continue;
 				}
 				
@@ -224,7 +231,7 @@ public class RouteDetectionService {
 		rawTable.setProcessed(true);
 		rawTableRepository.save(rawTable);
 	}
-
+	
 	public void saveError(RawTable rawTable, String error) {
 		rawTable.setIsSuccess(false);
 		rawTable.setProcessed(true);

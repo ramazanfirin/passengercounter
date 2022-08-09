@@ -5,6 +5,7 @@ import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.when;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.junit.Before;
@@ -122,7 +123,7 @@ public class RouteDetectionServiceTest {
 
 	 }
 	 
-	 public void insertRawTable(Long down1,Long down2,Long down3,Long down4,Long up1,Long up2,Long up3,Long up4) {
+	 public RawTable insertRawTable(Long down1,Long down2,Long down3,Long down4,Long up1,Long up2,Long up3,Long up4) {
 		 RawTable rawTable = new RawTable();
 		 rawTable.setDeviceIdOriginal(DEVICE_ID.toString());
 		 rawTable.setDownPeople1(down1);
@@ -137,8 +138,17 @@ public class RouteDetectionServiceTest {
 		 rawTable.setUpPeople4(up4);
 		 
 		 rawTable.setProcessed(false);
-		 rawTableRepository.save(rawTable);
+		 Instant instant = Instant.now().plus(8, ChronoUnit.HOURS);
+		 rawTable.setInsertDate(instant);
+		 rawTable = rawTableRepository.save(rawTable);
+		 return rawTable;
 		 
+	 }
+	 
+	 public void insertRawTable(Long down1,Long down2,Long down3,Long down4,Long up1,Long up2,Long up3,Long up4,Instant instant) {
+		 RawTable rawTable = insertRawTable(down1, down2, down3, down4, up1, up2, up3, up4);
+		 rawTable.setInsertDate(instant);
+		 rawTableRepository.save(rawTable);
 	 }
 	 
 	 
@@ -274,5 +284,20 @@ public class RouteDetectionServiceTest {
 		
 		
 	 }
+	 
+		@Test
+		public void checkTimeout() throws Exception {
+			insertRawTable(5l, 0l, 0l, 0l, 10l, 0l, 0l, 0l, Instant.now().plus(2, ChronoUnit.HOURS));
+
+			routeDetectionService.detectRoute();
+
+			List<RawTable> list = rawTableRepository.findAll();
+			assertThat(list.size()).isEqualTo(1);
+
+			RawTable table = list.get(0);
+			assertThat(table.isProcessed()).isTrue();
+			assertThat(table.isIsSuccess()).isFalse();
+			assertThat(table.getErrorMessage()).contains("timeout");
+		}
 
 }
