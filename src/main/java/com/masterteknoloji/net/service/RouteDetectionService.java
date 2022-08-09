@@ -75,7 +75,7 @@ public class RouteDetectionService {
 
 	private Map<String, RawTable> lastRawTableMap = new HashMap<String, RawTable>();
 
-	@Scheduled(fixedDelay = 60000)
+	@Scheduled(fixedDelay = 15000)
 	public void detectRoute() {
         
 		log.info("RouteDetectionJob Basladi");;

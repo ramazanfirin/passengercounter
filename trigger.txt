@@ -14,3 +14,9 @@ CREATE TRIGGER insert_statistics_people_trigger
      incr_people = NEW.IncrPeople,
      insert_date = NEW.StatisticsTime,
      processed = 0
+     
+     
+     
+SET GLOBAL time_zone = '+0:00';
+
+SELECT @@global.time_zone;     

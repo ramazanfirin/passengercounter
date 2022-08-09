@@ -135,7 +135,7 @@ public class StationResource {
     	importService.importMersinStations();
     	importService.importMersinRoutes();
     	importService.importMersinStationRouteConnectionList();
-    	importService.importMersinSchedulesVoyges(30l);
+    	//importService.importMersinSchedulesVoyges(30l);
         return ResponseEntity.ok().build();
     }
 }

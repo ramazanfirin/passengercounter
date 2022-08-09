@@ -4,6 +4,7 @@ import com.masterteknoloji.net.Passengercounter2App;
 
 import com.masterteknoloji.net.domain.Bus;
 import com.masterteknoloji.net.repository.BusRepository;
+import com.masterteknoloji.net.service.BusService;
 import com.masterteknoloji.net.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
@@ -58,6 +59,9 @@ public class BusResourceIntTest {
 
     @Autowired
     private EntityManager em;
+    
+    @Autowired
+    private BusService busService;
 
     private MockMvc restBusMockMvc;
 
@@ -66,7 +70,7 @@ public class BusResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final BusResource busResource = new BusResource(busRepository);
+        final BusResource busResource = new BusResource(busRepository,busService);
         this.restBusMockMvc = MockMvcBuilders.standaloneSetup(busResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
