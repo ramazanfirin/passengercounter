@@ -76,7 +76,7 @@ public class RouteDetectionService {
 
 	private Map<String, RawTable> lastRawTableMap = new HashMap<String, RawTable>();
 
-	@Scheduled(fixedDelay = 15000)
+	//@Scheduled(fixedDelay = 15000)
 	public void detectRoute() {
         
 		log.info("RouteDetectionJob Basladi");;
@@ -87,19 +87,19 @@ public class RouteDetectionService {
 		for (RawTable rawTable : unprocessedList) {
 			try {
 
-				rawTable = rawTableRepository.findOne(rawTable.getId());
+				//rawTable = rawTableRepository.findOne(rawTable.getId());
 				String deviceId = rawTable.getDeviceIdOriginal();
 
 				RawTable lastRawTableofDevice = lastRawTableMap.get(deviceId);
 
 				if (Util.checkIsItUnnecesary(rawTable, lastRawTableofDevice)) {
-					saveError(rawTable, "dublicate");
+					saveError(rawTable, "dublicate:id1:"+rawTable.getId()+ ",id2="+lastRawTableofDevice.getId());
 					log.info("RouteDetectionJob bir önceki kayit ile ayni.id:"+rawTable.getId());
 					continue;
 				}
 
 				if(!Util.isValid(rawTable)) {
-					saveError(rawTable, "timeout");
+					saveError(rawTable, "timeout:id:"+rawTable.getId()+",time1:"+rawTable.getInsertDate()+",time2:"+Instant.now());
 					log.info("RouteDetectionJob timeout.id:"+rawTable.getId());
 					continue;
 				}
