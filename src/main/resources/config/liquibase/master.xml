@@ -14,7 +14,7 @@
     <include file="config/liquibase/changelog/20211016081752_added_entity_RawTable.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20211021090817_added_entity_BusDensityHistory.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220728081750_added_entity_Route.xml" relativeToChangelogFile="false"/>
-<!--     <include file="config/liquibase/changelog/20220810081752_added_entity_RawTable.xml" relativeToChangelogFile="false"/> -->
+    <include file="config/liquibase/changelog/20220810081752_added_entity_RawTable.xml" relativeToChangelogFile="false"/>
     
     
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
