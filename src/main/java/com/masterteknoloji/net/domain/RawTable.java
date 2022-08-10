@@ -83,6 +83,9 @@ public class RawTable implements Serializable {
     @Column(name = "current_voyage")
     private String currentVoyage;
 
+    @Column(name = "correction")
+    private Long correction;
+    
     @ManyToOne
     private Device device;
 
@@ -448,4 +451,12 @@ public class RawTable implements Serializable {
             ", currentVoyage='" + getCurrentVoyage() + "'" +
             "}";
     }
+
+	public Long getCorrection() {
+		return correction;
+	}
+
+	public void setCorrection(Long correction) {
+		this.correction = correction;
+	}
 }

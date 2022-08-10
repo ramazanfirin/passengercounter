@@ -83,7 +83,7 @@ public class Util {
 	
 	public static Boolean isValid(RawTable rawTable) {
 		Boolean result = true;
-		Instant insertDate =rawTable.getInsertDate().minus(5,ChronoUnit.HOURS);
+		Instant insertDate =rawTable.getInsertDate();
 		Duration duration = Duration.between(insertDate, Instant.now());
 		
 		System.out.println(Instant.now());

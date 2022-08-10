@@ -108,10 +108,11 @@ public class RouteDetectionServiceTest {
 		 stationRepository.save(station);
 	 }
 	 
+	 BusCurrentLocationInformation busCurrentLocationInformation;
 	 @Before
 	 public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		BusCurrentLocationInformation busCurrentLocationInformation = new BusCurrentLocationInformation();
+		busCurrentLocationInformation = new BusCurrentLocationInformation();
 		busCurrentLocationInformation.setDurak("50172");
 		busCurrentLocationInformation.setHatNo("26M-G");
 		busCurrentLocationInformation.setTarihSaat("09:00:00");
@@ -163,6 +164,12 @@ public class RouteDetectionServiceTest {
 		RawTable table = list.get(0);
 		assertThat(table.isProcessed()).isTrue();
 		assertThat(table.isIsSuccess()).isTrue();
+		assertThat(table.getCurrentRouteCode()).isEqualTo(busCurrentLocationInformation.getHatNo());
+		assertThat(table.getCurrentStationId()).isEqualTo(busCurrentLocationInformation.getDurak());
+		assertThat(table.getCurrentVoyage()).isEqualTo(busCurrentLocationInformation.getTarihSaat());
+		
+		assertThat(table.getStation()).isEqualTo(station);
+		assertThat(table.getVoyage()).isNotNull();
 		
 		List<BusDensityHistory> list2 = busDensityHistoryRepository.findAll();
 		assertThat(list2.size()).isEqualTo(1);
@@ -178,7 +185,7 @@ public class RouteDetectionServiceTest {
 		assertThat(item2.getTotalPassengerCount()).isEqualTo(0);
 		
 		assertThat(routeDetectionService.getCorrectionMap().get(DEVICE_ID.toString())).isEqualTo(5);
-		
+		assertThat(table.getCorrection()).isEqualTo(5);
 	 }
 	
 	 @Test
@@ -205,7 +212,8 @@ public class RouteDetectionServiceTest {
 		assertThat(item2.getTotalPassengerCount()).isEqualTo(0);
 		
 		assertThat(routeDetectionService.getCorrectionMap().get(DEVICE_ID.toString())).isEqualTo(5);
-		
+		assertThat(list.get(0).getCorrection()).isEqualTo(5);
+		assertThat(list.get(1).getCorrection()).isNull();
 	 }
 	
 	 @Test
@@ -232,6 +240,8 @@ public class RouteDetectionServiceTest {
 		assertThat(item2.getTotalPassengerCount()).isEqualTo(4);
 		
 		assertThat(routeDetectionService.getCorrectionMap().get(DEVICE_ID.toString())).isEqualTo(5);
+		assertThat(list.get(0).getCorrection()).isEqualTo(5);
+		assertThat(list.get(1).getCorrection()).isNull();
 		
 	    Bus item = busService.getBusMap().get(bus.getPlate());
 		//Bus bus = busRepository.findAll().get(0); 
@@ -273,6 +283,8 @@ public class RouteDetectionServiceTest {
 		assertThat(item2.getTotalPassengerCount()).isEqualTo(1);
 		
 		assertThat(routeDetectionService.getCorrectionMap().get(DEVICE_ID.toString())).isEqualTo(5);
+		assertThat(list.get(0).getCorrection()).isEqualTo(5);
+		assertThat(list.get(1).getCorrection()).isNull();
 		
 	    Bus item = busService.getBusMap().get(bus.getPlate());
 		//Bus bus = busRepository.findAll().get(0); 

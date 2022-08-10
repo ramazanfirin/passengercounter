@@ -89,6 +89,7 @@ public class RouteDetectionService {
 
 				//rawTable = rawTableRepository.findOne(rawTable.getId());
 				String deviceId = rawTable.getDeviceIdOriginal();
+				rawTable.setInsertDate(rawTable.getInsertDate().minus(5,ChronoUnit.HOURS));
 
 				RawTable lastRawTableofDevice = lastRawTableMap.get(deviceId);
 
@@ -109,6 +110,9 @@ public class RouteDetectionService {
 
 				BusCurrentLocationInformation busCurrentLocationInformation = mersinCityDataProviderService
 						.getCurrentPosition(bus.getPlate());
+				rawTable.setCurrentRouteCode(busCurrentLocationInformation.getHatNo());
+				rawTable.setCurrentStationId(busCurrentLocationInformation.getDurak());
+				rawTable.setCurrentVoyage(busCurrentLocationInformation.getTarihSaat());
 				
 				if (busCurrentLocationInformation.getHatNo().equals("0")) {
 					saveError(rawTable, "RouteDetectionJob aktif_sefer_bulanamadi");
@@ -126,10 +130,12 @@ public class RouteDetectionService {
 					saveError(rawTable, "RouteDetectionJob durak bulanamadi:"+busCurrentLocationInformation.getDurak());
 					continue;
 				}
+				rawTable.setStation(station);
 				
 				Instant scheduledTime = calculateScheduledTime(busCurrentLocationInformation);
 				ScheduledVoyage scheduledVoyage = scheduledVoyageService.findOrInsertScheduledVoyage(route,scheduledTime, bus);
-
+				rawTable.setVoyage(scheduledVoyage);
+				
 				saveStatistics(rawTable, bus, station, route, scheduledVoyage);
 
 			} catch (Exception e) {
@@ -220,6 +226,7 @@ public class RouteDetectionService {
 			Long totalGetOut = Util.calculateGetOutOfRawTable(rawTable);
 			correction = totalGetIn - totalGetOut;
 			correctionMap.put(rawTable.getDeviceIdOriginal(), correction);
+			rawTable.setCorrection(correction);
 		} else {
 			correction = correctionMap.get(rawTable.getDeviceIdOriginal());
 		}
