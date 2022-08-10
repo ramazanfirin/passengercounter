@@ -88,6 +88,18 @@
         {
             "fieldName": "errorMessage",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "currentRouteCode",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "currentStationId",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "currentVoyage",
+            "fieldType": "String"
         }
     ],
     "changelogDate": "20211016081752",

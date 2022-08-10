@@ -91,6 +91,15 @@ public class RawTableResourceIntTest {
     private static final String DEFAULT_ERROR_MESSAGE = "AAAAAAAAAA";
     private static final String UPDATED_ERROR_MESSAGE = "BBBBBBBBBB";
 
+    private static final String DEFAULT_CURRENT_ROUTE_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_CURRENT_ROUTE_CODE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CURRENT_STATION_ID = "AAAAAAAAAA";
+    private static final String UPDATED_CURRENT_STATION_ID = "BBBBBBBBBB";
+
+    private static final String DEFAULT_CURRENT_VOYAGE = "AAAAAAAAAA";
+    private static final String UPDATED_CURRENT_VOYAGE = "BBBBBBBBBB";
+
     @Autowired
     private RawTableRepository rawTableRepository;
 
@@ -145,7 +154,10 @@ public class RawTableResourceIntTest {
             .insertDate(DEFAULT_INSERT_DATE)
             .processed(DEFAULT_PROCESSED)
             .isSuccess(DEFAULT_IS_SUCCESS)
-            .errorMessage(DEFAULT_ERROR_MESSAGE);
+            .errorMessage(DEFAULT_ERROR_MESSAGE)
+            .currentRouteCode(DEFAULT_CURRENT_ROUTE_CODE)
+            .currentStationId(DEFAULT_CURRENT_STATION_ID)
+            .currentVoyage(DEFAULT_CURRENT_VOYAGE);
         return rawTable;
     }
 
@@ -186,6 +198,9 @@ public class RawTableResourceIntTest {
         assertThat(testRawTable.isProcessed()).isEqualTo(DEFAULT_PROCESSED);
         assertThat(testRawTable.isIsSuccess()).isEqualTo(DEFAULT_IS_SUCCESS);
         assertThat(testRawTable.getErrorMessage()).isEqualTo(DEFAULT_ERROR_MESSAGE);
+        assertThat(testRawTable.getCurrentRouteCode()).isEqualTo(DEFAULT_CURRENT_ROUTE_CODE);
+        assertThat(testRawTable.getCurrentStationId()).isEqualTo(DEFAULT_CURRENT_STATION_ID);
+        assertThat(testRawTable.getCurrentVoyage()).isEqualTo(DEFAULT_CURRENT_VOYAGE);
     }
 
     @Test
@@ -234,7 +249,10 @@ public class RawTableResourceIntTest {
             .andExpect(jsonPath("$.[*].insertDate").value(hasItem(DEFAULT_INSERT_DATE.toString())))
             .andExpect(jsonPath("$.[*].processed").value(hasItem(DEFAULT_PROCESSED.booleanValue())))
             .andExpect(jsonPath("$.[*].isSuccess").value(hasItem(DEFAULT_IS_SUCCESS.booleanValue())))
-            .andExpect(jsonPath("$.[*].errorMessage").value(hasItem(DEFAULT_ERROR_MESSAGE.toString())));
+            .andExpect(jsonPath("$.[*].errorMessage").value(hasItem(DEFAULT_ERROR_MESSAGE.toString())))
+            .andExpect(jsonPath("$.[*].currentRouteCode").value(hasItem(DEFAULT_CURRENT_ROUTE_CODE.toString())))
+            .andExpect(jsonPath("$.[*].currentStationId").value(hasItem(DEFAULT_CURRENT_STATION_ID.toString())))
+            .andExpect(jsonPath("$.[*].currentVoyage").value(hasItem(DEFAULT_CURRENT_VOYAGE.toString())));
     }
 
     @Test
@@ -264,7 +282,10 @@ public class RawTableResourceIntTest {
             .andExpect(jsonPath("$.insertDate").value(DEFAULT_INSERT_DATE.toString()))
             .andExpect(jsonPath("$.processed").value(DEFAULT_PROCESSED.booleanValue()))
             .andExpect(jsonPath("$.isSuccess").value(DEFAULT_IS_SUCCESS.booleanValue()))
-            .andExpect(jsonPath("$.errorMessage").value(DEFAULT_ERROR_MESSAGE.toString()));
+            .andExpect(jsonPath("$.errorMessage").value(DEFAULT_ERROR_MESSAGE.toString()))
+            .andExpect(jsonPath("$.currentRouteCode").value(DEFAULT_CURRENT_ROUTE_CODE.toString()))
+            .andExpect(jsonPath("$.currentStationId").value(DEFAULT_CURRENT_STATION_ID.toString()))
+            .andExpect(jsonPath("$.currentVoyage").value(DEFAULT_CURRENT_VOYAGE.toString()));
     }
 
     @Test
@@ -303,7 +324,10 @@ public class RawTableResourceIntTest {
             .insertDate(UPDATED_INSERT_DATE)
             .processed(UPDATED_PROCESSED)
             .isSuccess(UPDATED_IS_SUCCESS)
-            .errorMessage(UPDATED_ERROR_MESSAGE);
+            .errorMessage(UPDATED_ERROR_MESSAGE)
+            .currentRouteCode(UPDATED_CURRENT_ROUTE_CODE)
+            .currentStationId(UPDATED_CURRENT_STATION_ID)
+            .currentVoyage(UPDATED_CURRENT_VOYAGE);
 
         restRawTableMockMvc.perform(put("/api/raw-tables")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -331,6 +355,9 @@ public class RawTableResourceIntTest {
         assertThat(testRawTable.isProcessed()).isEqualTo(UPDATED_PROCESSED);
         assertThat(testRawTable.isIsSuccess()).isEqualTo(UPDATED_IS_SUCCESS);
         assertThat(testRawTable.getErrorMessage()).isEqualTo(UPDATED_ERROR_MESSAGE);
+        assertThat(testRawTable.getCurrentRouteCode()).isEqualTo(UPDATED_CURRENT_ROUTE_CODE);
+        assertThat(testRawTable.getCurrentStationId()).isEqualTo(UPDATED_CURRENT_STATION_ID);
+        assertThat(testRawTable.getCurrentVoyage()).isEqualTo(UPDATED_CURRENT_VOYAGE);
     }
 
     @Test

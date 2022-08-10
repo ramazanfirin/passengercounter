@@ -74,6 +74,15 @@ public class RawTable implements Serializable {
     @Column(name = "error_message")
     private String errorMessage;
 
+    @Column(name = "current_route_code")
+    private String currentRouteCode;
+
+    @Column(name = "current_station_id")
+    private String currentStationId;
+
+    @Column(name = "current_voyage")
+    private String currentVoyage;
+
     @ManyToOne
     private Device device;
 
@@ -313,6 +322,45 @@ public class RawTable implements Serializable {
         this.errorMessage = errorMessage;
     }
 
+    public String getCurrentRouteCode() {
+        return currentRouteCode;
+    }
+
+    public RawTable currentRouteCode(String currentRouteCode) {
+        this.currentRouteCode = currentRouteCode;
+        return this;
+    }
+
+    public void setCurrentRouteCode(String currentRouteCode) {
+        this.currentRouteCode = currentRouteCode;
+    }
+
+    public String getCurrentStationId() {
+        return currentStationId;
+    }
+
+    public RawTable currentStationId(String currentStationId) {
+        this.currentStationId = currentStationId;
+        return this;
+    }
+
+    public void setCurrentStationId(String currentStationId) {
+        this.currentStationId = currentStationId;
+    }
+
+    public String getCurrentVoyage() {
+        return currentVoyage;
+    }
+
+    public RawTable currentVoyage(String currentVoyage) {
+        this.currentVoyage = currentVoyage;
+        return this;
+    }
+
+    public void setCurrentVoyage(String currentVoyage) {
+        this.currentVoyage = currentVoyage;
+    }
+
     public Device getDevice() {
         return device;
     }
@@ -394,6 +442,9 @@ public class RawTable implements Serializable {
             ", processed='" + isProcessed() + "'" +
             ", isSuccess='" + isIsSuccess() + "'" +
             ", errorMessage='" + getErrorMessage() + "'" +
+            ", currentRouteCode='" + getCurrentRouteCode() + "'" +
+            ", currentStationId='" + getCurrentStationId() + "'" +
+            ", currentVoyage='" + getCurrentVoyage() + "'" +
             "}";
     }
 }

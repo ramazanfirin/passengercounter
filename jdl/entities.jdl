@@ -53,6 +53,10 @@ entity RawTable{
     processed Boolean
     isSuccess Boolean
     errorMessage String
+    
+    currentRouteCode String
+    currentStationId String
+    currentVoyage String
 }
 
 entity BusDensityHistory{
