@@ -19,7 +19,7 @@
 		vm.analyze = analyze;
 		vm.tempStation ;
 		vm.stations = Station.query();
-		vm.debug=false;
+		vm.debug=true;
 		vm.formatTime = formatTime;
 		vm.routes = Route.query();
 		vm.openCalendar = openCalendar;
