@@ -24,7 +24,7 @@
                     <td>{{bus.routeName}}</td>
                     <td>{{bus.routeCode}}</td>
                     <td>{{bus.stationName}}</td>
-                    <td>{{bus.scheduledVoyage}}</td>
+                    <td>{{bus.scheduledVoyage | date:'dd.MM.y HH:mm' :'UTC +3' }}</td>
                     <td>{{bus.passengerCount}}</td>
                     <td>{{bus.density}}</td>
                     </tr>

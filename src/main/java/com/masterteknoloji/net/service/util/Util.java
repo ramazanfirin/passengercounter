@@ -77,7 +77,10 @@ public class Util {
 		Long totalGetOut = calculateGetOutOfRawTable(rawTable);
 		
 		//totalGetIn  =totalGetIn + 130;
-		return totalGetIn - totalGetOut-correction;
+		Long total = totalGetIn - totalGetOut-correction;
+		if(total<0)
+			total = 0l;
+		return total;
 		//return totalGetIn - totalGetOut;
 	}
 	

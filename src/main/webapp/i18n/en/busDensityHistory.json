@@ -25,7 +25,8 @@
             "station": "Station",
             "route": "Route",
             "firstRawRecord": "First Raw Record",
-            "lastRawRecord": "Last Raw Record"
+            "lastRawRecord": "Last Raw Record",
+            "differance": "Difference"
         }
     }
 }

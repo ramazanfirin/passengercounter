@@ -28,7 +28,7 @@
  		vm.datePickerOpenStatus = {};
  		vm.getScheduledList = getScheduledList;
  		vm.showMap = showMap;
-        loadAll();
+        //loadAll();
         vm.idOfFirtRecord="";
         
         function formatTime(date){

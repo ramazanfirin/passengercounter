@@ -76,7 +76,7 @@ public class RouteDetectionService {
 
 	private Map<String, RawTable> lastRawTableMap = new HashMap<String, RawTable>();
 
-	//@Scheduled(fixedDelay = 15000)
+	@Scheduled(fixedDelay = 15000)
 	public void detectRoute() {
         
 		log.info("RouteDetectionJob Basladi");;
@@ -177,7 +177,7 @@ public class RouteDetectionService {
 		Long totalPassengerOfBus = Util.calculateCurrentPassengerCount(lastRawTableofDevice, rawTable, correction);
 	
 		busDensityHistory.setTotalPassengerCount(totalPassengerOfBus);
-		busDensityHistory.setRecordDate(rawTable.getInsertDate());
+		busDensityHistory.setRecordDate(rawTable.getInsertDate().minus(3, ChronoUnit.HOURS));
 		busDensityHistory.setLastRawRecord(rawTable);
 		Long density = 100 * totalPassengerOfBus / 60;
 		busDensityHistory.setDensity(density);

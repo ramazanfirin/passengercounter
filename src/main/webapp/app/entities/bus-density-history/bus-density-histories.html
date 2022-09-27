@@ -117,8 +117,9 @@
                     
                     
                     <th jh-sort-by="recordDate"><span data-translate="passengercounter2App.busDensityHistory.recordDate">Record Date</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="getInPassengerCount"><span data-translate="passengercounter2App.busDensityHistory.getInPassengerCount">Get In Passenger Count</span> <span class="glyphicon glyphicon-sort"></span></th>
-                    <th jh-sort-by="getOutPassengerCount"><span data-translate="passengercounter2App.busDensityHistory.getOutPassengerCount">Get Out Passenger Count</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th ng-if="vm.debug" jh-sort-by="getInPassengerCount"><span data-translate="passengercounter2App.busDensityHistory.getInPassengerCount">Get In Passenger Count</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th ng-if="vm.debug" jh-sort-by="getOutPassengerCount"><span data-translate="passengercounter2App.busDensityHistory.getOutPassengerCount">Get Out Passenger Count</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th ><span data-translate="passengercounter2App.busDensityHistory.differance">Total Passenger Count</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="totalPassengerCount"><span data-translate="passengercounter2App.busDensityHistory.totalPassengerCount">Total Passenger Count</span> <span class="glyphicon glyphicon-sort"></span></th>
                     
                     <th jh-sort-by="density"><span data-translate="passengercounter2App.busDensityHistory.density">Density</span> <span class="glyphicon glyphicon-sort"></span></th>
@@ -149,8 +150,10 @@
                     <td>
                     {{busDensityHistory.recordDate | date:'dd.MM.y HH:mm:ss' :'UTC +3'}}</td>
                     
-                    <td>{{busDensityHistory.getInPassengerCount}}</td>
-                    <td>{{busDensityHistory.getOutPassengerCount}}</td>
+                    <td ng-if="vm.debug">{{busDensityHistory.getInPassengerCount}}</td>
+                    <td ng-if="vm.debug">{{busDensityHistory.getOutPassengerCount}}</td>
+                    <td>{{busDensityHistory.getInPassengerCount-busDensityHistory.getOutPassengerCount}}</td>
+                    
                     <td>{{busDensityHistory.totalPassengerCount}}</td>
                     <td>%{{busDensityHistory.density}}</td>
                     
