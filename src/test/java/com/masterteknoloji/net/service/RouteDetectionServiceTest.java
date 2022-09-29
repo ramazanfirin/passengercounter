@@ -259,11 +259,53 @@ public class RouteDetectionServiceTest {
 	 public void routeDetection2() throws Exception {
 		insertRawTable(5l, 0l, 0l, 0l, 10l, 0l, 0l, 0l);
 		insertRawTable(6l, 0l, 0l, 0l, 15l, 0l, 0l, 0l);
-		insertRawTable(6l, 2l, 3l, 0l, 15l, 0l, 0l, 0l);
-		insertRawTable(6l, 2l, 3l, 0l, 15l, 1l, 0l, 0l);
-		insertRawTable(7l, 3l, 4l, 0l, 16l, 1l, 3l, 0l);
+		insertRawTable(6l, 0l, 3l, 2l, 15l, 0l, 0l, 0l);
+		insertRawTable(6l, 0l, 3l, 2l, 15l, 1l, 0l, 0l);
+		insertRawTable(7l, 0l, 4l, 3l, 16l, 1l, 3l, 0l);
 		
 		// 9 inen,10 binen
+		routeDetectionService.detectRoute();
+		
+		List<RawTable> list = rawTableRepository.findAll();
+		assertThat(list.size()).isEqualTo(5);
+	 
+		List<BusDensityHistory> list2 = busDensityHistoryRepository.findAll();
+		assertThat(list2.size()).isEqualTo(1);
+		
+		BusDensityHistory item2 = list2.get(0);
+		assertThat(item2.getBus().getBusId()).isEqualTo(bus.getBusId());
+		assertThat(item2.getDensity()).isGreaterThan(0);
+		assertThat(item2.getGetInPassengerCount()).isEqualTo(10);
+		assertThat(item2.getGetOutPassengerCount()).isEqualTo(9);
+		assertThat(item2.getRecordDate()).isNotNull();
+		assertThat(item2.getScheduledVoyage()).isNotNull();
+		assertThat(item2.getStation().getId()).isEqualTo(station.getId());
+		assertThat(item2.getTotalPassengerCount()).isEqualTo(1);
+		
+		assertThat(routeDetectionService.getCorrectionMap().get(DEVICE_ID.toString())).isEqualTo(5);
+		assertThat(list.get(0).getCorrection()).isEqualTo(5);
+		assertThat(list.get(1).getCorrection()).isNull();
+		
+	    Bus item = busService.getBusMap().get(bus.getPlate());
+		//Bus bus = busRepository.findAll().get(0); 
+		assertThat(item.getCurrentRoute().getName()).isEqualTo(route.getName());
+		assertThat(item.getCurrentStation().getName()).isEqualTo(station.getName());
+		assertThat(item.getCurrentScheduledVoyage()).isNotNull();
+		assertThat(item.getCurrentPassengerCount()).isEqualTo(1);
+		assertThat(item.getCurrentDensity()).isGreaterThan(0);
+		
+		
+	 }
+	 
+	 @Test
+	 public void routeDetectionDontCountFirstDootGetout() throws Exception {
+		insertRawTable(5l, 0l, 0l, 0l, 10l, 0l, 0l, 0l);
+		insertRawTable(6l, 0l, 0l, 0l, 15l, 0l, 0l, 0l);
+		insertRawTable(6l, 1l, 3l, 2l, 15l, 0l, 0l, 0l);
+		insertRawTable(6l, 1l, 3l, 2l, 15l, 1l, 0l, 0l);
+		insertRawTable(7l, 1l, 4l, 3l, 16l, 1l, 3l, 0l);
+		
+		// 9 inen,10 binen, ön kapı iniş sayılmıyor
 		routeDetectionService.detectRoute();
 		
 		List<RawTable> list = rawTableRepository.findAll();

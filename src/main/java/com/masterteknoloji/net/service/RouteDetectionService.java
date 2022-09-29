@@ -167,16 +167,16 @@ public class RouteDetectionService {
 		String deviceId = rawTable.getDeviceIdOriginal();
 		RawTable lastRawTableofDevice = lastRawTableMap.get(deviceId);
 
-		Long getInDiff = Util.calculateDiffGetIn(lastRawTableofDevice, rawTable);
-		busDensityHistory.setGetInPassengerCount(busDensityHistory.getGetInPassengerCount() + getInDiff);
-
-		Long getOutDiff = Util.calculateDiffGetOut(lastRawTableofDevice, rawTable);
-		busDensityHistory.setGetOutPassengerCount(busDensityHistory.getGetOutPassengerCount() + getOutDiff);
-
 		Long correction = calculateCorrection(route.getId(), scheduledVoyage.getId(), bus.getId(), rawTable);
+		
+		Long getInDiff = Util.calculateDiffGetIn(lastRawTableofDevice, rawTable);
+		Long getOutDiff = Util.calculateDiffGetOut(lastRawTableofDevice, rawTable);
 		Long totalPassengerOfBus = Util.calculateCurrentPassengerCount(lastRawTableofDevice, rawTable, correction);
-	
+		
+		busDensityHistory.setGetInPassengerCount(busDensityHistory.getGetInPassengerCount() + getInDiff);
+		busDensityHistory.setGetOutPassengerCount(busDensityHistory.getGetOutPassengerCount() + getOutDiff);
 		busDensityHistory.setTotalPassengerCount(totalPassengerOfBus);
+
 		busDensityHistory.setRecordDate(rawTable.getInsertDate().minus(3, ChronoUnit.HOURS));
 		busDensityHistory.setLastRawRecord(rawTable);
 		Long density = 100 * totalPassengerOfBus / 60;
