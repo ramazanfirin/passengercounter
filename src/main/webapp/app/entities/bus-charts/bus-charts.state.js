@@ -45,11 +45,11 @@
                     };
                 }],
                 translatePartialLoader: ['$translate', '$translatePartialLoader', function ($translate, $translatePartialLoader) {
-                    $translatePartialLoader.addPart('bus');
+					$translatePartialLoader.addPart('busDensityHistory');
                     $translatePartialLoader.addPart('global');
                     $translatePartialLoader.addPart('route');
-                    $translatePartialLoader.addPart('station');
                     $translatePartialLoader.addPart('scheduledVoyage');
+                     $translatePartialLoader.addPart('stationRouteConnection');	
                     return $translate.refresh();
                 }]
             }

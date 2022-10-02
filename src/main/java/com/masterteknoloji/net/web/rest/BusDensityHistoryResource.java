@@ -3,7 +3,11 @@ package com.masterteknoloji.net.web.rest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,11 +36,14 @@ import com.masterteknoloji.net.domain.BusDensityHistory;
 import com.masterteknoloji.net.domain.Station;
 import com.masterteknoloji.net.repository.BusDensityHistoryRepository;
 import com.masterteknoloji.net.repository.StationRepository;
+import com.masterteknoloji.net.repository.StationRouteConnectionRepository;
 import com.masterteknoloji.net.service.DensityCalculaterService;
 import com.masterteknoloji.net.service.IntegrationService;
+import com.masterteknoloji.net.service.RouteService;
 import com.masterteknoloji.net.web.rest.errors.BadRequestAlertException;
 import com.masterteknoloji.net.web.rest.util.HeaderUtil;
 import com.masterteknoloji.net.web.rest.util.PaginationUtil;
+import com.masterteknoloji.net.web.rest.vm.DailyChartVM;
 import com.masterteknoloji.net.web.rest.vm.SearchByRouteIdVM;
 
 import io.github.jhipster.web.util.ResponseUtil;
@@ -60,11 +67,15 @@ public class BusDensityHistoryResource {
     
     private final IntegrationService integrationService;
 
-    public BusDensityHistoryResource(BusDensityHistoryRepository busDensityHistoryRepository, StationRepository stationRepository, DensityCalculaterService densityCalculaterService,IntegrationService integrationService) {
+    private final StationRouteConnectionRepository stationRouteConnectionRepository;
+    
+    public BusDensityHistoryResource(BusDensityHistoryRepository busDensityHistoryRepository, StationRepository stationRepository, 
+    		DensityCalculaterService densityCalculaterService,IntegrationService integrationService, StationRouteConnectionRepository stationRouteConnectionRepository) {
         this.busDensityHistoryRepository = busDensityHistoryRepository;
         this.stationRepository = stationRepository;
         this.densityCalculaterService = densityCalculaterService;
         this.integrationService = integrationService;
+        this.stationRouteConnectionRepository = stationRouteConnectionRepository;
     }
 
     /**
@@ -182,6 +193,54 @@ public class BusDensityHistoryResource {
         log.debug("REST request to get a page of BusDensityHistories");
         List<BusDensityHistory> page = busDensityHistoryRepository.findByScheduledVoyageId(byRouteIdVM.getRouteId(),byRouteIdVM.getScheduledVoyageId());
         return page;
+    }
+    
+    @PostMapping("/bus-density-histories/findDailyChartData")
+    @Timed
+    public DailyChartVM findDailyChartData(@RequestBody SearchByRouteIdVM searchByRouteIdVM) {
+        log.debug("REST request to get a page of BusDensityHistories");
+        DailyChartVM result = new DailyChartVM();
+        
+        
+        Date date = Date.from(searchByRouteIdVM.getDate());
+    	date.setHours(0);
+    	date.setMinutes(0);
+    	
+    	Instant startDate = date.toInstant();
+    	date.setHours(23);
+    	date.setMinutes(59);
+    	Instant endDate = date.toInstant();
+        
+    	
+    	List<Station> stations = stationRouteConnectionRepository.findStationListByRouteId(searchByRouteIdVM.getRouteId());
+    	for (Station station : stations) {
+    		result.getLabels().add(station.getName());
+		}
+    			
+    	List<Map<String, Object>> page = busDensityHistoryRepository.findDailyChartData(searchByRouteIdVM.getRouteId(),searchByRouteIdVM.getScheduledVoyageId());
+        
+    	List<Integer> datas = new ArrayList<Integer>();
+    	for (Map<String, Object> map : page) {
+        	Long voyageId = (Long)map.get("voyageId");
+        	Instant voyageTime = (Instant)map.get("voyageTime");
+        	if(!result.getSeries().contains(voyageTime.toString())) {
+        		result.getSeries().add(voyageTime.toString());
+        		if(datas.size()>0)
+        			result.getDatas().add(datas);
+        		datas = new ArrayList<Integer>();
+        	}
+        	
+        	String stationName = (String)map.get("stationName");
+        	Long stationId = (Long)map.get("stationId");
+        	Long passengerCount = (Long)map.get("passengerCount");
+        	
+        	
+		}
+    	
+    	
+    	
+    	
+    	return result;
     }
 
 }
