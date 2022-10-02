@@ -18,7 +18,8 @@
             // jhipster-needle-angularjs-add-module JHipster will add new module here
             'angular-loading-bar',
             'chart.js',
-            'ngMap'
+            'ngMap',
+            'highcharts-ng'
         ])
         .run(run);
 

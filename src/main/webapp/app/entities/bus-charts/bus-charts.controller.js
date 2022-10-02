@@ -57,6 +57,7 @@
 			vm.labels =  data.labels;
 			vm.series = data.series;	
 			vm.data = data.datas;
+			prepareHighCharts(data);
 		}
 		
 		function onSearchError(error) {
@@ -96,6 +97,57 @@
 				]
 			}
 		};
+		
+		
+		function prepareHighCharts(data) {
+			vm.chartConfig.xAxis.categories = data.labels;
+			vm.chartSeries = [];
+			for(var i=0;i<data.series.length;i++){
+				var serie = {};
+				serie.name = "Sefer Saati:"+data.series[i];
+				serie.data = data.datas[i];
+				vm.chartSeries.push(serie);
+			}
+			
+		}
+		
+		
+		vm.chartSeries = [
+//			{ 
+//			"name": "Some data", 
+//			"data": [1, 2, 4, 7, 3], 
+//			 id: 's1' 
+//			 },
+		];
+
+		vm.chartConfig = {
+
+			chart: {
+				height: 500,
+				width: 1100,
+				type: 'line'
+			},
+			plotOptions: {
+				series: {
+					stacking: ''
+				}
+			},
+			series: vm.chartSeries,
+			title: {
+				text: 'Yolcu Sayisi Raporu'
+			},
+			yAxis: {
+				title: {
+					text: "Yolcu Sayısı"
+				}
+			},
+			xAxis: {
+				title: {
+					text: "Duraklar"
+				},
+				
+			},
+		}
 
 	}
 })();

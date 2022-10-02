@@ -15,6 +15,9 @@
         </div>
     </div>
 
+
+
+
 <div class="col-xs-3">
             <label data-translate="passengercounter2App.stationRouteConnection.route" for="field_route">Route</label>
             <select class="form-control" id="field_route" name="route" ng-model="vm.route" ng-options="route as (route.routeCode+' '+route.name) for route in vm.routes track by route.id">
@@ -54,6 +57,9 @@
     
 <div style="height: 80px"></div>
 
+
+
+<!-- <highchart id="chart1" config="vm.chartConfig"></highchart> -->
 <canvas id="line" class="chart chart-line" 
 chart-data="vm.data"
 chart-labels="vm.labels" 
@@ -62,7 +68,6 @@ chart-options="vm.options"
 chart-dataset-override="datasetOverride" 
 chart-click="vm.onClick">
 </canvas
-
 
 
 
