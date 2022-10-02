@@ -46,11 +46,11 @@ public interface BusDensityHistoryRepository extends JpaRepository<BusDensityHis
 	List<Map<String, Object>> findDailyChartData(@Param("routeId") Long routeId, @Param("startDate") Instant startDate,@Param("endDate") Instant endDate );
 
 	@Query(value = "select \r\n"
-			+ "busdensity0_.scheduled_voyage_id as voyageId, \r\n"
-			+ "scheduledv1_.scheduled_time as voyageTime, \r\n"
+			+ "busdensity0_.scheduled_voyage_id as voyageid, \r\n"
+			+ "scheduledv1_.scheduled_time as voyagetime, \r\n"
 			+ "station2_.name as stationName, \r\n"
-			+ "busdensity0_.station_id as stationId, \r\n"
-			+ "busdensity0_.total_passenger_count as passengerCount \r\n"
+			+ "busdensity0_.station_id as stationid, \r\n"
+			+ "busdensity0_.total_passenger_count as passengercount \r\n"
 			+ "from bus_density_history busdensity0_ \r\n"
 			+ "cross join scheduled_voyage scheduledv1_ \r\n"
 			+ "cross join station station2_ \r\n"

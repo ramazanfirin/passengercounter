@@ -1,8 +1,10 @@
 package com.masterteknoloji.net.web.rest;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,7 +41,6 @@ import com.masterteknoloji.net.repository.StationRepository;
 import com.masterteknoloji.net.repository.StationRouteConnectionRepository;
 import com.masterteknoloji.net.service.DensityCalculaterService;
 import com.masterteknoloji.net.service.IntegrationService;
-import com.masterteknoloji.net.service.RouteService;
 import com.masterteknoloji.net.web.rest.errors.BadRequestAlertException;
 import com.masterteknoloji.net.web.rest.util.HeaderUtil;
 import com.masterteknoloji.net.web.rest.util.PaginationUtil;
@@ -212,31 +213,39 @@ public class BusDensityHistoryResource {
     	Instant endDate = date.toInstant();
         
     	
-    	List<Station> stations = stationRouteConnectionRepository.findStationListByRouteId(searchByRouteIdVM.getRouteId());
-    	for (Station station : stations) {
-    		result.getLabels().add(station.getName());
-		}
+//    	List<Station> stations = stationRouteConnectionRepository.findStationListByRouteId(searchByRouteIdVM.getRouteId());
+//    	for (Station station : stations) {
+//    		result.getLabels().add(station.getName());
+//		}
     			
     	List<Map<String, Object>> page = busDensityHistoryRepository.findDailyChartData(searchByRouteIdVM.getRouteId(),searchByRouteIdVM.getScheduledVoyageId());
         
     	List<Integer> datas = new ArrayList<Integer>();
     	for (Map<String, Object> map : page) {
-        	Long voyageId = (Long)map.get("voyageId");
-        	Instant voyageTime = (Instant)map.get("voyageTime");
+        	BigInteger voyageId = (BigInteger)map.get("voyageid");
+        	Timestamp voyageTime = (Timestamp)map.get("voyagetime");
+//        	if(!result.getSeries().contains(voyageTime.toString())) {
+//        		result.getSeries().add(voyageTime.toString());
+//        		if(datas.size()>0)
+//        			result.getDatas().add(datas);
+//        		datas = new ArrayList<Integer>();
+//        	}
+        	
+        	String stationName = (String)map.get("stationname");
+        	BigInteger stationId = (BigInteger)map.get("stationid");
+        	BigInteger passengerCount = (BigInteger)map.get("passengercount");
+        	
         	if(!result.getSeries().contains(voyageTime.toString())) {
         		result.getSeries().add(voyageTime.toString());
-        		if(datas.size()>0)
-        			result.getDatas().add(datas);
-        		datas = new ArrayList<Integer>();
         	}
         	
-        	String stationName = (String)map.get("stationName");
-        	Long stationId = (Long)map.get("stationId");
-        	Long passengerCount = (Long)map.get("passengerCount");
+        	if(!result.getSeries().contains(stationName)) {
+            	result.getLabels().add(stationName);
+        	}	
         	
-        	
+        	datas.add(passengerCount.intValue());
 		}
-    	
+     	result.getDatas().add(datas);
     	
     	
     	

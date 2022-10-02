@@ -26,7 +26,8 @@
 		function search() {
 			vm.input = {};
 			vm.input.routeId = vm.route.id;
-			vm.input.date = vm.scheduledTime;
+			vm.input.date = vm.scheduledTimeValue.scheduledTime;
+			vm.input.scheduledVoyageId = vm.scheduledTimeValue.id;
 			BusDensityHistory.findDailyChartData(vm.input, onSearchSuccess, onSearchError);
 		}
 
@@ -52,15 +53,10 @@
 		}
 
 
-		vm.labels = ["January", "February", "March", "April", "May", "June", "July"];
-		vm.series = ['Series A', 'Series B'];
-		vm.data = [
-			[65, 59, 80, 81, 56, 55, 40],
-			[28, 48, 40, 19, 86, 27, 90]
-		];
-
 		function onSearchSuccess(data, headers) {
-			vm.buses = data;
+			vm.labels =  data.labels;
+			vm.series = data.series;	
+			vm.data = data.datas;
 		}
 		
 		function onSearchError(error) {
