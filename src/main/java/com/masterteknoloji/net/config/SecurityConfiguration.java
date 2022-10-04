@@ -76,7 +76,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/swagger-ui/index.html")
             .antMatchers("/api/bus-density-histories/migrateData")
             .antMatchers("/api/bus-density-histories/migrateStation")
+            .antMatchers("/api/bus-density-histories/generateExcelFile/**")
             
+           
             .antMatchers("/test/**");
     }
 

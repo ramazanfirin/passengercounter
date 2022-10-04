@@ -3,11 +3,17 @@ package com.masterteknoloji.net.web.rest;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -29,10 +35,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codahale.metrics.annotation.Timed;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.masterteknoloji.net.domain.BusDensityHistory;
+import com.masterteknoloji.net.domain.Route;
 import com.masterteknoloji.net.domain.Station;
 import com.masterteknoloji.net.repository.BusDensityHistoryRepository;
+import com.masterteknoloji.net.repository.RouteRepository;
 import com.masterteknoloji.net.repository.StationRepository;
 import com.masterteknoloji.net.service.DensityCalculaterService;
+import com.masterteknoloji.net.service.ExcelExportService;
 import com.masterteknoloji.net.service.IntegrationService;
 import com.masterteknoloji.net.web.rest.errors.BadRequestAlertException;
 import com.masterteknoloji.net.web.rest.util.HeaderUtil;
@@ -40,6 +49,7 @@ import com.masterteknoloji.net.web.rest.util.PaginationUtil;
 import com.masterteknoloji.net.web.rest.vm.SearchByRouteIdVM;
 
 import io.github.jhipster.web.util.ResponseUtil;
+import liquibase.pro.packaged.by;
 
 /**
  * REST controller for managing BusDensityHistory.
@@ -59,12 +69,20 @@ public class BusDensityHistoryResource {
     private final DensityCalculaterService densityCalculaterService;
     
     private final IntegrationService integrationService;
+    
+    private final ExcelExportService excelExportService;
 
-    public BusDensityHistoryResource(BusDensityHistoryRepository busDensityHistoryRepository, StationRepository stationRepository, DensityCalculaterService densityCalculaterService,IntegrationService integrationService) {
+    private final RouteRepository routeRepository;
+    
+    public BusDensityHistoryResource(BusDensityHistoryRepository busDensityHistoryRepository, StationRepository stationRepository, 
+    		DensityCalculaterService densityCalculaterService,IntegrationService integrationService,ExcelExportService excelExportService,
+    		RouteRepository routeRepository) {
         this.busDensityHistoryRepository = busDensityHistoryRepository;
         this.stationRepository = stationRepository;
         this.densityCalculaterService = densityCalculaterService;
         this.integrationService = integrationService;
+        this.excelExportService = excelExportService;
+        this.routeRepository = routeRepository;
     }
 
     /**
@@ -182,6 +200,37 @@ public class BusDensityHistoryResource {
         log.debug("REST request to get a page of BusDensityHistories");
         List<BusDensityHistory> page = busDensityHistoryRepository.findByScheduledVoyageId(byRouteIdVM.getRouteId(),byRouteIdVM.getScheduledVoyageId());
         return page;
+    }
+    
+    @GetMapping("/bus-density-histories/generateExcelFile/{routeId}/{scheduledVoyageId}")
+    @Timed
+    public void generateExcelFile(@PathVariable Long routeId,@PathVariable Long scheduledVoyageId,HttpServletResponse response,HttpServletRequest request) throws IOException {
+    	
+    	
+    	SearchByRouteIdVM byRouteIdVM = new SearchByRouteIdVM();
+    	byRouteIdVM.setRouteId(routeId);
+    	byRouteIdVM.setScheduledVoyageId(scheduledVoyageId);
+    	
+    	Route route= routeRepository.findOne(byRouteIdVM.getRouteId());
+    	List<BusDensityHistory> result=findByRouteAndScheduledTime(byRouteIdVM);
+    	
+    	
+    	response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+         
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename=analyze_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+        
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        
+        XSSFSheet scenario = excelExportService.createSheet(workbook,route.getRouteCode());
+        excelExportService.writeData(workbook, scenario, result);
+        
+        
+        excelExportService.export(workbook,response);   
+    	
     }
 
 }
