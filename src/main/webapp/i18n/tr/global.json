@@ -16,6 +16,7 @@
                 "rawTable": "Raw Table",
                 "busDensityHistory": "Otobüs Yoğunluk Raporu",
                 "currentBusInformation": "Otobüs Anlık Bilgi",
+                "graphReport": "Grafik Rapor",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -130,5 +131,5 @@
         "emailexists": "E-posta adresi zaten kullanılıyor!",
         "idexists": "A new {{entityName}} cannot already have an ID"
     },
-    "footer": "Burası sayfa alt bilgisi"
+    "footer": "Yolcu Sayma Sistemi v1.0"
 }

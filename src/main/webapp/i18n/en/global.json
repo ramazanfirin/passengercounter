@@ -16,6 +16,7 @@
                 "rawTable": "Raw Table",
                 "busDensityHistory": "Bus Density History",
                 "currentBusInformation": "Bus Current Informtion",
+                "graphReport": "Graph Report",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
