@@ -26,7 +26,8 @@
             "route": "Hat",
             "firstRawRecord": "First Raw Record",
             "lastRawRecord": "Last Raw Record",
-            "differance": "Değişim"
+            "differance": "Değişim",
+            "graphReport": "Otobüs Yoğunluğu Grafik Rapor"
         }
     }
 }
