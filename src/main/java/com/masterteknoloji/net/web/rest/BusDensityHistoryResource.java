@@ -49,7 +49,6 @@ import com.masterteknoloji.net.web.rest.util.PaginationUtil;
 import com.masterteknoloji.net.web.rest.vm.SearchByRouteIdVM;
 
 import io.github.jhipster.web.util.ResponseUtil;
-import liquibase.pro.packaged.by;
 
 /**
  * REST controller for managing BusDensityHistory.
